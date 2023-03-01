@@ -1,0 +1,28 @@
+@import "../config";
+.heading{
+    margin: 10px;
+    h4{
+        text-align: center;
+        color: $theme-color ;
+    }
+}
+h5{
+    color: $theme-color !important;
+}
+label{
+    font-size:18px;
+    font-weight: 600;
+}
+.after-registration{
+    pointer-events:none;
+    margin: 10px 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: $secondary-color;
+}
+.form-page{
+    // height: 100vh;
+    // background-color: $secondary-theme;
+}
+// input[type="text"], input[type="number"], textarea{
+//     background-color: $bg-color;
+// }

@@ -1,4 +1,8 @@
 @import "./config";
+.btn-customer-width{
+    width: 100%;
+    height: 50px;
+}
 .btn-customer-info{
     display: flex;
     float: right;
@@ -9,14 +13,17 @@
     width: 100px;
     height: 35px;
     margin: 5px 10px;
-    color: $secondary-color !important;   
+}
+.btn{
+    color: $secondary-color !important;
 }
 .btn-save{
+    margin: 20px 10px;
     background-color: $success-color;
 }
 .btn-submit{
     background-color: $theme-contrast;
 }
 .btn-cancel{
-    background-color: $danger-color;
+    background-color: $theme-color;
 }

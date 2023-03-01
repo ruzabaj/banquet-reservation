@@ -1,7 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { AiOutlinePlus } from "react-icons/ai";
 import "../../Assets/Styles/Form/rateInfo.scss";
 
 const RateInfo = () => {
+    const handleRow=()=>{
+        console.log("clicked handle row")
+    }
     return (
         <div className='rate-info-section'>
             <h5>RateInfo</h5>
@@ -17,29 +21,30 @@ const RateInfo = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td> <input type='text'  placeholder='1' /></td>
-                            <td> <input type='text'  placeholder='250' /></td>
-                            <td> <input type='text'  placeholder='1' /></td>
-                            <td> <input type='text'  placeholder='1000' /></td>
-                            <td> <input type='text'  placeholder='' /></td>
+                        <tr className='individual-row'>
+                            <td> <input type='text'  placeholder='1' className='rate-info-input'/></td>
+                            <td> <input type='text'  placeholder='250' className='rate-info-input'/></td>
+                            <td> <input type='text'  placeholder='1' className='rate-info-input'/></td>
+                            <td> <input type='text'  placeholder='1000' className='rate-info-input'/></td>
+                            <td> <input type='text'  placeholder='' className='rate-info-input'/></td>
                         </tr>
-                        <tr>
-                            <td> <input type='text'  placeholder='1' /></td>
-                            <td> <input type='text'  placeholder='250' /></td>
-                            <td> <input type='text'  placeholder='1' /></td>
-                            <td> <input type='text'  placeholder='1000' /></td>
-                            <td> <input type='text'  placeholder='' /></td>
+                        <tr className='individual-row'>
+                            <td> <input type='text'  placeholder='1' className='rate-info-input'/></td>
+                            <td> <input type='text'  placeholder='250' className='rate-info-input'/></td>
+                            <td> <input type='text'  placeholder='1' className='rate-info-input'/></td>
+                            <td> <input type='text'  placeholder='1000' className='rate-info-input'/></td>
+                            <td> <input type='text'  placeholder='' className='rate-info-input'/></td>
                         </tr>
-                        <tr>
-                            <td> <input type='text'  placeholder='1' /></td>
-                            <td> <input type='text'  placeholder='250' /></td>
-                            <td> <input type='text'  placeholder='1' /></td>
-                            <td> <input type='text'  placeholder='1000' /></td>
-                            <td> <input type='text'  placeholder='' /></td>
+                        <tr className='individual-row'>
+                            <td> <input type='text'  placeholder='1' className='rate-info-input'/></td>
+                            <td> <input type='text'  placeholder='250' className='rate-info-input'/></td>
+                            <td> <input type='text'  placeholder='1' className='rate-info-input'/></td>
+                            <td> <input type='text'  placeholder='1000' className='rate-info-input'/></td>
+                            <td> <input type='text'  placeholder='' className='rate-info-input'/></td>
                         </tr>
                     </tbody>
                 </table>
+                {/* <button onClick={handleRow}><AiOutlinePlus/></button> */}
             </div>
         </div>
     )

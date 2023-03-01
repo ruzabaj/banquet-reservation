@@ -1,11 +1,14 @@
 @import "../config";
 
 .banquet-reservation{
-    margin: 5px 10px ;
+    margin: 5px 10px !important;
 }
 .banquet-reservation-info{
     display: flex;
-    border: 1px solid $primary-color;
-    // background-color: $basic-theme-light;
+    border-radius: 10px;
+    background-color: $secondary-color;
     padding: 20px 10px;
+}
+.reservation-info{
+    margin: 15px 0px;
 }

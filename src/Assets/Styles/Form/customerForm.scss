@@ -1,14 +1,18 @@
 @import "../config";
 
 .customer{
-    margin: 5px 10px !important;
+    margin: 15px 10px !important;
 }
 .customer-info{
     display: flex;
+    background-color: $secondary-color;
+    border: 3px solid $basic-theme;
     margin: 0px 0px !important;
-    border: 1px solid $primary-color;;
-    // background-color: $basic-theme-light;
+    border-radius: 10px;
     padding: 20px 10px;
+}
+.customer-info-input{
+    margin: 20px 0px;
 }
 .radio-type{
     display: flex;
