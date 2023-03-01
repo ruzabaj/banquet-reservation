@@ -8,6 +8,7 @@ import RateInfo from './../../Components/Forms/rateInfo';
 import SubmitBtn from '../../Components/Buttons/submitBtn';
 import "../../Assets/Styles/Form/form.scss";
 // import StaffTable from './../../Components/Forms/tryrate';
+import Overlay from './../../Components/Forms/overlay';
 
 const Register = () => {
     return (
@@ -28,6 +29,7 @@ const Register = () => {
                     <SubmitBtn event={"Save"} />
                 </div>
             </div>
+            {/* <Overlay/> */}
             {/* <StaffTable/> */}
         </div>
     )
