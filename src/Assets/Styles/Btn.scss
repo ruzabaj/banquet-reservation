@@ -1,0 +1,22 @@
+@import "./config";
+.btn-customer-info{
+    display: flex;
+    float: right;
+}
+.btn-submit, .btn-cancel, .btn-save{
+    border-radius: 5px;
+    text-align: center;
+    width: 100px;
+    height: 35px;
+    margin: 5px 10px;
+    color: $secondary-color !important;   
+}
+.btn-save{
+    background-color: $success-color;
+}
+.btn-submit{
+    background-color: $theme-contrast;
+}
+.btn-cancel{
+    background-color: $danger-color;
+}

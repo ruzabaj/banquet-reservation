@@ -1,0 +1,16 @@
+@import "../config";
+
+.customer{
+    margin: 5px 10px !important;
+}
+.customer-info{
+    display: flex;
+    margin: 0px 0px !important;
+    border: 1px solid $primary-color;;
+    // background-color: $basic-theme-light;
+    padding: 20px 10px;
+}
+.radio-type{
+    display: flex;
+    gap: 5px;
+}

@@ -1,0 +1,15 @@
+@import "../config";
+
+.rate-info-section{
+    margin: 5px 10px;
+
+}
+.rate-info{
+    border: 1px solid black;
+    padding: 20px 10px;
+    table{
+        th, td{
+            border: 1px solid black;
+        }
+    }
+}
