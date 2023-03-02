@@ -13,8 +13,14 @@ label{
     font-size:18px;
     font-weight: 600;
 }
-.after-registration{
+
+.before-registration{
     pointer-events:none;
+    margin: 10px 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: $secondary-color;
+}
+.after-registration{
     margin: 10px 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     background-color: $secondary-color;

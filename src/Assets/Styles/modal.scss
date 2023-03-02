@@ -1,0 +1,26 @@
+@import "./config";
+.modal-body{
+    padding: 0 !important;
+}
+.modal-header, .modal-footer{
+    background-color: $theme-color !important;
+}
+.register-img{
+    display: flex;
+    justify-content: center;
+    .register{
+        // border-radius: 50%;
+        background-color: $secondary-color; ;
+        height: 250px;
+        width: 300px
+    }
+}
+.reg{
+    color: $theme-contrast;
+    text-align: center;
+}
+.modal-close{
+    background-color: $theme-contrast !important;
+    border: 0 !important;
+    outline: 0;
+}

@@ -44,7 +44,7 @@ const RateInfo = () => {
                         </tr>
                     </tbody>
                 </table>
-                {/* <button onClick={handleRow}><AiOutlinePlus/></button> */}
+                <button onClick={handleRow}><AiOutlinePlus/></button>
             </div>
         </div>
     )

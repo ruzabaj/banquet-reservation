@@ -1,10 +1,36 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import "../../Assets/Styles/Form/banquetReservation.scss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import SelectSearchInput from './../SelectSearch/index';
+import axios from 'axios';
 
 const BanquetReservation = () => {
+    let baseUrl = process.env.REACT_APP_BASE_URL;
     const [startDate, setStartDate] = useState(new Date());
+    const [hallList, setHallList] = useState([]);
+    const [outletList, setOutletList] = useState([]);
+
+    useEffect(() => {
+        axios.post(`${baseUrl}/halls`, {
+            token: "test"
+        })
+        .then((response) => {
+            setHallList(response.data)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+        axios.post(`${baseUrl}/outlets`, {
+            token: "test"
+        })
+        .then((response) => {
+            setOutletList(response.data)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }, [])
 
     return (
         <section className='banquet-reservation'>
@@ -49,12 +75,14 @@ const BanquetReservation = () => {
                     <label>Hall Selection:</label>
                     <div>
                         <input type='number' name='Hall' placeholder='Hall 1' />
+                        <SelectSearchInput List={hallList}/>
                     </div>
                 </div>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
                     <label>Outlet Name:</label>
                     <div>
                         <input type='number' name='outlet' placeholder='Outlet 1' />
+                        <SelectSearchInput List={outletList}/>
                     </div>
                 </div>
             </div>
