@@ -6,31 +6,24 @@ import SpecialRequest from '../../Components/Forms/specialRequest';
 import RegisterBtns from './../../Components/Buttons/registerBtns';
 import RateInfo from './../../Components/Forms/rateInfo';
 import SubmitBtn from '../../Components/Buttons/submitBtn';
+import Heading from './../../Components/Heading/index';
 import "../../Assets/Styles/Form/form.scss";
-// import StaffTable from './../../Components/Forms/tryrate';
-import Overlay from './../../Components/Forms/overlay';
+import "../../Assets/Styles/Btn.scss";
 
 const Register = () => {
     return (
         <div className='form-page'>
-            <div className='heading'>
-                <h4>Alice Receptions</h4>
-            </div>
+            <Heading heading={"Alice Reception"} />
             <CustomerInfo />
             <RegisterBtns />
-            <div  className='after-registration'>
-                <div >
-                    <BanquetReservation />
-                    <RateInfo />
-                </div>
+            {/* before-registration */}
+            <div className='after-registration'>
+                <BanquetReservation />
+                <RateInfo />
                 <SpecialRequest />
                 <AdvancePayment />
-                <div className='btn-save'>
-                    <SubmitBtn event={"Save"} />
-                </div>
+                <SubmitBtn event={"Save"} />
             </div>
-            {/* <Overlay/> */}
-            {/* <StaffTable/> */}
         </div>
     )
 }

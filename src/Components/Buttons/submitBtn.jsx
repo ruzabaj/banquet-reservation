@@ -1,8 +1,11 @@
 import React from 'react'
 
-const SubmitBtn = ({event}) => {
+const SubmitBtn = ({ event, handle }) => {
     return (
-        <button type="submit" className='btn'>{event}</button>
+        <div className={event} onClick={handle}>
+            <button type="submit" className='btn'>{event}</button>
+        </div>
+
     )
 }
 

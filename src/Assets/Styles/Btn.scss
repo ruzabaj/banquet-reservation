@@ -7,7 +7,7 @@
     display: flex;
     float: right;
 }
-.btn-submit, .btn-cancel, .btn-save{
+.Submit, .Reset, .Save, .Verify{
     border-radius: 5px;
     text-align: center;
     width: 100px;
@@ -17,13 +17,16 @@
 .btn{
     color: $secondary-color !important;
 }
-.btn-save{
+.Save{
     margin: 20px 10px;
     background-color: $success-color;
 }
-.btn-submit{
+.Submit{
     background-color: $theme-contrast;
 }
-.btn-cancel{
+.Reset{
     background-color: $theme-color;
+}
+.Verify{
+    background-color: rgb(177,169,62);
 }
