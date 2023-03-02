@@ -2,12 +2,12 @@ import React from 'react'
 import "../../Assets/Styles/Btn.scss";
 import SubmitBtn from './submitBtn';
 
-const RegisterBtns = () => {
+const RegisterBtns = ({handleCustomer}) => {
     return (
         <div className='btn-customer-width'>
             <div className='btn-customer-info'>
-                <SubmitBtn event={"Reset"} handle={""}/>
-                <SubmitBtn event={"Submit"} handle={""}/>
+                <SubmitBtn event={"Reset"} />
+                <SubmitBtn event={"Register"} handle={handleCustomer}/>
             </div>
         </div>
     )

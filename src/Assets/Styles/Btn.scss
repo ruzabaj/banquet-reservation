@@ -7,7 +7,7 @@
     display: flex;
     float: right;
 }
-.Submit, .Reset, .Save, .Verify{
+.Submit, .Reset, .Save, .Verify, .okTest{
     border-radius: 5px;
     text-align: center;
     width: 100px;
@@ -24,7 +24,7 @@
 .Submit{
     background-color: $theme-contrast;
 }
-.Reset{
+.Reset , .oktest{
     background-color: $theme-color;
 }
 .Verify{

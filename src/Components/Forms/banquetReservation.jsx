@@ -13,14 +13,13 @@ const BanquetReservation = () => {
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
                     <label> Reservation Date:</label>
                     <div>
-                        {/* <input type='text' name='date' placeholder='2023-02-28' /> */}
                         <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
                     </div>
                 </div>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
-                    <label> Reservation For:</label>
+                    <label> Reservation For Date:</label>
                     <div>
-                        <input type='text' name='date' placeholder='Shyam Kumar Sharma' />
+                        <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
                     </div>
                 </div>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
@@ -49,7 +48,13 @@ const BanquetReservation = () => {
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
                     <label>Hall Selection:</label>
                     <div>
-                        <input type='number' name='PAX' placeholder='Hall 1' />
+                        <input type='number' name='Hall' placeholder='Hall 1' />
+                    </div>
+                </div>
+                <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
+                    <label>Outlet Name:</label>
+                    <div>
+                        <input type='number' name='outlet' placeholder='Outlet 1' />
                     </div>
                 </div>
             </div>
