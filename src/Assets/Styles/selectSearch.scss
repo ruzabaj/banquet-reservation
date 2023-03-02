@@ -1,0 +1,9 @@
+@import "./config";
+
+.select-search-input, .select-search-select{
+    width: 190px !important;
+    border: 1px solid $primary-color !important;
+}
+.select-search-input{
+    height: 30px !important;
+}

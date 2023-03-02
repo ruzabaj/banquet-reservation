@@ -1,14 +1,23 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "../../Assets/Styles/Form/customerForm.scss";
 import SubmitBtn from '../Buttons/submitBtn';
 import RegisterBtns from '../Buttons/registerBtns';
+import SelectSearch from 'react-select-search';
+import "../../Assets/Styles/selectSearch.scss";
+import ReactModal from './../Modals/index';
 
 const CustomerInfo = () => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
     const [checkError, setCheckError] = useState(false)
     const [customerID, setCustomerID] = useState("")
     const [isDisabled, setIsDisabled] = useState(true);
+    const [customerList, setCustomerList] = useState([]);
+     const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const [values, setValues] = useState({
         fullName: "",
         phone: "",
@@ -26,6 +35,17 @@ const CustomerInfo = () => {
             [id]: value,
         });
     }
+    useEffect(() => {
+        axios.post(`${baseUrl}/customerList`, {
+            token: "test"
+        })
+            .then((response) => {
+                setCustomerList(response.data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [])
 
     const handleVerify = () => {
         axios.post(`${baseUrl}/customercheck`, {
@@ -46,6 +66,17 @@ const CustomerInfo = () => {
                 setCheckError(true)
             })
     }
+    const handleReset = () => {
+        setValues({
+            fullName: "",
+            phone: "",
+            email: "",
+            address: "",
+            country: "",
+            type: "Individual",
+            panNumber: ""
+        })
+    }
 
     const handleCustomer = () => {
         axios.post(`${baseUrl}/customerpost`, {
@@ -62,6 +93,7 @@ const CustomerInfo = () => {
             .then((response) => {
                 console.log("res", response.data.success)
                 setCustomerID(response.data.success)
+                handleShow();
                 setCheckError(false)
 
             })
@@ -73,8 +105,10 @@ const CustomerInfo = () => {
 
     return (
         <div>
+            <ReactModal show={show} handleClose={handleClose}/>
             <section className='customer'>
                 <h5>Customer Information</h5>
+                <SelectSearch options={customerList} placeholder="Ram Shrestha" />
                 <div className='row customer-info'>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                         <label>Name</label>
@@ -134,7 +168,7 @@ const CustomerInfo = () => {
                     </div>
                 </div>
             </section>
-            <RegisterBtns handleCustomer={handleCustomer} />
+            <RegisterBtns handleCustomer={handleCustomer} handleReset={handleReset}/>
         </div>
     )
 }
