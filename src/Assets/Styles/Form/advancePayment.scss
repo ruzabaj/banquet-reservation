@@ -1,3 +1,28 @@
-.advance-field{
+@import "../config";
+.advance-payment-width{
+    display: flex;
+}
+.add-icon,
+.sub-icon {
+    margin-left: 10px;
+}
+
+.adv-payment,
+.sub-icon {
+    margin-top: 15px;
+}
+
+.sub-icon {
+    background-color: $secondary-color;
+    color: $danger-color;
+    border: 0;
+    font-size: 20px
+}
+
+.advance-field {
     margin: 5px 10px;
+}
+
+.display-flex {
+    display: flex;
 }

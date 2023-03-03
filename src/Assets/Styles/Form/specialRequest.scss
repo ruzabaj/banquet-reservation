@@ -3,6 +3,7 @@
 }
 .special-req-field{
     .special-req-textarea{
-        width: 100%;
+        width: calc(100% - 130px);
+        height: 200px;
     }
 }

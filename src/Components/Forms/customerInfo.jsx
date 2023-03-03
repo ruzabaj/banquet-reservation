@@ -18,8 +18,9 @@ const CustomerInfo = () => {
     const [customerID, setCustomerID] = useState("")
     const [isDisabled, setIsDisabled] = useState(true);
     const [customerList, setCustomerList] = useState([]);
-    const [show, setShow] = useState(false);
 
+    //Handle Modal open and close
+    const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -61,6 +62,7 @@ const CustomerInfo = () => {
         })
             .then((response) => {
                 console.log("res", response.data)
+                setCustomerID(response.data.success)
                 setIsDisabled(false)
                 setshowBanquet(true)
                 setCheckError(false)
@@ -109,14 +111,13 @@ const CustomerInfo = () => {
                 setshowBanquet(true)
             })
     }
-    console.log("show banquet=>", showBanquet)
 
     return (
         <div>
             <ReactModal show={show} handleClose={handleClose} />
             <section className='customer'>
                 <h5>Customer Information</h5>
-                <SelectSearch options={customerList} placeholder="Ram Shrestha" />
+                {/* <SelectSearch options={customerList} placeholder="Ram Shrestha" /> */}
                 <div className='row customer-info'>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                         <label>Name</label>
@@ -178,11 +179,7 @@ const CustomerInfo = () => {
             </section>
             <RegisterBtns handleCustomer={handleCustomer} handleReset={handleReset} />
             <div className={showBanquet ? 'after-registration' : 'before-registration'}>
-                <BanquetReservation />
-                <RateInfo />
-                <SpecialRequest />
-                <AdvancePayment />
-                <SubmitBtn event={"Save"} />
+                <BanquetReservation customerID={customerID}/>
             </div>
         </div>
     )

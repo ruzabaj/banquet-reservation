@@ -1,27 +1,30 @@
 @import "../config";
 
-.rate-info-section{
+.rate-info-section {
     margin: 5px 10px;
-
 }
-.rate-info{
+
+.rate-info {
     border-radius: 10px;
     padding: 20px 5px;
     background-color: $secondary-color;
-    table{
-        width: 100%;
+
+    table {
         text-align: center;
-        th, td{
+
+        th,
+        td {
             border: 1px solid black;
         }
-        thead tr{
+
+        thead tr {
             background-color: $theme-color;
             color: $secondary-color;
         }
     }
 }
 
-.rate-info-input{
+.rate-info-input {
     border: 0;
     width: 100%;
     outline: 1px solid #ccc;

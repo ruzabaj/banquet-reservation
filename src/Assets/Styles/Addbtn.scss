@@ -1,0 +1,25 @@
+@import "./config";
+
+.full-width {
+    width: 100%;
+}
+
+.btn-delete {
+    background-color: $secondary-color;
+    color: $danger-color;
+    border: 0;
+    font-size: 20px
+}
+
+.handle-add {
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-icon {
+    width: 30px;
+    border: 0;
+    border-radius: 50%;
+    background-color: $theme-color;
+    color: $secondary-color;
+}
