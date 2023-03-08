@@ -9,7 +9,6 @@ import RateInfo from './rateInfo';
 import SpecialRequest from './specialRequest';
 import AdvancePayment from './advancePayment';
 import AddDeleteTableRows from './AddTable';
-import { sub } from 'date-fns';
 
 const BanquetReservation = ({ customerID }) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -20,6 +19,8 @@ const BanquetReservation = ({ customerID }) => {
     const [selectedHall, setSelectedHall] = useState("");
     const [selectedOutlet, setSelectedOutlet] = useState("");
     const [resHall, setResHall] = useState([]);
+    // const [detail, setDetail] = useState([]);
+   
 
     let selectedReservationDate = reservationDate.toISOString().substring(0, 10);
     let selectedReservationForDate = reservationForDate.toISOString().substring(0, 10);
@@ -50,7 +51,16 @@ const BanquetReservation = ({ customerID }) => {
         TimeSlot: "Lunch",
         SpecialRequest: "",
     });
+    let detail= []
+    var obj={
+        HallName:  "Hi",
+        TimeSlot: "Dinner"
+    }
+    // let  obj.TimeSlot =values.TimeSlot
 
+    detail.push(obj)
+    console.log(detail)
+    
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setValues({
@@ -78,27 +88,11 @@ const BanquetReservation = ({ customerID }) => {
         setRowsData(rows);
     }
 
-    var array = []
-    const calculateProduct = () => {
-        var product;
-        rowsData.map((item) => {
-            // console.log(item.NoOfPax, "item.NoOfPax")
-            product = item.RateAmount * item.NoOfPax;
-            console.log(product)
-        })
-        return product
-    }
     const handleChange = (index, evnt) => {
         const { id, value } = evnt.target;
         const rowsInput = [...rowsData];
         rowsInput[index][id] = value;
-        // setSubTotal([...subTotal, sum])
-        // let total=[34, 234, 567, 4]
-        // console.log(total)
-        // console.log(subTotal.push(sum));
-        // console.log(total)
         setRowsData(rowsInput);
-        console.log("now row input", rowsInput)
     }
 
     //for payment
@@ -130,7 +124,7 @@ const BanquetReservation = ({ customerID }) => {
     useEffect(() => {
         setResHall([...resHall, selectedHall])
     }, [selectedHall])
-    console.log("reserved- hall", resHall);
+    // console.log("reserved- hall", resHall); 
 
     const handleBanquetReservation = async () => {
         try {
@@ -217,7 +211,7 @@ const BanquetReservation = ({ customerID }) => {
                     </div>
                 </div>
             </div>
-            <AddDeleteTableRows array={array} rowsData={rowsData} addTableRows={addTableRows} deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall} resHall={resHall} calculateProduct={calculateProduct} />
+            <AddDeleteTableRows rowsData={rowsData} addTableRows={addTableRows} deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall} resHall={resHall} />
             <SpecialRequest handleInputChange={handleInputChange} />
             <AdvancePayment paymentData={paymentData} addPaymentRows={addPaymentRows} deletePaymentRows={deletePaymentRows} handlePaymentChange={handlePaymentChange} />
             <SubmitBtn event={"Save"} handle={handleBanquetReservation} />
