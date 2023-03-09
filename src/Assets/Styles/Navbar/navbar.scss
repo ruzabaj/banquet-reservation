@@ -9,7 +9,11 @@
 }
 .make-reservation a{ 
     text-decoration: none;
+    color: $secondary-color !important;
 }
-.navbar-brand,  p{
+.navbar-collapse{
+    padding-top: 15px;
+}
+.navbar-brand{
     color: $secondary-color !important;
 }
