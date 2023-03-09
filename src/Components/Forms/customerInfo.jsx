@@ -129,7 +129,7 @@ const CustomerInfo = () => {
 
     return (
         <div>
-            <ReactModal show={show} handleClose={handleClose} message={message}/>
+            <ReactModal show={show} handleClose={handleClose} message={message} />
             <section className='customer'>
                 <h5>Customer Information</h5>
                 {/* <SelectSearch options={customerList} placeholder="Ram Shrestha" /> */}
@@ -168,17 +168,23 @@ const CustomerInfo = () => {
                         <label>Type</label>
                         <div className='radio-type'>
                             <div   >
-                                <input type="radio" id="type" name="type"
-                                checked={isVerified ? verifiedCustomer.type : "Individual"}
+                                <input type="radio"
+                                    id="type"
+                                    name="type"
+                                    checked={isVerified ? verifiedCustomer.type : "Individual"}
                                     value={"Individual"}
-                                    disabled={isDisabled} onChange={handleInputChange} />
+                                    disabled={isDisabled}
+                                    onChange={handleInputChange} />
                                 <label>Individual</label>
                             </div>
                             <div  >
-                                <input type="radio" id="type" name="type"
-                                checked={isVerified ? verifiedCustomer.type : "Company"}
+                                <input type="radio"
+                                    id="type"
+                                    name="type"
+                                    checked={isVerified ? verifiedCustomer.type : "Company"}
                                     value="Company"
-                                    disabled={isDisabled} onChange={handleInputChange} />
+                                    disabled={isDisabled}
+                                    onChange={handleInputChange} />
                                 <label>Company</label>
                             </div>
                         </div>

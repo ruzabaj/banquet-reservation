@@ -15,14 +15,17 @@ const BanquetReservation = ({ customerID }) => {
     const [reservationDate, setReservationDate] = useState(new Date());
     const [reservationForDate, setReservationForDate] = useState(new Date());
     const [hallList, setHallList] = useState([]);
-    const [resHall, setResHall] = useState([]);
     const [selectedHall, setSelectedHall] = useState("");
     const [outletList, setOutletList] = useState([]);
     const [selectedOutlet, setSelectedOutlet] = useState("");
+    const [showError, setShowError]= useState("")
+    // const [resHall, setResHall] = useState([]);
     // const [detail, setDetail] = useState([]);
 
     let selectedReservationDate = reservationDate.toISOString().substring(0, 10);
     let selectedReservationForDate = reservationForDate.toISOString().substring(0, 10);
+
+    // console.log("selected hall",  selectedHall);
 
     useEffect(() => {
         axios.post(`${baseUrl}/halls`, {
@@ -50,15 +53,6 @@ const BanquetReservation = ({ customerID }) => {
         TimeSlot: "Lunch",
         SpecialRequest: "",
     });
-    let detail = []
-    var obj = {
-        HallName: "Hi",
-        TimeSlot: "Dinner"
-    }
-    // let  obj.TimeSlot =values.TimeSlot
-
-    detail.push(obj)
-    // console.log(detail)
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
@@ -67,7 +61,7 @@ const BanquetReservation = ({ customerID }) => {
             [id]: value,
         });
     }
-
+console.log("show-values", values)
     const [rowsData, setRowsData] = useState([]);
 
     const addTableRows = () => {
@@ -120,11 +114,10 @@ const BanquetReservation = ({ customerID }) => {
         console.log("now row input", paymentInput)
     }
 
-    useEffect(() => {
-        setResHall([...resHall, selectedHall])
-    }, [selectedHall])
+    // useEffect(() => {
+    //     setResHall([...resHall, selectedHall])
+    // }, [selectedHall])
 
-    console.log("selected hall", resHall); 
 
     const handleBanquetReservation = async () => {
         try {
@@ -143,7 +136,7 @@ const BanquetReservation = ({ customerID }) => {
                 "tblbanquetReservation_details": [
                     {
                         HallName: selectedHall,
-                        TimeSlot: "09:00:00-12:00:00"
+                        TimeSlot: values.TimeSlot
                     }
                 ],
                 "tblbanquetRate_details": rowsData,
@@ -152,7 +145,8 @@ const BanquetReservation = ({ customerID }) => {
 
             console.log(response)
         } catch (error) {
-            console.log(error)
+            console.log(error.response.data.error)
+            setShowError(error.response.data.error)
         }
     }
 
@@ -161,7 +155,6 @@ const BanquetReservation = ({ customerID }) => {
     return (
         <section className='banquet-reservation'>
             <h5>BanquetReservation</h5>
-            {selectedOutlet}
             <div className='row banquet-reservation-info'>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
                     <label> Reservation Date:</label>
@@ -191,15 +184,27 @@ const BanquetReservation = ({ customerID }) => {
                     <label>Time Slot:</label>
                     <div className='radio-type'>
                         <div>
-                            <input type="radio" id="TimeSlot" value="Lunch" onChange={handleInputChange} />
+                            <input type="radio"
+                                id="TimeSlot"
+                                name="TimeSlot"
+                                value={"Lunch"}
+                                onChange={handleInputChange} />
                             <label >Lunch</label>
                         </div>
                         <div>
-                            <input type="radio" id="TimeSlot" value="Dinner" onChange={handleInputChange} />
+                            <input type="radio"
+                                id="TimeSlot"
+                                name="TimeSlot"
+                                value={"Dinner"}
+                                onChange={handleInputChange} />
                             <label>Dinner</label>
                         </div>
                         <div>
-                            <input type="radio" id="TimeSlot" value="Both" onChange={handleInputChange} />
+                            <input type="radio"
+                                id="TimeSlot"
+                                name="TimeSlot"
+                                value={"Both"}
+                                onChange={handleInputChange} />
                             <label >Both</label>
                         </div>
                     </div>
@@ -211,10 +216,11 @@ const BanquetReservation = ({ customerID }) => {
                     </div>
                 </div>
             </div>
-            <AddDeleteTableRows rowsData={rowsData} addTableRows={addTableRows} deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall} resHall={resHall} />
+            <AddDeleteTableRows rowsData={rowsData} addTableRows={addTableRows} deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall}  timeSlot={values.TimeSlot}/>
             <SpecialRequest handleInputChange={handleInputChange} />
             <AdvancePayment paymentData={paymentData} addPaymentRows={addPaymentRows} deletePaymentRows={deletePaymentRows} handlePaymentChange={handlePaymentChange} />
             <SubmitBtn event={"Save"} handle={handleBanquetReservation} />
+            <p className='error'>{showError}</p>
         </section>
     )
 }

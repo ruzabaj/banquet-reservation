@@ -1,5 +1,7 @@
 @import "../config";
-
+.error{
+    color: $danger-color;
+}
 .banquet-reservation{
     margin: 5px 10px !important;
 }

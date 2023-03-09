@@ -4,8 +4,7 @@ import "../../Assets/Styles/Form/rateInfo.scss";
 import "../../Assets/Styles/Addbtn.scss";
 import { AiOutlinePlus } from "react-icons/ai";
 
-function AddDeleteTableRows({ halls, rowsData, addTableRows, deleteTableRows, handleChange, resHall, calculateProduct}) {
-    
+function AddDeleteTableRows({ halls, rowsData, addTableRows, deleteTableRows, handleChange, resHall, timeSlot}) {
     return (
         <div className="">
             <div className='full-width'>
@@ -20,6 +19,7 @@ function AddDeleteTableRows({ halls, rowsData, addTableRows, deleteTableRows, ha
                         <thead>
                             <tr>
                                 <th>Hall</th>
+                                <th>Time Slot</th>
                                 <th>Rate Name</th>
                                 <th>Amount</th>
                                 <th>No of PAX</th>
@@ -29,7 +29,7 @@ function AddDeleteTableRows({ halls, rowsData, addTableRows, deleteTableRows, ha
 
                         </thead>
                         <tbody>
-                            <TableRows rowsData={rowsData} deleteTableRows={deleteTableRows} handleChange={handleChange} halls={halls} resHall={resHall} />
+                            <TableRows rowsData={rowsData} deleteTableRows={deleteTableRows} handleChange={handleChange} halls={halls} timeSlot={timeSlot}/>
                         </tbody>
                     </table>
                 </div>
