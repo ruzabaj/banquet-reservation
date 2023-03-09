@@ -15,12 +15,11 @@ const BanquetReservation = ({ customerID }) => {
     const [reservationDate, setReservationDate] = useState(new Date());
     const [reservationForDate, setReservationForDate] = useState(new Date());
     const [hallList, setHallList] = useState([]);
-    const [outletList, setOutletList] = useState([]);
-    const [selectedHall, setSelectedHall] = useState("");
-    const [selectedOutlet, setSelectedOutlet] = useState("");
     const [resHall, setResHall] = useState([]);
+    const [selectedHall, setSelectedHall] = useState("");
+    const [outletList, setOutletList] = useState([]);
+    const [selectedOutlet, setSelectedOutlet] = useState("");
     // const [detail, setDetail] = useState([]);
-   
 
     let selectedReservationDate = reservationDate.toISOString().substring(0, 10);
     let selectedReservationForDate = reservationForDate.toISOString().substring(0, 10);
@@ -51,16 +50,16 @@ const BanquetReservation = ({ customerID }) => {
         TimeSlot: "Lunch",
         SpecialRequest: "",
     });
-    let detail= []
-    var obj={
-        HallName:  "Hi",
+    let detail = []
+    var obj = {
+        HallName: "Hi",
         TimeSlot: "Dinner"
     }
     // let  obj.TimeSlot =values.TimeSlot
 
     detail.push(obj)
-    console.log(detail)
-    
+    // console.log(detail)
+
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setValues({
@@ -124,7 +123,8 @@ const BanquetReservation = ({ customerID }) => {
     useEffect(() => {
         setResHall([...resHall, selectedHall])
     }, [selectedHall])
-    // console.log("reserved- hall", resHall); 
+
+    console.log("selected hall", resHall); 
 
     const handleBanquetReservation = async () => {
         try {
@@ -182,6 +182,12 @@ const BanquetReservation = ({ customerID }) => {
                     </div>
                 </div>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
+                    <label>Hall Selection:</label>
+                    <div>
+                        <SelectSearchInput List={hallList} text={"Select Hall"} setSelectedItem={setSelectedHall} />
+                    </div>
+                </div>
+                <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
                     <label>Time Slot:</label>
                     <div className='radio-type'>
                         <div>
@@ -196,12 +202,6 @@ const BanquetReservation = ({ customerID }) => {
                             <input type="radio" id="TimeSlot" value="Both" onChange={handleInputChange} />
                             <label >Both</label>
                         </div>
-                    </div>
-                </div>
-                <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
-                    <label>Hall Selection:</label>
-                    <div>
-                        <SelectSearchInput List={hallList} text={"Select Hall"} setSelectedItem={setSelectedHall} />
                     </div>
                 </div>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>

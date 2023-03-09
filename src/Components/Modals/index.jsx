@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import "../../Assets/Styles/modal.scss";
 
-const ReactModal = ({ show, handleClose }) => {
+const ReactModal = ({ show, handleClose, message}) => {
     return (
         <div>
             <Modal
@@ -11,15 +11,16 @@ const ReactModal = ({ show, handleClose }) => {
                 onHide={handleClose}
                 backdrop="static"
                 keyboard={false}
+                centered
             >
                 <Modal.Header closeButton>
                     <Modal.Title></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='register-img'>
-                        <img className="register" src='./reg.png' alt='register-successfully' />
+                        {/* <img className="register" src='./reg.png' alt='register-successfully' /> */}
                     </div>
-                        <p className='reg'>Congratulation!! You have registerd successfully!</p>
+                        <p className='reg'>{message}</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={handleClose} className="modal-close">

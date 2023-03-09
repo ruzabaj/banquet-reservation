@@ -13,11 +13,17 @@ import AdvancePayment from './advancePayment';
 
 const CustomerInfo = () => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
-    const [checkError, setCheckError] = useState(false)
     const [showBanquet, setshowBanquet] = useState(false)
     const [customerID, setCustomerID] = useState("")
     const [isDisabled, setIsDisabled] = useState(true);
     const [customerList, setCustomerList] = useState([]);
+    const [isVerified, setIsVerified] = useState(false);
+    const [verifiedCustomer, setVerifiedCustomer] = useState({});
+    const [checkError, setCheckError] = useState(false)
+    const [message, setMessage] = useState("")
+
+    console.log("here", isVerified, verifiedCustomer.address, verifiedCustomer.country, verifiedCustomer.type)
+    console.log("=>", customerID)
 
     //Handle Modal open and close
     const [show, setShow] = useState(false);
@@ -41,6 +47,7 @@ const CustomerInfo = () => {
             [id]: value,
         });
     }
+    console.log("see here", values)
     useEffect(() => {
         axios.post(`${baseUrl}/customerList`, {
             token: "test"
@@ -61,17 +68,22 @@ const CustomerInfo = () => {
             Phone: values.phone,
         })
             .then((response) => {
-                console.log("res", response.data)
-                setCustomerID(response.data.success)
+                console.log("res", response)
+                setIsVerified(true)
+                setVerifiedCustomer(response.data.success[0])
+                setCustomerID(response.data.success[0].customerId)
                 setIsDisabled(false)
                 setshowBanquet(true)
                 setCheckError(false)
 
             })
             .catch((error) => {
-                console.log("err", error.response.data)
-                setIsDisabled(true)
+                console.log("error here", error.response.data.error)
+                setIsVerified(false)
+                setIsDisabled(false)
                 setCheckError(true)
+                handleShow();
+                setMessage(error.response.data.error)
             })
     }
     const handleReset = () => {
@@ -84,6 +96,7 @@ const CustomerInfo = () => {
             type: "Individual",
             panNumber: ""
         })
+        setVerifiedCustomer({})
     }
     const handleCustomer = () => {
         axios.post(`${baseUrl}/customerpost`, {
@@ -98,7 +111,9 @@ const CustomerInfo = () => {
             vatno: values.panNumber,
         })
             .then((response) => {
-                console.log("res", response.data.success)
+                console.log("res123", response.data)
+                console.log("res123", response.data.success)
+                setMessage("Congratulation! You have registered successfully")
                 setCustomerID(response.data.success)
                 setshowBanquet(true)
                 handleShow();
@@ -114,7 +129,7 @@ const CustomerInfo = () => {
 
     return (
         <div>
-            <ReactModal show={show} handleClose={handleClose} />
+            <ReactModal show={show} handleClose={handleClose} message={message}/>
             <section className='customer'>
                 <h5>Customer Information</h5>
                 {/* <SelectSearch options={customerList} placeholder="Ram Shrestha" /> */}
@@ -140,13 +155,13 @@ const CustomerInfo = () => {
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                         <label>Address</label>
                         <div>
-                            <input type='text' id='address' placeholder='kalinchok' value={values.address} disabled={isDisabled} onChange={handleInputChange} />
+                            <input type='text' id='address' placeholder='kalinchok' value={isVerified ? verifiedCustomer.address : values.address} disabled={isDisabled} onChange={handleInputChange} />
                         </div>
                     </div>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                         <label>Country</label>
                         <div>
-                            <input type='text' id='country' placeholder='Nepal' value={values.country} disabled={isDisabled} onChange={handleInputChange} />
+                            <input type='text' id='country' placeholder='Nepal' value={isVerified ? verifiedCustomer.country : values.country} disabled={isDisabled} onChange={handleInputChange} />
                         </div>
                     </div>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
@@ -154,12 +169,14 @@ const CustomerInfo = () => {
                         <div className='radio-type'>
                             <div   >
                                 <input type="radio" id="type" name="type"
-                                    value="Individual"
+                                checked={isVerified ? verifiedCustomer.type : "Individual"}
+                                    value={"Individual"}
                                     disabled={isDisabled} onChange={handleInputChange} />
                                 <label>Individual</label>
                             </div>
                             <div  >
                                 <input type="radio" id="type" name="type"
+                                checked={isVerified ? verifiedCustomer.type : "Company"}
                                     value="Company"
                                     disabled={isDisabled} onChange={handleInputChange} />
                                 <label>Company</label>
@@ -169,17 +186,19 @@ const CustomerInfo = () => {
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                         <label>PAN no.</label>
                         <div>
-                            <input type='text' id='panNumber' placeholder='122456778' value={values.panNumber} onChange={handleInputChange} disabled={isDisabled} />
+                            <input type='text' id='panNumber' placeholder='122456778' value={isVerified ? verifiedCustomer.vatno : values.panNumber} onChange={handleInputChange} disabled={isDisabled} />
                         </div>
                     </div>
-                    <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
-                        <SubmitBtn event={"Verify"} handle={handleVerify} />
-                    </div>
+                    {!checkError &&
+                        <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
+                            <SubmitBtn event={"Verify"} handle={handleVerify} />
+                        </div>
+                    }
                 </div>
             </section>
-            <RegisterBtns handleCustomer={handleCustomer} handleReset={handleReset} />
+            <RegisterBtns handleCustomer={handleCustomer} handleReset={handleReset} isVerified={isVerified} />
             <div className={showBanquet ? 'after-registration' : 'before-registration'}>
-                <BanquetReservation customerID={customerID}/>
+                <BanquetReservation customerID={customerID} />
             </div>
         </div>
     )
