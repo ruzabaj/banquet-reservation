@@ -4,12 +4,13 @@ import "../../Assets/Styles/Form/customerForm.scss";
 import "../../Assets/Styles/selectSearch.scss";
 import SubmitBtn from '../Buttons/submitBtn';
 import RegisterBtns from '../Buttons/registerBtns';
-import SelectSearch from 'react-select-search';
 import ReactModal from './../Modals/index';
 import BanquetReservation from './banquetReservation';
+import SelectSearch from 'react-select-search';
 import RateInfo from './rateInfo';
 import SpecialRequest from './specialRequest';
 import AdvancePayment from './advancePayment';
+import { useNavigate } from 'react-router-dom';
 
 const CustomerInfo = () => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -24,11 +25,6 @@ const CustomerInfo = () => {
 
     console.log("here", isVerified, verifiedCustomer.address, verifiedCustomer.country, verifiedCustomer.type)
     console.log("=>", customerID)
-
-    //Handle Modal open and close
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     const [values, setValues] = useState({
         fullName: "",
@@ -60,6 +56,8 @@ const CustomerInfo = () => {
             })
     }, [])
 
+    // console.log(customerList, "customerList")
+
     const handleVerify = () => {
         axios.post(`${baseUrl}/customercheck`, {
             token: "test",
@@ -87,6 +85,7 @@ const CustomerInfo = () => {
             })
     }
     const handleReset = () => {
+        setVerifiedCustomer({})
         setValues({
             fullName: "",
             phone: "",
@@ -96,8 +95,12 @@ const CustomerInfo = () => {
             type: "Individual",
             panNumber: ""
         })
-        setVerifiedCustomer({})
+        // for (let prop in verifiedCustomer) {
+        //     delete verifiedCustomer[prop];
+        //   }
     }
+    console.log("verifiedCustomer", verifiedCustomer)
+
     const handleCustomer = () => {
         axios.post(`${baseUrl}/customerpost`, {
             token: "test",
@@ -126,9 +129,18 @@ const CustomerInfo = () => {
                 setshowBanquet(true)
             })
     }
-
+    //Handle Modal open and close
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    let navigate = useNavigate();
+    const goExtra = () => {
+        console.log("clicked extra")
+        navigate("/started")
+    }
     return (
         <div>
+            <button onClick={goExtra}>Back</button>
             <ReactModal show={show} handleClose={handleClose} message={message} />
             <section className='customer'>
                 <h5>Customer Information</h5>
@@ -203,6 +215,7 @@ const CustomerInfo = () => {
                 </div>
             </section>
             <RegisterBtns handleCustomer={handleCustomer} handleReset={handleReset} isVerified={isVerified} />
+
             <div className={showBanquet ? 'after-registration' : 'before-registration'}>
                 <BanquetReservation customerID={customerID} />
             </div>

@@ -9,6 +9,8 @@ import RateInfo from './rateInfo';
 import SpecialRequest from './specialRequest';
 import AdvancePayment from './advancePayment';
 import AddDeleteTableRows from './AddTable';
+import ReactModal from '../Modals';
+import { useNavigate } from 'react-router-dom';
 
 const BanquetReservation = ({ customerID }) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -18,7 +20,7 @@ const BanquetReservation = ({ customerID }) => {
     const [selectedHall, setSelectedHall] = useState("");
     const [outletList, setOutletList] = useState([]);
     const [selectedOutlet, setSelectedOutlet] = useState("");
-    const [showError, setShowError]= useState("")
+    const [showMessage, setShowMessage] = useState("")
     // const [resHall, setResHall] = useState([]);
     // const [detail, setDetail] = useState([]);
 
@@ -61,7 +63,7 @@ const BanquetReservation = ({ customerID }) => {
             [id]: value,
         });
     }
-console.log("show-values", values)
+    console.log("show-values", values)
     const [rowsData, setRowsData] = useState([]);
 
     const addTableRows = () => {
@@ -144,16 +146,25 @@ console.log("show-values", values)
             })
 
             console.log(response)
-        } catch (error) {
+            setShowMessage(response.data.result)
+            handleShowModal()
+        }
+        catch (error) {
             console.log(error.response.data.error)
-            setShowError(error.response.data.error)
+            setShowMessage(error.response.data.error)
+            handleShowModal()
         }
     }
 
+    //Handle Modal open and close
+    const [showModal, setShowModal] = useState(false);
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
 
 
     return (
         <section className='banquet-reservation'>
+            <ReactModal show={showModal} handleClose={handleCloseModal} message={showMessage} />
             <h5>BanquetReservation</h5>
             <div className='row banquet-reservation-info'>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
@@ -216,11 +227,11 @@ console.log("show-values", values)
                     </div>
                 </div>
             </div>
-            <AddDeleteTableRows rowsData={rowsData} addTableRows={addTableRows} deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall}  timeSlot={values.TimeSlot}/>
+
+            <AddDeleteTableRows rowsData={rowsData} addTableRows={addTableRows} deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall} timeSlot={values.TimeSlot} />
             <SpecialRequest handleInputChange={handleInputChange} />
             <AdvancePayment paymentData={paymentData} addPaymentRows={addPaymentRows} deletePaymentRows={deletePaymentRows} handlePaymentChange={handlePaymentChange} />
             <SubmitBtn event={"Save"} handle={handleBanquetReservation} />
-            <p className='error'>{showError}</p>
         </section>
     )
 }

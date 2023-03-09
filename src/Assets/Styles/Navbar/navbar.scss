@@ -1,0 +1,15 @@
+@import "../config";
+.logo{
+    height: 60px;
+    width: 60px;
+}
+.navbar{
+    background-color: $theme-color;
+    color: $secondary-color !important;
+}
+.make-reservation a{ 
+    text-decoration: none;
+}
+.navbar-brand,  p{
+    color: $secondary-color !important;
+}
