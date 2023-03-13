@@ -6,10 +6,6 @@ import SubmitBtn from '../Buttons/submitBtn';
 import RegisterBtns from '../Buttons/registerBtns';
 import ReactModal from './../Modals/index';
 import BanquetReservation from './banquetReservation';
-import SelectSearch from 'react-select-search';
-import RateInfo from './rateInfo';
-import SpecialRequest from './specialRequest';
-import AdvancePayment from './advancePayment';
 import { useNavigate } from 'react-router-dom';
 
 const CustomerInfo = () => {
@@ -59,6 +55,7 @@ const CustomerInfo = () => {
     // console.log(customerList, "customerList")
 
     const handleVerify = () => {
+        console.log("inisde verify")
         axios.post(`${baseUrl}/customercheck`, {
             token: "test",
             Name: values.fullName,
@@ -176,6 +173,8 @@ const CustomerInfo = () => {
                             <input type='text' id='country' placeholder='Nepal' value={isVerified ? verifiedCustomer.country : values.country} disabled={isDisabled} onChange={handleInputChange} />
                         </div>
                     </div>
+                    {console.log("type",verifiedCustomer.type)
+                    }
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                         <label>Type</label>
                         <div className='radio-type'>
@@ -184,7 +183,7 @@ const CustomerInfo = () => {
                                     id="type"
                                     name="type"
                                     checked={isVerified ? verifiedCustomer.type : "Individual"}
-                                    value={"Individual"}
+                                    value={isVerified ? verifiedCustomer.type : "Individual"}
                                     disabled={isDisabled}
                                     onChange={handleInputChange} />
                                 <label>Individual</label>
@@ -193,8 +192,8 @@ const CustomerInfo = () => {
                                 <input type="radio"
                                     id="type"
                                     name="type"
-                                    checked={isVerified ? verifiedCustomer.type : "Company"}
-                                    value="Company"
+                                    // checked={isVerified ? verifiedCustomer.type : "Company"}
+                                    value={"Company"}
                                     disabled={isDisabled}
                                     onChange={handleInputChange} />
                                 <label>Company</label>
@@ -207,7 +206,7 @@ const CustomerInfo = () => {
                             <input type='text' id='panNumber' placeholder='122456778' value={isVerified ? verifiedCustomer.vatno : values.panNumber} onChange={handleInputChange} disabled={isDisabled} />
                         </div>
                     </div>
-                    {!checkError &&
+                    {!isVerified &&
                         <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                             <SubmitBtn event={"Verify"} handle={handleVerify} />
                         </div>

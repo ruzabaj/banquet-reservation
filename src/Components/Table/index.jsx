@@ -5,13 +5,11 @@ const AccordionTable = ({ headers }) => {
     return (
         <div className='responsive-accordion-table'>
             <table>
-                
                 <tbody>
                     <tr>
                     <td>{headers.Name}</td>
                     <td>{headers.NoOfPax}</td>
                     <td>{headers.Outlet_Name}</td>
-                    {/* <td>{headers.advancedPayment}</td> */}
                     <td><StandardDate date={headers.reservationDate}/></td>
                     <td><StandardDate date={headers.reservationForDate}/></td>
                     <td>{headers.hall_names}</td>

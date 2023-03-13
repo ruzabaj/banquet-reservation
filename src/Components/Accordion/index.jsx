@@ -2,17 +2,30 @@ import React from 'react'
 import Accordion from 'react-bootstrap/Accordion';
 import AccordionTable from '../Table';
 import "../../Assets/Styles/Accordion/accordion.scss";
+import PaymentTable from '../Table/PaymentTable';
+import PaymentHistory from './../../Pages/Started/PaymentHistory';
+import axios from 'axios';
 
 const AccordionDetail = ({ detailList }) => {
-    // const header = ["one", "two", "three"]
+    const headerRateDetail = ["Hall", "PAX", "Amount", "Total", ""]
+let baseUrl= process.env.REACT_APP_BASE_URL;
 
+    const handlePaymentHistory = (id, date) => {
+        let standardDate=new Date(date).toISOString().substring(0,10)
+        axios.post(`${baseUrl}/paymentHistory`,
+            {
+                "customerID": `${id}`,
+                "reservationDate": `${standardDate}`,
+                "token": "test"
+            })
+    }
     return (
         <Accordion defaultActiveKey="0" flush className='style-accordion'>
             <div className='accordion-table-header'>
                 <table>
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th className='extend-width'>Name</th>
                             <th>No. of PAX</th>
                             <th>Outlet Selected</th>
                             <th>Reservation Date</th>
@@ -23,20 +36,18 @@ const AccordionDetail = ({ detailList }) => {
                 </table>
             </div>
             {detailList.map((accord, index) => (
-                <Accordion.Item eventKey={index} key={index}>
-                    {console.log("=>", accord)}
+                <Accordion.Item eventKey={index} key={index} onClick={()=>handlePaymentHistory(accord.customerID, accord.reservationDate)}>
                     <Accordion.Header>
-
                         <AccordionTable headers={accord} />
                     </Accordion.Header>
-                    <Accordion.Body>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                        culpa qui officia deserunt mollit anim id est laborum.
+                    <Accordion.Body className='accordion-body'>
+                        <div className='payment-table'>
+                            <label>Rate Details</label>
+                            <PaymentTable header={headerRateDetail} />
+                        </div>
+                        <div className='payment-history'>
+                            <PaymentHistory />
+                        </div>
                     </Accordion.Body>
                 </Accordion.Item>
             ))}

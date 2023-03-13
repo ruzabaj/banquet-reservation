@@ -4,11 +4,41 @@
     margin: 20px;
 }
 
-.accordion-table-header{
+.accordion-body {
+    display: flex;
+}
+
+.payment-table {
+    flex: 2;
+
+    .rate-details-responsive {
+        width: 100%;
+    }
+}
+
+.payment-history {
+    flex: 2;
+}
+
+.rate-details-responsive {
+    width: 100%;
+    table {
+        width: 100%;
+
+        tr,td,
+        th {
+            border: 1px solid $primary-color;
+        }
+    }
+}
+
+.accordion-table-header {
+
     // width: 100%;
     table {
         margin-left: 20px;
         width: 100%;
+
         thead tr {
             padding: 10px;
             background-color: $theme-color;
@@ -16,15 +46,21 @@
             // background-color: $secondary-color;
             // color:$theme-color ;
         }
+
+        .extend-width {
+            width: 355px !important;
+        }
     }
 }
+
 .responsive-accordion-table {
     width: 100%;
+
     table {
         width: 100%;
         color: $primary-color;
         border: 2px solid $theme-color;
-        
+
         td {
             border: 2px solid $theme-color;
             padding: 10px;
@@ -40,6 +76,7 @@
         // }
     }
 }
+
 //     tr:nth-child(even){
 //        background-color: green !important;
 //    }
