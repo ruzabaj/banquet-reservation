@@ -1,17 +1,32 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import PaymentTableHeader from "../Table/PaymentTableHeader";
 import axios from 'axios';
 
-const EditModal = ({ handleCloseEdit, show, header }) => {
+const EditModal = ({ handleCloseEdit, show, rateID, pax }) => {
+    
+const baseUrl= process.env.REACT_APP_BASE_URL;
+const headerEdit=["Rate Name", "Rate Amount", "No. Of Pax"];
+
+const [editValues, setEditValues]=useState({
+    RateName: "",
+    RateAmount: "",
+    NoOfPax: ""
+})
+const handleInputChange = (event) => {
+    const {id, value}=event.target;
+    setEditValues({...editValues, [id]:value})
+  };
+
+console.log(editValues, "values")
     const handleEdit = () => {
-        axios.post(`http://banquet.silverlinepos.com/rateEdit`,
+        axios.post(`${baseUrl}/rateEdit`,
             {
-                idtblbanquetRate_details: "",
-                RateName: "",
-                RateAmount: "",
-                NoOfPax: "",
+                idtblbanquetRate_details: `${rateID}`,
+                RateName: editValues.RateName,
+                RateAmount: editValues.RateAmount,
+                NoOfPax: editValues.NoOfPax,
                 token: "test"
             })
             .then((res) => {
@@ -27,17 +42,13 @@ const EditModal = ({ handleCloseEdit, show, header }) => {
                 <Modal.Title>Edit</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <table>
-                    <PaymentTableHeader header={header} />
+                <table className='edit-table'>
+                    <PaymentTableHeader header={headerEdit} />
                     <tbody>
                         <tr>
-                            <td></td>
-                            <td><input type={"text"} /></td>
-                            <td><input type={"text"} /></td>
-                            <td></td>
-                            {/* <div>
-                                <button className='btn-confirm'>Confirm</button>
-                            </div> */}
+                            <td><input type={"text"} value={editValues.RateName} id="RateName" placeholder={""} className="edit-input"  onChange={handleInputChange}/></td>
+                            <td><input type={"text"} value={editValues.RateAmount} id="RateAmount" placeholder={""} className="edit-input" onChange={handleInputChange}/></td>
+                            <td><input type={"text"} value={editValues.NoOfPax} id="NoOfPax" placeholder={pax} className="edit-input" onChange={handleInputChange}/></td>
                         </tr>
                     </tbody>
                 </table>

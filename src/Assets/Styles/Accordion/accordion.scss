@@ -5,7 +5,7 @@
 }
 
 .accordion-body {
-    display: flex;
+    // display: flex;
 }
 @media screen and (max-width: 768px){
     .accordion-body {
@@ -21,6 +21,7 @@
         width: 100%;
         table {
             width: 100%;
+            background-color:$bg-accordion;
             text-align: center;
             th{
                 background-color:$theme-contrast;
@@ -63,12 +64,12 @@
 }
 .btn-confirm{
     border: 0;
-    background-color: $success-color;
+    background-color:  $theme-btn-color;
     color: $secondary-color;
 }
 .btn-finalise{
     border: 0;
-    background-color: $success-color;
+    background-color: $theme-btn-color;
     color: $secondary-color;
     margin-right: 5px;
 }
@@ -76,6 +77,12 @@
     border: 0;
     background-color: $danger-color;
     color: $secondary-color;
+}
+.edit-table{
+    width: 100% !important;
+}
+.edit-input{
+    width: 100% !important;
 }
 .accordion-table-header {
 
@@ -93,7 +100,7 @@
         }
 
         .extend-width {
-            width: 355px !important;
+            // width: 105px !important;
         }
     }
 }

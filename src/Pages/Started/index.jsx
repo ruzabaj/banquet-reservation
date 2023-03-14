@@ -6,10 +6,15 @@ import axios from 'axios';
 const Started = () => {
   let baseUrl = process.env.REACT_APP_BASE_URL;
   const [detailList, setDetailList] = useState([]);
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+      setToken(localStorage.getItem("token"))
+  }, [])
 
   useEffect(() => {
     axios.post(`${baseUrl}/getStarted`, {
-      "token": "test"
+      "token": `test`
     })
       .then((response) => {
         console.log(response.data)
@@ -23,7 +28,7 @@ const Started = () => {
   return (
     <div>
       <Navbar />
-      <AccordionDetail detailList={detailList}/>
+      <AccordionDetail detailList={detailList} />
     </div>
   )
 }
