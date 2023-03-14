@@ -7,31 +7,76 @@
 .accordion-body {
     display: flex;
 }
-
+@media screen and (max-width: 768px){
+    .accordion-body {
+        display: flex;
+        flex-direction: column;
+    }
+}
 .payment-table {
     flex: 2;
+    margin: 10px;
 
     .rate-details-responsive {
         width: 100%;
+        table {
+            width: 100%;
+            text-align: center;
+            th{
+                background-color:$theme-contrast;
+                color: $secondary-color
+            }
+            tr,td,
+            th {
+                border: 1px solid $primary-color;
+            }
+        }
     }
 }
 
 .payment-history {
     flex: 2;
-}
-
-.rate-details-responsive {
-    width: 100%;
-    table {
-        width: 100%;
-
-        tr,td,
-        th {
-            border: 1px solid $primary-color;
-        }
+    margin: 10px;
+    .border-payment-history{
+        border: 2px solid $theme-color;
+        background-color: $theme-color-light;
+        color: $secondary-color;
+        padding: 10px;
     }
 }
+.style-payment-footer{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
 
+.style-payment-date{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.btn-show{
+    background-color: $theme-color;
+    color: $secondary-color;
+    border-radius: 3px;
+    border: 0;
+}
+.btn-confirm{
+    border: 0;
+    background-color: $success-color;
+    color: $secondary-color;
+}
+.btn-finalise{
+    border: 0;
+    background-color: $success-color;
+    color: $secondary-color;
+    margin-right: 5px;
+}
+.btn-cancel{
+    border: 0;
+    background-color: $danger-color;
+    color: $secondary-color;
+}
 .accordion-table-header {
 
     // width: 100%;

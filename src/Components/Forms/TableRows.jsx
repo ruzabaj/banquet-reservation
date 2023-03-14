@@ -1,12 +1,12 @@
-function TableRows({ rowsData, halls, deleteTableRows, handleChange, resHall, timeSlot }) {
+function TableRows({ rowsData, halls, deleteTableRows, handleChange,  timeSlot }) {
 
     return (
         rowsData.map((data, index) => {
-            const { HallName, RateName, RateAmount, NoOfPax } = data;
+            const { RateName, RateAmount, NoOfPax } = data;
             let product = data.RateAmount * data.NoOfPax;
             return (
                 <tr key={index}>
-                    <td>{halls}</td>
+                    <td value={halls} id="HallName">{halls}</td>
                     <td>{timeSlot}</td>
                     <td><input type="text" value={RateName} id="RateName" onChange={(evnt) => (handleChange(index, evnt))} className="form-control" /> </td>
                     <td><input type="text" value={RateAmount} id="RateAmount" onChange={(evnt) => (handleChange(index, evnt))} className="form-control" /></td>

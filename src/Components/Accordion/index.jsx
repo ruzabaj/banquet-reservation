@@ -7,16 +7,16 @@ import PaymentHistory from './../../Pages/Started/PaymentHistory';
 import axios from 'axios';
 
 const AccordionDetail = ({ detailList }) => {
-    const headerRateDetail = ["Hall", "PAX", "Amount", "Total", ""]
-let baseUrl= process.env.REACT_APP_BASE_URL;
+    const headerRateDetail = ["Hall", "Rate Name", "Amount", "PAX", "Total"]
+    let baseUrl = process.env.REACT_APP_BASE_URL;
 
     const handlePaymentHistory = (id, date) => {
-        let standardDate=new Date(date).toISOString().substring(0,10)
-        axios.post(`${baseUrl}/paymentHistory`,
+        let standardDate = new Date(date).toISOString().substring(0, 10)
+        axios.post(`${baseUrl}/rateDetails`,
             {
-                "customerID": `${id}`,
-                "reservationDate": `${standardDate}`,
-                "token": "test"
+                customerID: `${id}`,
+                reservationDate: `${standardDate}`,
+                token: "test"
             })
     }
     return (
@@ -36,7 +36,7 @@ let baseUrl= process.env.REACT_APP_BASE_URL;
                 </table>
             </div>
             {detailList.map((accord, index) => (
-                <Accordion.Item eventKey={index} key={index} onClick={()=>handlePaymentHistory(accord.customerID, accord.reservationDate)}>
+                <Accordion.Item eventKey={index} key={index} onClick={() => handlePaymentHistory(accord.customerID, accord.reservationForDate)}>
                     <Accordion.Header>
                         <AccordionTable headers={accord} />
                     </Accordion.Header>
@@ -46,12 +46,12 @@ let baseUrl= process.env.REACT_APP_BASE_URL;
                             <PaymentTable header={headerRateDetail} />
                         </div>
                         <div className='payment-history'>
-                            <PaymentHistory />
+                            <label>Payment History</label>
+                            <PaymentHistory customerID={accord.customerID} reservationDate={accord.reservationForDate} />
                         </div>
                     </Accordion.Body>
                 </Accordion.Item>
             ))}
-
         </Accordion>
     )
 }

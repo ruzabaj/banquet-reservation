@@ -66,15 +66,16 @@ const BanquetReservation = ({ customerID }) => {
     console.log("show-values", values)
     const [rowsData, setRowsData] = useState([]);
 
+    
     const addTableRows = () => {
+        console.log("selected hall", selectedHall)
         const rowsInput = {
             RateName: '',
             RateAmount: '',
             NoOfPax: '',
-            HallName: ''
+            HallName: selectedHall
         }
         setRowsData([...rowsData, rowsInput])
-
     }
 
     const deleteTableRows = (index) => {
@@ -113,7 +114,7 @@ const BanquetReservation = ({ customerID }) => {
         const paymentInput = [...paymentData];
         paymentInput[index][id] = value;
         setPaymentData(paymentInput);
-        console.log("now row input", paymentInput)
+        // console.log("now row input", paymentInput)
     }
 
     // useEffect(() => {
