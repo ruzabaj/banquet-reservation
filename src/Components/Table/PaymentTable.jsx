@@ -25,10 +25,7 @@ const PaymentTable = ({ header, rateList}) => {
                         <td>{info.RateAmount}<BsPen onClick={handleShowEdit}/></td>
                         <td>{info.NoOfPax}<BsPen onClick={handleShowEdit}/></td>
                         <td>{calculateTotal(info.RateAmount, info.NoOfPax)}</td>
-                        <div>
-                            <button className='btn-confirm'>Confirm</button>
-                        </div>
-                        <EditModal show={editShow} handleCloseEdit={handleCloseEdit} header={header} hall={info.HallName} pax={info.NoOfPax} rateID={info.idtblbanquetRate_details}/>
+                        <EditModal show={editShow} handleCloseEdit={handleCloseEdit} header={header} rateName={info.RateName} rateAmt={info.RateAmount} pax={info.NoOfPax} rateID={info.idtblbanquetRate_details}/>
                     </tr>
                 ))}
                 </tbody>

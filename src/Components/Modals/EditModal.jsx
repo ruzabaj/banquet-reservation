@@ -4,15 +4,15 @@ import Button from 'react-bootstrap/Button';
 import PaymentTableHeader from "../Table/PaymentTableHeader";
 import axios from 'axios';
 
-const EditModal = ({ handleCloseEdit, show, rateID, pax }) => {
+const EditModal = ({ handleCloseEdit, show, rateID, pax, rateName, rateAmt }) => {
     
 const baseUrl= process.env.REACT_APP_BASE_URL;
 const headerEdit=["Rate Name", "Rate Amount", "No. Of Pax"];
 
 const [editValues, setEditValues]=useState({
-    RateName: "",
-    RateAmount: "",
-    NoOfPax: ""
+    RateName: rateName,
+    RateAmount: rateAmt,
+    NoOfPax: pax
 })
 const handleInputChange = (event) => {
     const {id, value}=event.target;
@@ -31,6 +31,7 @@ console.log(editValues, "values")
             })
             .then((res) => {
                 console.log(res)
+                handleCloseEdit()
             })
             .catch((error) => {
                 console.log(error)

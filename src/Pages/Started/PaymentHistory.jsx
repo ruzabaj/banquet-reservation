@@ -38,6 +38,8 @@ const PaymentHistory = ({ customerID, reservationDate }) => {
 
             </div>
             <div className='style-payment-footer'>
+                <label>Sub-Total : </label>
+                <label>VAT : </label>
                 <label>Total : </label>
                 <div className='payment-button'>
                     <button className='btn-finalise'>Finalise</button>

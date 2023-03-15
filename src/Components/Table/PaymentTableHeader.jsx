@@ -7,7 +7,6 @@ const PaymentTableHeader = ({header}) => {
                 {header.map((headings, index) => (
                     <th key={index}>{headings}</th>
                 ))}
-                <th></th>
             </tr>
         </thead>
     )
