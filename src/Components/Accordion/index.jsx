@@ -78,6 +78,7 @@ const AccordionDetail = ({ detailList }) => {
                                 setPaymentList={setPaymentList}
                                 customerID={accord.customerID}
                                 reservationDate={accord.reservationDate}
+                                reservationForDate={accord.reservationForDate}
                                 rateDetailPax={rateDetailPax}
                                 rateDetailAmt={rateDetailAmt} />
                         </div>

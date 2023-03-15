@@ -1,15 +1,14 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
-import DatePickerInput from './../../Components/Datepicker/index';
 import StandardDate from "../../Components/StandardDate";
 
-const PaymentHistory = ({ paymentList, setPaymentList, customerID, reservationDate, rateDetailAmt, rateDetailPax }) => {
+const PaymentHistory = ({ paymentList, setPaymentList, customerID, reservationDate, reservationForDate, rateDetailAmt, rateDetailPax }) => {
     const [paymentAmt, setPaymentAmt] = useState("");
     let selectedPaymentDate = new Date(reservationDate).toISOString().substring(0, 10);
-    
+
     let baseUrl = process.env.REACT_APP_BASE_URL;
-    
-    let total=rateDetailAmt*rateDetailPax;
+
+    let total = rateDetailAmt * rateDetailPax;
 
     const calculatVAT = () => {
         const obtainedVAT = (13 / 100) * total;
@@ -20,10 +19,10 @@ const PaymentHistory = ({ paymentList, setPaymentList, customerID, reservationDa
         const balance = remainingBalance;
         return [onlyVAT, afterVAT, balance];
     }
-    
+
     //store the returned array into an array
     const [onlyVAT, afterVAT, balance] = calculatVAT();
-    
+
     useEffect(() => {
         axios.post(`${baseUrl}/paymentHistory`,
             {
@@ -32,7 +31,7 @@ const PaymentHistory = ({ paymentList, setPaymentList, customerID, reservationDa
                 token: "test"
             })
             .then((res) => {
-                console.log(res.data)
+                // console.log(res.data)
                 setPaymentList(res.data)
             })
             .catch((error) => {
@@ -46,6 +45,43 @@ const PaymentHistory = ({ paymentList, setPaymentList, customerID, reservationDa
         })
     }, [paymentList])
 
+    // const handleFinalise = () => {
+    //     axios.post(`${baseUrl}/finalize`,
+    //         {
+    //             customerID: `${customerID}`,
+    //             reservationForDate: `${reservationForDate}`,
+    //             token: "test"
+    //         })
+    //         .then((res) => {
+    //             console.log(res)
+    //         })
+    //         .catch((error) => {
+    //             console.log(error)
+    //         })
+    // }
+    // const handleCancel = () => {
+    //     axios.post(`${baseUrl}/cancel`,
+    //         {
+    //             customerID: `${customerID}`,
+    //             reservationForDate: `${reservationForDate}`,
+    //             token: "test"
+    //         })
+    //         .then((res) => {
+    //             console.log(res)
+    //         })
+    //         .catch((error) => {
+    //             console.log(error)
+    //         })
+    // }
+    const checkNan = (sales) => {
+        if (sales) {
+            let value = parseFloat(sales).toLocaleString(undefined, { maximumFractionDigits: 3 });
+            return value
+        }
+        else {
+            return ""
+        }
+    }
     return (
         <div className='border-payment-history'>
             <div className='responsive-payment-history-table'>
@@ -73,15 +109,19 @@ const PaymentHistory = ({ paymentList, setPaymentList, customerID, reservationDa
             </div>
             <div className='style-payment-footer'>
                 <div className='calculations-payment'>
-                    <label>Sub-Total : <span>{total}</span></label>
-                    <label>VAT : <span>{onlyVAT}</span></label>
-                    <label>Total : <span>{afterVAT}</span></label>
-                    <label>Advance : <span>{paymentAmt}</span></label>
-                    <label>Remaining Balance :<span>{balance}</span> </label>
+                    <label>Sub-Total : <span>{checkNan(total)}</span></label>
+                    <label>VAT : <span>{checkNan(onlyVAT)}</span></label>
+                    <label>Total : <span>{checkNan(afterVAT)}</span></label>
+                    <label>Advance : <span>{checkNan(paymentAmt)}</span></label>
+                    <label>Remaining Balance :<span>{checkNan(balance)}</span> </label>
                 </div>
                 <div className='payment-button'>
-                    <button className='btn-finalise'>Finalise</button>
-                    <button className='btn-cancel'>Cancel</button>
+                    <button className='btn-finalise' 
+                    // onClick={handleFinalise}
+                    >Finalise</button>
+                    <button className='btn-cancel' 
+                    // onClick={handleCancel}
+                    >Cancel</button>
                 </div>
             </div>
         </div>
