@@ -7,27 +7,33 @@
 .accordion-body {
     display: flex;
 }
-@media screen and (max-width: 768px){
+
+@media screen and (max-width: 768px) {
     .accordion-body {
         display: flex;
         flex-direction: column;
     }
 }
+
 .payment-table {
     flex: 2;
     margin: 10px;
 
     .rate-details-responsive {
         width: 100%;
+
         table {
             width: 100%;
-            background-color:$bg-accordion;
+            background-color: $bg-accordion;
             text-align: center;
-            th{
-                background-color:$theme-contrast;
+
+            th {
+                background-color: $theme-contrast;
                 color: $secondary-color
             }
-            tr,td,
+
+            tr,
+            td,
             th {
                 border: 1px solid $primary-color;
             }
@@ -38,52 +44,88 @@
 .payment-history {
     flex: 2;
     margin: 10px;
-    .border-payment-history{
+
+    .border-payment-history {
         border: 2px solid $theme-color;
         background-color: $theme-color-light;
         color: $secondary-color;
         padding: 10px;
     }
 }
-.style-payment-footer{
+
+.payment-history-table {
+    border: 1px solid $secondary-color;
+    width: 100%;
+    text-align: center;
+
+    thead tr {
+        background-color: $secondary-color;
+        color:$theme-color
+    }
+
+    th,
+    tr,
+    td {
+        border: 1px solid $secondary-color;
+    }
+}
+
+.style-payment-footer {
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
+
+    .calculations-payment {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .payment-button {
+        // border: 1px solid white;
+        align-self: flex-end;
+    }
 }
 
-.style-payment-date{
+.style-payment-date {
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
-.btn-show{
+
+.btn-show {
     background-color: $secondary-color;
     color: $primary-color;
     border-radius: 3px;
     border: 0;
 }
-.btn-confirm{
+
+.btn-confirm {
     border: 0;
-    background-color:  $theme-btn-color;
+    background-color: $theme-btn-color;
     color: $secondary-color;
 }
-.btn-finalise{
+
+.btn-finalise {
     border: 0;
     background-color: $theme-btn-color;
     color: $secondary-color;
     margin-right: 5px;
 }
-.btn-cancel{
+
+.btn-cancel {
     border: 0;
     background-color: $danger-color;
     color: $secondary-color;
 }
-.edit-table{
+
+.edit-table {
     width: 100% !important;
 }
-.edit-input{
+
+.edit-input {
     width: 100% !important;
 }
+
 .accordion-table-header {
 
     // width: 100%;

@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import PaymentTableHeader from "../Table/PaymentTableHeader";
 import axios from 'axios';
 
-const EditModal = ({ handleCloseEdit, show, rateID, pax, rateName, rateAmt }) => {
+const EditModal = ({id, date,setRateDetailList, setRateDetailAmt, setRateDetailPax, setPaymentList,  customerID, reservationDate, handleCloseEdit, show, rateID, pax, rateName, rateAmt }) => {
     
 const baseUrl= process.env.REACT_APP_BASE_URL;
 const headerEdit=["Rate Name", "Rate Amount", "No. Of Pax"];
@@ -19,7 +19,9 @@ const handleInputChange = (event) => {
     setEditValues({...editValues, [id]:value})
   };
 
-console.log(editValues, "values")
+let selectedPaymentDate = new Date(reservationDate).toISOString().substring(0, 10);
+let standardDate = new Date(date).toISOString().substring(0, 10)
+
     const handleEdit = () => {
         axios.post(`${baseUrl}/rateEdit`,
             {
@@ -30,8 +32,35 @@ console.log(editValues, "values")
                 token: "test"
             })
             .then((res) => {
-                console.log(res)
                 handleCloseEdit()
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+            axios.post(`${baseUrl}/rateDetails`,
+            {
+                customerID: `${id}`,
+                reservationDate: `${standardDate}`,
+                token: `test`
+            })
+            .then((response) => {
+                setRateDetailList(response.data)
+                setRateDetailAmt(response.data[0].RateAmount)
+                setRateDetailPax(response.data[0].NoOfPax)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+            axios.post(`${baseUrl}/paymentHistory`,
+            {
+                customerID: `${customerID}`,
+                reservationDate: `${selectedPaymentDate}`,
+                token: "test"
+            })
+            .then((res) => {
+                setPaymentList(res.data)
             })
             .catch((error) => {
                 console.log(error)
