@@ -1,5 +1,22 @@
 @import "../config";
-
+.info-reservation{
+    margin: 10px;
+    height: 50px;
+    background-color: #dfd4d4bd;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    .style-btn-reservation{
+        margin: 5px;
+        .btn-reservation{
+            height: 30px;
+            border: 0;
+            border-radius: 10px;
+            background-color: $theme-color;
+            color: $secondary-color;
+        }
+    }
+}
 .flex-filter-sort {
     display: flex;
     justify-content: space-between;
@@ -29,36 +46,49 @@
     height: 40px;
     width: 300px;
 }
+.start-date input[type="text"], .end-date input[type="text"]{
+    border-radius: 05px;
+    border: 0;
+    height: 35px;
+    width: 200px;
+}
 
 .date-range-picker {
     display: flex;
     gap: 10px;
 }
-// .start-date input[type="text] {
-//     border: 0;
-//     height: 40px;
-//     width: 300px;
-// }
 
-@media screen and (max-width:768px){
-    .date-range-picker{
+
+@media screen and (max-width:768px) {
+    .date-range-picker {
         flex-direction: column !important;
     }
+    .start-date input[type="text"], .end-date input[type="text"]{
+        height: 30px;
+        width: 150px;
+    }
 }
-@media screen and (max-width:628px){
-    .flex-filter-sort{
+
+@media screen and (max-width:628px) {
+    .flex-filter-sort {
         height: auto;
         flex-direction: column !important;
         align-items: start !important;
     }
+
     .sorting-input input[type="text"] {
         width: 200px;
     }
-    .filter-accordions{
+
+    .filter-accordions {
         display: flex;
         gap: 10px;
     }
+    .start-date input[type="text"], .end-date input[type="text"]{
+        width: 200px;
+    }
 }
+
 .btn-filter {
     margin: 10px;
     display: flex;
