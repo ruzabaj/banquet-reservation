@@ -58,6 +58,20 @@ const Started = () => {
         console.log(error)
       })
   }
+
+  function selectColor(status) {
+    switch (status) {
+      case 'Started':
+        return 'green';
+      case 'Finalised':
+        return 'purple'
+      case 'Cancelled':
+        return 'red'
+      default:
+        return ''
+    }
+  }
+
   return (
     <div>
       <Navbar />
@@ -105,6 +119,8 @@ const Started = () => {
       <div className='btn-filter' onClick={handleFilter}>
         <button className='filter'>Filter</button>
       </div>
+      {/* <p style={{ backgroundColor: selectColor('Started') }} align="center">{"HI"}</p>  */}
+
       <AccordionDetail detailList={detailList} />
     </div>
   )

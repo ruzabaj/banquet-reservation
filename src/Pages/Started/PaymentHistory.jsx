@@ -50,7 +50,7 @@ const PaymentHistory = ({ paymentList, customerID, reservationForDate, rateDetai
     const handleCloseModal = () => setCancelModal(false);
     const handleShowModal = () => setCancelModal(true);
 
-    const handleShowCancelModal=()=>{
+    const handleShowCancelModal = () => {
         handleShowModal();
     }
     const handleCancel = () => {
@@ -76,6 +76,23 @@ const PaymentHistory = ({ paymentList, customerID, reservationForDate, rateDetai
             return ""
         }
     }
+    function cellColor(status) {
+        switch (status) {
+            case 'COMPLETED':
+                return 'green';
+            case 'BEGINNING':
+                return 'blue'
+            case 'MIDDLE':
+                return 'red'
+            case 'END':
+                return 'purple'
+            case 'CONCLUSION':
+                return 'grey'
+            default:
+                return ''
+        }
+    }
+    
     return (
         <div className='border-payment-history'>
             <div className='responsive-payment-history-table'>
@@ -110,19 +127,19 @@ const PaymentHistory = ({ paymentList, customerID, reservationForDate, rateDetai
                     <label>Remaining Balance :<span>{checkNan(balance)}</span> </label>
                 </div>
                 <div className='payment-button'>
-                    <button className='btn-finalise' 
-                    onClick={handleFinalise}
+                    <button className='btn-finalise'
+                        onClick={handleFinalise}
                     >Finalise</button>
-                    <button className='btn-cancel' 
-                    onClick={handleShowCancelModal}
+                    <button className='btn-cancel'
+                        onClick={handleShowCancelModal}
                     >Cancel</button>
                 </div>
                 <ReactModal show={cancelModal}
-                message={"Are you sure you want to cancel?"}
-                buttonOne={"Yes"}
-                buttonTwo={"No"}
-                handleTarget={handleCancel}
-                handleClose={handleCloseModal}
+                    message={"Are you sure you want to cancel?"}
+                    buttonOne={"Yes"}
+                    buttonTwo={"No"}
+                    handleTarget={handleCancel}
+                    handleClose={handleCloseModal}
                 />
             </div>
         </div>
