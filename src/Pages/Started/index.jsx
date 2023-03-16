@@ -59,18 +59,7 @@ const Started = () => {
       })
   }
 
-  function selectColor(status) {
-    switch (status) {
-      case 'Started':
-        return 'green';
-      case 'Finalised':
-        return 'purple'
-      case 'Cancelled':
-        return 'red'
-      default:
-        return ''
-    }
-  }
+
 
   return (
     <div>

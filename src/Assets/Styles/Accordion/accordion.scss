@@ -3,7 +3,12 @@
 .style-accordion {
     margin: 20px;
 }
-
+@media screen and (max-width:768px) {
+    .style-accordion {
+        margin: 20px 0px !important;
+    }
+    
+}
 .accordion-body {
     display: flex;
 }

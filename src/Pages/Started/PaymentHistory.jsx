@@ -76,23 +76,23 @@ const PaymentHistory = ({ paymentList, customerID, reservationForDate, rateDetai
             return ""
         }
     }
-    function cellColor(status) {
-        switch (status) {
-            case 'COMPLETED':
-                return 'green';
-            case 'BEGINNING':
-                return 'blue'
-            case 'MIDDLE':
-                return 'red'
-            case 'END':
-                return 'purple'
-            case 'CONCLUSION':
-                return 'grey'
-            default:
-                return ''
-        }
-    }
-    
+    // function cellColor(status) {
+    //     switch (status) {
+    //         case 'COMPLETED':
+    //             return 'green';
+    //         case 'BEGINNING':
+    //             return 'blue'
+    //         case 'MIDDLE':
+    //             return 'red'
+    //         case 'END':
+    //             return 'purple'
+    //         case 'CONCLUSION':
+    //             return 'grey'
+    //         default:
+    //             return ''
+    //     }
+    // }
+
     return (
         <div className='border-payment-history'>
             <div className='responsive-payment-history-table'>
