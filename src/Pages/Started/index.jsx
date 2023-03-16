@@ -71,40 +71,49 @@ const Started = () => {
           </div>
         </Link>
       </div>
-      <div className='flex-filter-sort'>
-        <div className='filter-accordions'>
-          <label>Filter:</label>
-          <div className='btn-radio'>
-            <input type="radio" id="Started" name="state" value="Started" onChange={handleBtnChange} />
-            <label > Started</label>
-          </div>
-          <div className='btn-radio'>
-            <input type="radio" id="Finalised" name="state" value="Finalised" onChange={handleBtnChange} />
-            <label >Finalised</label>
-          </div>
-          <div className='btn-radio'>
-            <input type="radio" id="Cancelled" name="state" value="Cancelled" onChange={handleBtnChange} />
-            <label > Cancelled</label>
-          </div>
-        </div>
-        <div className='sort-accordions'>
-          <label>Sort By:</label>
-          <div className='sorting-input'>
-            <input type="text" placeholder="Name/ Outlets" onChange={handleCustomerName} />
-          </div>
-        </div>
-        <div>
-          <label> Range :</label>
-          <div className='date-range-picker'>
-            <div className='start-date'>
-              <DatePickerInput selectedDate={rangeOne} setSelectedDate={setRangeOne} />
+      <div className='sort-with checkbox'>
+        <div className='flex-filter-sort'>
+          <div className='filter-accordions'>
+            <label>Filter:</label>
+            <div className='btn-radio'>
+              <input type="radio" id="Started" name="state" value="Started" onChange={handleBtnChange} />
+              <label > Started</label>
             </div>
-            <div className='end-date'>
-              <DatePickerInput selectedDate={rangeTwo} setSelectedDate={setRangeTwo} />
+            <div className='btn-radio'>
+              <input type="radio" id="Finalised" name="state" value="Finalised" onChange={handleBtnChange} />
+              <label >Finalised</label>
+            </div>
+            <div className='btn-radio'>
+              <input type="radio" id="Cancelled" name="state" value="Cancelled" onChange={handleBtnChange} />
+              <label > Cancelled</label>
+            </div>
+          </div>
+          <div className='sort-accordions'>
+            <label>Sort By:</label>
+            <div className='sorting-input'>
+              <input type="text" placeholder="Name/ Outlets" onChange={handleCustomerName} />
+            </div>
+          </div>
+          <div className='date-range-checkbox-accordions'>
+            <label> Range :</label>
+            <div className='date-range-picker'>
+              <div className='start-date'>
+                <DatePickerInput selectedDate={rangeOne} setSelectedDate={setRangeOne} />
+              </div>
+              <div className='end-date'>
+                <DatePickerInput selectedDate={rangeTwo} setSelectedDate={setRangeTwo} />
+              </div>
+            </div>
+            <div className='handle-checkbox'>
+              <div className='checkbox-wrapper'>
+                <input type="checkbox" id="reservation" name="reservation" value="Reservation date" />
+                <label> Search by Reservation For Date</label>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       <div className='btn-filter' onClick={handleFilter}>
         <button className='filter'>Filter</button>
       </div>

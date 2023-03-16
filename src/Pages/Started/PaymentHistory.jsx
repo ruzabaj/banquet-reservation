@@ -24,7 +24,6 @@ const PaymentHistory = ({ paymentList, customerID, reservationForDate, rateDetai
     //store the returned array into an array
     const [onlyVAT, afterVAT, balance] = calculatVAT();
 
-
     useEffect(() => {
         paymentList.forEach((item) => {
             setPaymentAmt(item.PaymentAmount)

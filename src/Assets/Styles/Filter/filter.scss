@@ -39,7 +39,9 @@
         padding-left: 5px;
     }
 }
-
+.handle-checkbox{
+    margin: 10px 0px;
+}
 .sorting-input input[type="text"] {
     border-radius: 05px;
     border: 0;
@@ -59,7 +61,7 @@
 }
 
 
-@media screen and (max-width:768px) {
+@media screen and (max-width:825px) {
     .date-range-picker {
         flex-direction: column !important;
     }
@@ -69,7 +71,7 @@
     }
 }
 
-@media screen and (max-width:628px) {
+@media screen and (max-width:716px) {
     .flex-filter-sort {
         height: auto;
         flex-direction: column !important;
