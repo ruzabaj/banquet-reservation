@@ -127,29 +127,30 @@
 }
 
 .accordion-table-header {
-
-    // width: 100%;
     table {
-        margin-left: 20px;
-        width: 100%;
-
+        margin-left: 15px;
+        width: calc(100% - 10px);
         thead tr {
-            padding: 10px;
+            height: 50px;
             background-color: $theme-color;
             color: $secondary-color;
-            // background-color: $secondary-color;
-            // color:$theme-color ;
-        }
-
-        .extend-width {
-            // width: 105px !important;
         }
     }
 }
-
+.extend-width-50 {
+    width: 50px !important;
+}
+.extend-width-150 {
+    width: 150px !important;
+}
+.extend-width-200 {
+    width: 200px !important;
+}
+.extend-width-pax{
+    width: 100px !important;
+}
 .responsive-accordion-table {
     width: 100%;
-
     table {
         width: 100%;
         color: $primary-color;
@@ -160,17 +161,9 @@
             padding: 10px;
         }
 
-
         tbody tr {
             background-color: $bg-accordion;
         }
-
-        // tr:nth-child(odd){
-        //    background-color: green;
-        // }
     }
 }
 
-//     tr:nth-child(even){
-//        background-color: green !important;
-//    }

@@ -7,12 +7,14 @@ const AccordionTable = ({ headers }) => {
             <table>
                 <tbody>
                     <tr>
-                    <td className='extend-width '>{headers.Name}</td>
-                    <td>{headers.NoOfPax}</td>
-                    <td>{headers.Outlet_Name}</td>
-                    <td><StandardDate date={headers.reservationDate}/></td>
-                    <td><StandardDate date={headers.reservationForDate}/></td>
-                    <td>{headers.hall_names}</td>
+                    <td className='extend-width-200'>{headers.idtblbanquetReservation}</td>
+                    <td className='extend-width-200'>{headers.Name}</td>
+                    <td className='extend-width-pax'>{headers.NoOfPax}</td>
+                    <td className='extend-width-150'>{headers.Outlet_Name}</td>
+                    <td className='extend-width-200'><StandardDate date={headers.reservationDate}/></td>
+                    <td className='extend-width-200'><StandardDate date={headers.reservationForDate}/></td>
+                    <td className='extend-width-150'>{headers.hall_names}</td>
+                    <td>{headers.reservationState}</td>
                     </tr>
                 </tbody>
             </table>

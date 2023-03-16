@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import "../../Assets/Styles/modal.scss";
 
-const ReactModal = ({ show, handleClose, message}) => {
+const ReactModal = ({ show, handleClose, handleTarget, message, buttonOne, buttonTwo}) => {
     return (
         <div>
             <Modal
@@ -23,8 +23,11 @@ const ReactModal = ({ show, handleClose, message}) => {
                         <p className='reg'>{message}</p>
                 </Modal.Body>
                 <Modal.Footer>
+                    <Button onClick={handleTarget} className="modal-close">
+                        {buttonOne}
+                    </Button>
                     <Button onClick={handleClose} className="modal-close">
-                        Close
+                        {buttonTwo}
                     </Button>
                 </Modal.Footer>
             </Modal>

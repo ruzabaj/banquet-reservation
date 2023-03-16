@@ -63,12 +63,12 @@ const BanquetReservation = ({ customerID }) => {
             [id]: value,
         });
     }
-    console.log("show-values", values)
+    // console.log("show-values", values)
     const [rowsData, setRowsData] = useState([]);
 
-    
+
     const addTableRows = () => {
-        console.log("selected hall", selectedHall)
+        // console.log("selected hall", selectedHall)
         const rowsInput = {
             RateName: '',
             RateAmount: '',
@@ -103,6 +103,7 @@ const BanquetReservation = ({ customerID }) => {
         setPaymentData([...paymentData, paymentInput])
     }
 
+    console.log("payment data", paymentData)
     const deletePaymentRows = (index) => {
         const rows = [...paymentData];
         rows.splice(index, 1);
@@ -132,7 +133,8 @@ const BanquetReservation = ({ customerID }) => {
                     reservationState: "Started",
                     TimeSlot: values.TimeSlot,
                     customerID: customerID,
-                    advancePayment: "",
+                    advancePayment: paymentData[0].PaymentAmount,
+                    // advancePayment: "",
                     NoOfPax: values.NoOfPax,
                     SpecialRequest: values.SpecialRequest
                 },
@@ -165,7 +167,13 @@ const BanquetReservation = ({ customerID }) => {
 
     return (
         <section className='banquet-reservation'>
-            <ReactModal show={showModal} handleClose={handleCloseModal} message={showMessage} />
+            <ReactModal show={showModal}
+                message={showMessage}
+                buttonOne={""}
+                buttonTwo={"Close"}
+                handleTarget={handleCloseModal}
+                handleClose={handleCloseModal}
+            />
             <h5>BanquetReservation</h5>
             <div className='row banquet-reservation-info'>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>

@@ -5,18 +5,16 @@ import "../../Assets/Styles/Accordion/accordion.scss";
 import PaymentTable from '../Table/PaymentTable';
 import PaymentHistory from './../../Pages/Started/PaymentHistory';
 import axios from 'axios';
-// import { BsPen } from "react-icons/bs";
-// import EditModal from '../Modals/EditModal';
 
 const AccordionDetail = ({ detailList }) => {
-    const headerRateDetail = ["Hall", "Rate Name", "Amount", "PAX", "Total"]
     let baseUrl = process.env.REACT_APP_BASE_URL;
+    const headerRateDetail = ["Hall", "Rate Name", "Amount", "PAX", "Total"]
     const [rateDetailList, setRateDetailList] = useState([]);
     const [rateDetailAmt, setRateDetailAmt] = useState("");
     const [rateDetailPax, setRateDetailPax] = useState("");
-    // const [Total, setCalculateTotal] = useState("");
+    const [paymentList, setPaymentList] = useState([]);
 
-    const handlePaymentHistory = (id, date) => {
+    const handlePaymentHistory = (id, date, reservatorID) => {
         let standardDate = new Date(date).toISOString().substring(0, 10)
         axios.post(`${baseUrl}/rateDetails`,
             {
@@ -25,7 +23,7 @@ const AccordionDetail = ({ detailList }) => {
                 token: `test`
             })
             .then((response) => {
-                console.log(response.data)
+                console.log(response.data, "rate")
                 setRateDetailList(response.data)
                 setRateDetailAmt(response.data[0].RateAmount)
                 setRateDetailPax(response.data[0].NoOfPax)
@@ -33,9 +31,20 @@ const AccordionDetail = ({ detailList }) => {
             .catch((error) => {
                 console.log(error)
             })
+
+        axios.post(`${baseUrl}/paymentHistory`,
+            {
+                banquetReservationID: `${reservatorID}`,
+                token: "test"
+            })
+            .then((res) => {
+                console.log(res.data, "payment")
+                setPaymentList(res.data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
-    // console.log(rateDetailAmt, rateDetailPax, "showing rate Detail Amt here")
-    const [paymentList, setPaymentList] = useState([]);
 
     return (
         <Accordion defaultActiveKey="0" flush className='style-accordion'>
@@ -43,18 +52,20 @@ const AccordionDetail = ({ detailList }) => {
                 <table>
                     <thead>
                         <tr>
-                            <th >Name</th>
-                            <th>No. of PAX</th>
-                            <th>Outlet Selected</th>
-                            <th>Reservation Date</th>
-                            <th>Reservation For Date</th>
-                            <th>Hall Names</th>
+                            <th className='extend-width-200'>ID</th>
+                            <th className='extend-width-200'>Name</th>
+                            <th className='extend-width-pax'>No. of PAX</th>
+                            <th className='extend-width-150'>Outlet Selected</th>
+                            <th className='extend-width-200'>Reservation Date</th>
+                            <th className='extend-width-200'>Reservation For Date</th>
+                            <th className='extend-width-150'>Hall Names</th>
+                            <th>State</th>
                         </tr>
                     </thead>
                 </table>
             </div>
             {detailList.map((accord, index) => (
-                <Accordion.Item eventKey={index} key={index} onClick={() => handlePaymentHistory(accord.customerID, accord.reservationDate)}>
+                <Accordion.Item eventKey={index} key={index} onClick={() => handlePaymentHistory(accord.customerID, accord.reservationDate, accord.idtblbanquetReservation)}>
                     <Accordion.Header>
                         <AccordionTable headers={accord} />
                     </Accordion.Header>
@@ -74,13 +85,15 @@ const AccordionDetail = ({ detailList }) => {
                         </div>
                         <div className='payment-history'>
                             <label>Payment History</label>
-                            <PaymentHistory paymentList={paymentList}
+                            <PaymentHistory
+                                paymentList={paymentList}
                                 setPaymentList={setPaymentList}
                                 customerID={accord.customerID}
                                 reservationDate={accord.reservationDate}
                                 reservationForDate={accord.reservationForDate}
                                 rateDetailPax={rateDetailPax}
-                                rateDetailAmt={rateDetailAmt} />
+                                rateDetailAmt={rateDetailAmt}
+                                 />
                         </div>
                     </Accordion.Body>
                 </Accordion.Item>
