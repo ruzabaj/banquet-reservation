@@ -9,17 +9,16 @@ import axios from 'axios';
 const AccordionDetail = ({ detailList }) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
     const headerRateDetail = ["Hall", "Rate Name", "Amount", "PAX", "Total"]
+
     const [rateDetailList, setRateDetailList] = useState([]);
     const [rateDetailAmt, setRateDetailAmt] = useState("");
     const [rateDetailPax, setRateDetailPax] = useState("");
     const [paymentList, setPaymentList] = useState([]);
 
-    const handlePaymentHistory = (id, date, reservatorID) => {
-        let standardDate = new Date(date).toISOString().substring(0, 10)
+    const handlePaymentHistory = (reservatorID) => {
         axios.post(`${baseUrl}/rateDetails`,
             {
-                customerID: `${id}`,
-                reservationDate: `${standardDate}`,
+                banquetReservationID: `${reservatorID}`,
                 token: `test`
             })
             .then((response) => {
@@ -65,7 +64,7 @@ const AccordionDetail = ({ detailList }) => {
                 </table>
             </div>
             {detailList.map((accord, index) => (
-                <Accordion.Item eventKey={index} key={index} onClick={() => handlePaymentHistory(accord.customerID, accord.reservationDate, accord.idtblbanquetReservation)}>
+                <Accordion.Item eventKey={index} key={index} onClick={() => handlePaymentHistory(accord.idtblbanquetReservation)}>
                     <Accordion.Header>
                         <AccordionTable headers={accord} />
                     </Accordion.Header>
