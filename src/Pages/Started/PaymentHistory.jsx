@@ -12,7 +12,7 @@ const PaymentHistory = ({ paymentList, customerID, reservationForDate, rateDetai
     let total = rateDetailAmt * rateDetailPax;
 
     const calculatVAT = () => {
-        const obtainedVAT = (13 / 100) * total;
+        const obtainedVAT = (0.13) * total;
         const totalAfterVAT = total + obtainedVAT;
         const remainingBalance = totalAfterVAT - paymentAmt;
         const onlyVAT = obtainedVAT;
@@ -75,22 +75,6 @@ const PaymentHistory = ({ paymentList, customerID, reservationForDate, rateDetai
             return ""
         }
     }
-    // function cellColor(status) {
-    //     switch (status) {
-    //         case 'COMPLETED':
-    //             return 'green';
-    //         case 'BEGINNING':
-    //             return 'blue'
-    //         case 'MIDDLE':
-    //             return 'red'
-    //         case 'END':
-    //             return 'purple'
-    //         case 'CONCLUSION':
-    //             return 'grey'
-    //         default:
-    //             return ''
-    //     }
-    // }
 
     return (
         <div className='border-payment-history'>

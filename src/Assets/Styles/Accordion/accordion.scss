@@ -140,6 +140,9 @@
             background-color: $theme-color;
             color: $secondary-color;
         }
+        thead tr th{
+            padding-left: 5px;
+        }
     }
 }
 .extend-width-50 {

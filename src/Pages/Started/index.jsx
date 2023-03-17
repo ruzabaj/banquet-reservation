@@ -5,6 +5,7 @@ import axios from 'axios';
 import "../../Assets/Styles/Filter/filter.scss";
 import DatePickerInput from './../../Components/Datepicker/index';
 import { Link } from 'react-router-dom';
+import DatePicker from "react-datepicker";
 
 const Started = () => {
   let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -12,6 +13,8 @@ const Started = () => {
   const [customerName, setCustomerName] = useState("");
   const [state, setState] = useState("");
   const [token, setToken] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     setToken(localStorage.getItem("token"))
@@ -31,34 +34,96 @@ const Started = () => {
 
   }, [])
 
-  const [rangeOne, setRangeOne] = useState(new Date());
-  const [rangeTwo, setRangeTwo] = useState(new Date());
-  let selectedFirstDate = rangeOne.toISOString().substring(0, 10);
-  let selectedSecondDate = rangeTwo.toISOString().substring(0, 10);
+  // const [rangeTwo, setRangeTwo] = useState(new Date());
+  // let selectedSecondDate = rangeTwo.toISOString().substring(0, 10);
+  // const handleRangeOne = (date) => {
+  //   setRangeOne(new Date(date))
+  // }
+
+  // useEffect(() => {
+  //   if (!rangeOne === null) {
+  //     console.log(selectedFirstDate, "range one date here")
+  //   }
+  // }, [rangeOne])
 
   const handleCustomerName = (event) => {
     setCustomerName(event.target.value)
   }
+
   const handleBtnChange = (e) => {
     setState(e.target.value)
   }
-  const handleFilter = () => {
-    axios.post(`${baseUrl}/banquetreport`, {
-      token: `test`,
-      customerName: `${customerName}`,
-      state: `${state}`,
-      reservationDate: `${selectedFirstDate}`,
-      reservationForDate: `${selectedSecondDate}`,
-    })
-      .then((response) => {
-        console.log(response.data, "filter api")
-        setDetailList(response.data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+
+  function addOneDay(date) {
+    date.setDate(date.getDate() + 1);
+    return date;
   }
 
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  
+  const handleFilter = () => {
+    if (startDate === null) {
+      console.log("start date is null")
+      var selectedFirstDate = startDate ?? '';
+    }
+    else {
+      let stringified = startDate.toISOString();
+      const date = new Date(stringified);
+      const newDate = addOneDay(date);
+      var selectedFirstDate = newDate.toISOString().substring(0, 10);
+    }
+  
+    if (endDate === null) {
+      console.log("start date is null")
+      var selectedSecondDate = endDate ?? '';
+    }
+    else {
+      let stringified = endDate.toISOString();
+      const date = new Date(stringified);
+      const newDate = addOneDay(date);
+      var selectedSecondDate = newDate.toISOString().substring(0, 10);
+    }
+
+    if (isChecked === false) {
+      axios.post(`${baseUrl}/banquetreport`, {
+        token: `test`,
+        customerName: `${customerName}`,
+        state: `${state}`,
+        reservationDatestart: `${selectedFirstDate}`,
+        reservationDateEnd: `${selectedSecondDate}`,
+        reservationForDatestart: "",
+        reservationForDateEnd: ""
+      })
+        .then((response) => {
+          console.log(response.data, "filter api reservation date")
+          setDetailList(response.data)
+        })
+        .catch((error) => {
+          console.log(error.response.data.error)
+          setErrorMessage(error.response.data.error)
+        })
+    }
+    else {
+      axios.post(`${baseUrl}/banquetreport`, {
+        token: `test`,
+        customerName: `${customerName}`,
+        state: `${state}`,
+        reservationDatestart: "",
+        reservationDateEnd: "",
+        reservationForDatestart: `${selectedFirstDate}`,
+        reservationForDateEnd: `${selectedSecondDate}`
+      })
+        .then((response) => {
+          console.log(response.data, "filter api for reservation for date")
+          setDetailList(response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }
   return (
     <div>
       <Navbar />
@@ -96,24 +161,35 @@ const Started = () => {
             <label> Range :</label>
             <div className='date-range-picker'>
               <div className='start-date'>
-                <DatePickerInput selectedDate={rangeOne} setSelectedDate={setRangeOne} />
+                {/* <DatePickerInput selectedDate={rangeOne} setSelectedDate={setRangeOne} /> */}
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(new Date(date))}
+                  fixedHeight
+                />
               </div>
               <div className='end-date'>
-                <DatePickerInput selectedDate={rangeTwo} setSelectedDate={setRangeTwo} />
+                <DatePicker
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
+                />
+                {/* <DatePickerInput selectedDate={rangeTwo} setSelectedDate={setRangeTwo} /> */}
               </div>
             </div>
             <div className='handle-checkbox'>
               <div className='checkbox-wrapper'>
-                <input type="checkbox" id="reservation" name="reservation" value="Reservation date" />
+                {console.log(isChecked, "isChecked")}
+                <input type="checkbox" id="reservation" name="reservation" value="Reservation date" onChange={() => setIsChecked(!isChecked)} />
                 <label> Search by Reservation For Date</label>
               </div>
             </div>
           </div>
         </div>
+        <p className='error'>{errorMessage}</p>
       </div>
 
-      <div className='btn-filter' onClick={handleFilter}>
-        <button className='filter'>Filter</button>
+      <div className='btn-filter' >
+        <button className='filter' onClick={handleFilter}>Filter</button>
       </div>
 
       <AccordionDetail detailList={detailList} />
