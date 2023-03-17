@@ -3,9 +3,9 @@ import Navbar from "../../Components/Navbar";
 import AccordionDetail from './../../Components/Accordion/index';
 import axios from 'axios';
 import "../../Assets/Styles/Filter/filter.scss";
-import DatePickerInput from './../../Components/Datepicker/index';
 import { Link } from 'react-router-dom';
 import DatePicker from "react-datepicker";
+// import DatePickerInput from './../../Components/Datepicker/index';
 
 const Started = () => {
   let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -33,18 +33,6 @@ const Started = () => {
       })
 
   }, [])
-
-  // const [rangeTwo, setRangeTwo] = useState(new Date());
-  // let selectedSecondDate = rangeTwo.toISOString().substring(0, 10);
-  // const handleRangeOne = (date) => {
-  //   setRangeOne(new Date(date))
-  // }
-
-  // useEffect(() => {
-  //   if (!rangeOne === null) {
-  //     console.log(selectedFirstDate, "range one date here")
-  //   }
-  // }, [rangeOne])
 
   const handleCustomerName = (event) => {
     setCustomerName(event.target.value)
@@ -178,7 +166,6 @@ const Started = () => {
             </div>
             <div className='handle-checkbox'>
               <div className='checkbox-wrapper'>
-                {console.log(isChecked, "isChecked")}
                 <input type="checkbox" id="reservation" name="reservation" value="Reservation date" onChange={() => setIsChecked(!isChecked)} />
                 <label> Search by Reservation For Date</label>
               </div>
