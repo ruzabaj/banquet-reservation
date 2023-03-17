@@ -16,6 +16,16 @@
             color: $secondary-color;
         }
     }
+    .style-btn-availability{
+        margin: 5px;
+        .btn-availability{
+            height: 30px;
+            border: 0;
+            border-radius: 10px;
+            background-color: $bg-availability;
+            color: $secondary-color;
+        }
+    }
 }
 .flex-filter-sort {
     display: flex;
@@ -61,7 +71,7 @@
 }
 
 
-@media screen and (max-width:825px) {
+@media screen and (max-width:933px) {
     .date-range-picker {
         flex-direction: column !important;
     }
@@ -71,7 +81,7 @@
     }
 }
 
-@media screen and (max-width:716px) {
+@media screen and (max-width:873px) {
     .flex-filter-sort {
         height: auto;
         flex-direction: column !important;
@@ -96,7 +106,8 @@
     display: flex;
     justify-content: end;
 
-    .filter {
+    .Filter {
+        text-align: center;
         height: 35px;
         width: 100px;
         background-color: $secondary-theme;

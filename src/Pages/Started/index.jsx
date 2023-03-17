@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import Navbar from "../../Components/Navbar";
 import AccordionDetail from './../../Components/Accordion/index';
 import axios from 'axios';
 import "../../Assets/Styles/Filter/filter.scss";
+import "../../Assets/Styles/Started/started.scss";
 import Filter from './Filter';
+import SubmitBtn from '../../Components/Buttons/submitBtn';
+import Error from '../../Components/Error';
+import SideContainer from './../../Components/SideContainer/index';
+import { Link } from 'react-router-dom';
 
 const Started = () => {
   let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -32,6 +36,12 @@ const Started = () => {
 
   }, [])
 
+  useEffect(() => {
+    if (errorMessage) {
+      setDetailList([])
+    }
+  }, [errorMessage])
+
   const handleCustomerName = (event) => {
     setCustomerName(event.target.value)
   }
@@ -51,7 +61,6 @@ const Started = () => {
 
   const handleFilter = () => {
     if (startDate === null) {
-      console.log("start date is null")
       var selectedFirstDate = startDate ?? '';
     }
     else {
@@ -62,7 +71,6 @@ const Started = () => {
     }
 
     if (endDate === null) {
-      console.log("start date is null")
       var selectedSecondDate = endDate ?? '';
     }
     else {
@@ -111,21 +119,39 @@ const Started = () => {
     }
   }
   return (
-    <div>
-      <Navbar />
-      <Filter
-        handleBtnChange={handleBtnChange}
-        handleCustomerName={handleCustomerName}
-        isChecked={isChecked}
-        setIsChecked={setIsChecked}
-        errorMessage={errorMessage}
-        handleFilter={handleFilter}
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-      />
-      <AccordionDetail detailList={detailList} />
+    <div className='width-flex'>
+      <SideContainer />
+      <div className='started'>
+        <div className='info-reservation'>
+          <Link to="/schedule">
+            <div className='style-btn-availability'>
+              <button className='btn-availability'>Check Availability</button>
+            </div>
+          </Link>
+          <Link to="/">
+            <div className='style-btn-reservation'>
+              <button className='btn-reservation'>Make a reservation</button>
+            </div>
+          </Link>
+        </div>
+        <Filter
+          handleBtnChange={handleBtnChange}
+          handleCustomerName={handleCustomerName}
+          isChecked={isChecked}
+          setIsChecked={setIsChecked}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+        />
+        <div className='message'>
+          <Error messageName={'error'} errorMessage={errorMessage} />
+        </div>
+        <div className='btn-filter' >
+          <SubmitBtn event={"Filter"} handle={handleFilter} />
+        </div>
+        <AccordionDetail detailList={detailList} />
+      </div>
     </div>
   )
 }

@@ -2,9 +2,10 @@
 .logo{
     height: 60px;
     width: 60px;
+    border: 1px solid white;
 }
 .navbar{
-    background-color: $theme-color;
+    background-color: $theme-color-light;
     color: $secondary-color !important;
 }
 .make-reservation a{ 
@@ -15,5 +16,6 @@
     padding-top: 15px;
 }
 .navbar-brand{
+    margin-left: 10px;
     color: $secondary-color !important;
 }

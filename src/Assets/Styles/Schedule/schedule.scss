@@ -1,0 +1,73 @@
+@import "../config";
+
+.side-container {
+    flex: 2;
+    height: 100vh;
+    background-color: rgb(231, 223, 223);
+}
+
+.filter-availability {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px;
+
+    .btn-search-availability {
+        .Search {
+            text-align: center;
+            width: 180px;
+            border: 0;
+            border-radius: 10px;
+            background-color: $bg-availability;
+            color: $secondary-color;
+        }
+    }
+}
+
+
+.dinner,
+.lunch {
+    text-transform: uppercase;
+    text-orientation: upright;
+    writing-mode: vertical-rl;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+}
+
+.lunch {
+    // background-color: pink;
+}
+
+.dinner {
+    // background-color: purple;
+    // color: $secondary-color;
+}
+
+.table-availability {
+    margin: 10px 10px 20px 0px;
+    // background-color: $bg-accordion;
+
+    td {
+        height: 100px;
+        border: 3px solid green;
+    }
+
+    tr,
+    th
+    {
+        border: 1px solid black;
+    }
+}
+
+.table-lunch,
+.table-dinner {
+    display: flex;
+
+    table {
+        width: 100%;
+        text-align: center;
+    }
+}

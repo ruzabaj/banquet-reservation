@@ -8,11 +8,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-select-search/style.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Routing from './Routes';
+import Navbar from "./Components/Navbar/index";
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Navbar/>
     <Router>
-     <Routing/>
+      <Routing />
     </Router>
   </React.StrictMode>
 );

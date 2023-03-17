@@ -14,9 +14,9 @@ function CollapsibleExample() {
           <Navbar.Brand>Alice Reception</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
+            {/* <Nav className="me-auto">
               <p>Started</p>
-            </Nav>
+            </Nav> */}
             <Nav className='make-reservation'>
                 {/* <Link to="/">
                   <p>Make a Reservation</p>

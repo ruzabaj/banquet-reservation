@@ -1,9 +1,10 @@
 import React from 'react'
+import "../../Assets/Styles/Schedule/schedule.scss";
 
 const SideContainer = () => {
   return (
-    <div>SIdeCoitainer
-    
+    <div className='side-container'>
+      SideContainer
     </div>
   )
 }
