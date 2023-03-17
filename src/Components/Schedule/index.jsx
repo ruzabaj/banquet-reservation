@@ -1,30 +1,69 @@
-import React, { useState } from 'react'
-import { Calendar, momentLocalizer } from 'react-big-calendar'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment';
 import DatePickerInput from "../../Components/Datepicker/index";
 import SubmitBtn from "../../Components/Buttons/submitBtn";
 import "../../Assets/Styles/Schedule/schedule.scss";
+import axios from 'axios';
 
 const Schedule = () => {
-  const [dateOne, setDateOne] = useState(new Date())
-  const [dateTwo, setDateTwo] = useState(new Date())
+  const [dateOne, setDateOne] = useState(new Date());
+  const [dateTwo, setDateTwo] = useState(new Date());
+  const [dinner, setDinnerList] = useState([]);
+  const [lunchList, setLunchList] = useState([]);
+
+  let baseUrl = process.env.REACT_APP_BASE_URL;
+
+  useEffect(() => {
+    let startDate = dateOne.toISOString().substring(0, 10);
+    let endDate = dateTwo.toISOString().substring(0, 10);
+    if (startDate && endDate) {
+      axios.post(`${baseUrl}/schedule`, {
+        startDate: `${startDate}`,
+        endDate: `${endDate}`,
+        "token": "test"
+      })
+        .then((response) => {
+          console.log(response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }, [])
 
   const handleAvailability = () => {
-
+    let startDate = dateOne.toISOString().substring(0, 10);
+    let endDate = dateTwo.toISOString().substring(0, 10);
+    if (startDate && endDate) {
+      axios.post(`${baseUrl}/schedule`, {
+        startDate: `${startDate}`,
+        endDate: `${endDate}`,
+        "token": "test"
+      })
+        .then((response) => {
+          console.log(response.data)
+          setLunchList(response.data.lunch)
+          setDinnerList(response.data.dinner)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
   }
-  // let date = new Date()
-  // console.log(date.getDay());
+
   var date = moment();
 
-  var currentDate = date.format('D/MM/YYYY');
-  console.log(currentDate); // "17/06/2022"
-
-  let calculateNextDays=(num)=>{
-    let tomorrow  = date.add(num,'days');
-    // console.log(tomorrow._d.toISOString().substring(0, 10), "tomorrow", num)
-    let result= tomorrow._d.toISOString().substring(0, 10)
-    return result
+  let calculateNextDays = (num) => {
+    let tomorrow = date.add(num, 'days');
+    console.log(tomorrow.format('dddd'));
+    let resultDays = tomorrow.format('dddd')
+    let result = tomorrow._d.toISOString().substring(0, 10)
+    return [ resultDays, result]
   }
+  // const [result, resultDays] = calculateNextDays();
+
+  // var myDateVariable = moment(date).format("dddd")
+
   return (
     <div className="">
       <div className='filter-availability'>
