@@ -68,7 +68,15 @@
 
     td {
         height: 100px;
+        border: 3px solid green;
+    }
+
+    .available{
         border: 5px solid green;
+    }
+    .unavailable{
+        border: 5px solid red;
+        // background-color: 5px solid rgb(231, 157, 157) ;
     }
 
     tr,

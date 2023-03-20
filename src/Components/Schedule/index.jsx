@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import moment from 'moment';
 import DatePickerInput from "../../Components/Datepicker/index";
 import SubmitBtn from "../../Components/Buttons/submitBtn";
 import "../../Assets/Styles/Schedule/schedule.scss";
 import axios from 'axios';
+import TableHeader from './TableHeader';
+import moment from 'moment';
 
 const Schedule = () => {
   const [dateOne, setDateOne] = useState(new Date());
   const [dateTwo, setDateTwo] = useState(new Date());
-  const [dinner, setDinnerList] = useState([]);
-  const [lunchList, setLunchList] = useState([]);
+  const [lunchHallOne, setLunchHallOne] = useState([]);
+  const [lunchHallTwo, setLunchHallTwo] = useState([]);
+  const [dinnerHallOne, setDinnerHallOne] = useState([]);
+  const [dinnerHallTwo, setDinnerHallTwo] = useState([]);
+  const [unAvailable, setUnAvailable] = useState(false);
 
   let baseUrl = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     let startDate = dateOne.toISOString().substring(0, 10);
     let endDate = dateTwo.toISOString().substring(0, 10);
+
     if (startDate && endDate) {
       axios.post(`${baseUrl}/schedule`, {
         startDate: `${startDate}`,
@@ -23,13 +28,38 @@ const Schedule = () => {
         "token": "test"
       })
         .then((response) => {
-          console.log(response.data)
+          // setLunchHallOne(response.data.lunch[0].Hall1)
+          // setDinnerHallOne(response.data.dinner[0].Hall1)
+          // setDinnerHallTwo(response.data.dinner[1].Hall2)
+          setUnAvailable(true)
+          let checkLunch = response.data.lunch[0]
+          if ("Hall2" in checkLunch) {
+            console.log("0 ma hall 2 for lunch")
+            setLunchHallTwo(response.data?.lunch[0].Hall2)
+          }
+
+          if ("Hall1" in checkLunch) {
+            console.log("0 ma hall 1 for lunch")
+            setLunchHallOne(response.data?.lunch[0].Hall1)
+            setLunchHallTwo(response.data.lunch[1].Hall2)
+          }
+
+          let checkDInner = response.data.dinner[0]
+          if ("Hall2" in checkDInner) {
+            console.log("0 ma hall 2 for dinner")
+            setDinnerHallTwo(response.data?.dinner[0].Hall2)
+          }
+          if ("Hall1" in checkDInner) {
+            console.log("0 ma hall 1 for dinner")
+            setDinnerHallOne(response.data?.dinner[0].Hall1)
+            setDinnerHallTwo(response.data.dinner[1].Hall2)
+          }
         })
         .catch((error) => {
           console.log(error)
         })
     }
-  }, [])
+  }, [dateOne, dateTwo])
 
   const handleAvailability = () => {
     let startDate = dateOne.toISOString().substring(0, 10);
@@ -41,28 +71,98 @@ const Schedule = () => {
         "token": "test"
       })
         .then((response) => {
-          console.log(response.data)
-          setLunchList(response.data.lunch)
-          setDinnerList(response.data.dinner)
+          console.log(response.data, "response ")
+          setUnAvailable(true)
+
+          let checkLunch = response.data.lunch[0]
+          if ("Hall2" in checkLunch) {
+            console.log("0 ma hall 2 for lunch")
+            setLunchHallTwo(response.data?.lunch[0].Hall2)
+          }
+          if ("Hall1" in checkLunch) {
+            console.log("0 ma hall 1 for lunch")
+            setLunchHallOne(response.data?.lunch[0].Hall1)
+            setLunchHallTwo(response.data.lunch[1].Hall2)
+          }
+
+          let checkDInner = response.data.dinner[0]
+          if ("Hall2" in checkDInner) {
+            console.log("0 ma hall 2 for dinner")
+            setDinnerHallTwo(response.data?.dinner[0].Hall2)
+          }
+          if ("Hall1" in checkDInner) {
+            console.log("0 ma hall 1 for dinner")
+            setDinnerHallOne(response.data?.dinner[0].Hall1)
+            setDinnerHallTwo(response.data.dinner[1].Hall2)
+          }
         })
         .catch((error) => {
           console.log(error)
         })
     }
+
+
+    arrayDate.forEach((date) => {
+      console.log(date)
+    })
+
+    const arrayTestHere= ["Mon, 20 Mar 2023 00:00:00 GMT", "Tue, 21 Mar 2023 00:00:00 GMT", "Fri, 24 Mar 2023 00:00:00 GMT"]
+    arrayTestHere.forEach((dateHere)=>{
+      const y = lunchHallOne.find(el => el.date === dateHere);
+      console.log(y, "here")
+    })
+    // var index1 = lunchHallOne.indexOf(y);
+    // console.log(index1, "index one")
+
+    // const forDinner = dinnerHallTwo.filter(el => el.date === "Tue, 21 Mar 2023 00:00:00 GMT");
+    // console.log(forDinner, "here")
+    // var index2 = dinnerHallTwo.indexOf(y);
+    // console.log(index2, "index two")
+
+    // let convertedDate= getDate.toISOString().substring(0, 10);
+    // console.log("converted date", convertedDate)
   }
 
-  var date = moment();
+  // var date = moment();
+  // let arrayDate = [];
+  // for (let i = 0; i <= 7; i++) {
+  //   let tomorrow = date.add(i, 'days');
+  //   var result = tomorrow._d.toISOString().substring(0, 10)
+  //   arrayDate.push(result)
+  //   console.log("array here", arrayDate)
+  //   return arrayDate
+  // }
 
-  let calculateNextDays = (num) => {
-    let tomorrow = date.add(num, 'days');
-    console.log(tomorrow.format('dddd'));
-    let resultDays = tomorrow.format('dddd')
-    let result = tomorrow._d.toISOString().substring(0, 10)
-    return [ resultDays, result]
-  }
-  // const [result, resultDays] = calculateNextDays();
+  // console.log(days)
 
   // var myDateVariable = moment(date).format("dddd")
+
+  const getSevenDays = () => {
+    let days = [];
+    var daysRequired = 7;
+    for (let i = 0; i < daysRequired; i++) {
+      days.push(moment().add(i, 'days').format('dddd, Do MMMM YYYY'));
+    }
+    return days;
+  }
+
+  console.log(getSevenDays())
+
+  getSevenDays().map((item) => (
+    console.log(item, "items")
+  ))
+
+  var arrayDate = []
+  const ReservationDays = () => {
+    lunchHallOne.forEach((item) => {
+      let dates = item.date
+      arrayDate.push(dates)
+      console.log("dates", dates)
+      console.log("array of dates", arrayDate)
+    })
+    return arrayDate
+  }
+  console.log(ReservationDays(), "<=")
 
   return (
     <div className="">
@@ -85,34 +185,32 @@ const Schedule = () => {
           <thead>
             <tr>
               <th></th>
-              <th>{calculateNextDays()}</th>
-              <th>{calculateNextDays(1)}</th>
-              <th>{calculateNextDays(1)}</th>
-              <th>{calculateNextDays(1)}</th>
-              <th>{calculateNextDays(1)}</th>
-              <th>{calculateNextDays(1)}</th>
-              <th>{calculateNextDays(1)}</th>
+              {getSevenDays().map((item) => (
+                <th>{item}</th>
+              ))}
             </tr>
           </thead>
           <tr>
             <th>Hall 1</th>
-            <td>1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
+            {lunchHallOne.map((info, index) => (
+              <td className={unAvailable ? 'unavailable' : 'available'}>{info.date} {info.customerName} {info.paxCount}</td>
+            ))}
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
           </tr>
           <tr>
             <th>Hall 2</th>
-            <td>1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
+            {lunchHallTwo.map((info) => (
+              <td className={unAvailable ? 'unavailable' : 'available'}>{info.date} {info.customerName} {info.paxCount}</td>
+            ))}
+            <td></td>
+            <td> </td>
+            <td> </td>
+            <td></td>
+            <td> </td>
+            <td></td>
           </tr>
           <tbody>
 
@@ -122,37 +220,30 @@ const Schedule = () => {
       <div className='table-dinner'>
         <p className='dinner'>dinner</p>
         <table className='table-availability'>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Monday</th>
-              <th>Tuesday</th>
-              <th>Wednesday</th>
-              <th>Thursday</th>
-              <th>Friday</th>
-              <th>Saturday</th>
-              <th>Sunday</th>
-            </tr>
-          </thead>
+          <TableHeader />
           <tr>
             <th>Hall 1</th>
-            <td>1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
+            {dinnerHallOne.map((info) => (
+              <td className={unAvailable ? 'unavailable' : 'available'}>{info.customerName} {info.paxCount} {info.date}</td>
+            ))}
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
           </tr>
           <tr>
             <th>Hall 2</th>
-            <td>1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
-            <td> 1</td>
+            {dinnerHallTwo.map((info, index) => (
+              <td className={unAvailable ? 'unavailable' : 'available'}>{info.customerName} {info.paxCount} {info.date}</td>
+            ))}
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
           </tr>
           <tbody>
 
