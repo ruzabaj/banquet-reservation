@@ -71,27 +71,22 @@ const Schedule = () => {
         "token": "test"
       })
         .then((response) => {
-          console.log(response.data, "response ")
           setUnAvailable(true)
 
           let checkLunch = response.data.lunch[0]
           if ("Hall2" in checkLunch) {
-            console.log("0 ma hall 2 for lunch")
             setLunchHallTwo(response.data?.lunch[0].Hall2)
           }
           if ("Hall1" in checkLunch) {
-            console.log("0 ma hall 1 for lunch")
             setLunchHallOne(response.data?.lunch[0].Hall1)
             setLunchHallTwo(response.data.lunch[1].Hall2)
           }
 
           let checkDInner = response.data.dinner[0]
           if ("Hall2" in checkDInner) {
-            console.log("0 ma hall 2 for dinner")
             setDinnerHallTwo(response.data?.dinner[0].Hall2)
           }
           if ("Hall1" in checkDInner) {
-            console.log("0 ma hall 1 for dinner")
             setDinnerHallOne(response.data?.dinner[0].Hall1)
             setDinnerHallTwo(response.data.dinner[1].Hall2)
           }
@@ -106,11 +101,8 @@ const Schedule = () => {
       console.log(date)
     })
 
-    const arrayTestHere= ["Mon, 20 Mar 2023 00:00:00 GMT", "Tue, 21 Mar 2023 00:00:00 GMT", "Fri, 24 Mar 2023 00:00:00 GMT"]
-    arrayTestHere.forEach((dateHere)=>{
-      const y = lunchHallOne.find(el => el.date === dateHere);
-      console.log(y, "here")
-    })
+    
+
     // var index1 = lunchHallOne.indexOf(y);
     // console.log(index1, "index one")
 
@@ -141,28 +133,39 @@ const Schedule = () => {
     let days = [];
     var daysRequired = 7;
     for (let i = 0; i < daysRequired; i++) {
-      days.push(moment().add(i, 'days').format('dddd, Do MMMM YYYY'));
+      days.push(moment().add(i, 'days').format('MMMM YYYY D'));
     }
     return days;
   }
 
-  console.log(getSevenDays())
+ 
+    
+  var compareDate = []
+  const getWeekDays = () => {
+    getSevenDays().forEach((datehere) => {
+      var date1 = new Date(datehere)
+      compareDate.push(date1)
+      console.log("ruja", compareDate)
+    })
+  }
 
-  getSevenDays().map((item) => (
-    console.log(item, "items")
-  ))
+  // const arrayTestHere = getSevenDays()
+  compareDate.forEach((dateHere) => {
+    const y = lunchHallOne.find(el => el.date === dateHere);
+    console.log(y, "here")
+    return y
+  })
+  console.log(getWeekDays())
 
   var arrayDate = []
   const ReservationDays = () => {
     lunchHallOne.forEach((item) => {
       let dates = item.date
-      arrayDate.push(dates)
-      console.log("dates", dates)
-      console.log("array of dates", arrayDate)
+      let conversionOfDate = new Date(dates).toISOString().substring(0, 10);
+      arrayDate.push(conversionOfDate)
     })
     return arrayDate
   }
-  console.log(ReservationDays(), "<=")
 
   return (
     <div className="">
@@ -193,9 +196,23 @@ const Schedule = () => {
           <tr>
             <th>Hall 1</th>
             {lunchHallOne.map((info, index) => (
-              <td className={unAvailable ? 'unavailable' : 'available'}>{info.date} {info.customerName} {info.paxCount}</td>
+              <td className={unAvailable ? 'unavailable' : 'available'} key={index}>{info.date} {info.customerName} {info.paxCount}</td>
             ))}
-            <td> </td>
+            {
+              
+            }
+            {/* {lunchHallOne.forEach((item) => {
+              let dates = item.date
+              let conversionOfDate = new Date(dates).toISOString().substring(0, 10);
+              arrayDate.push(conversionOfDate)
+              console.log("array of dates second", arrayDate)
+              const arrayTestHere = getWeekDays()
+              arrayTestHere.forEach((dateHere) => {
+                const y = lunchHallOne.find(el => el.date === dateHere);
+                console.log(y, "here")
+                return y
+              })
+            })} */}
             <td> </td>
             <td> </td>
             <td> </td>

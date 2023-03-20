@@ -1,4 +1,5 @@
 @import "../config";
+
 .side-container {
     flex: 2;
     height: 100vh;
@@ -28,17 +29,19 @@
     }
 }
 
-.pick-start-date input[type="text"], .pick-end-date input[type="text"]{
+.pick-start-date input[type="text"],
+.pick-end-date input[type="text"] {
     border-radius: 05px;
     border: 1px solid #ccc;
     height: 35px;
     width: 200px;
 }
 
-.width-flex{
+.width-flex {
     display: flex;
     // flex-direction: column;
 }
+
 .dinner,
 .lunch {
     text-transform: uppercase;
@@ -69,31 +72,35 @@
     td {
         height: 100px;
         border: 3px solid green;
+        background-color: rgb(195, 218, 195) !important;
     }
 
-    .available{
+    .available {
         border: 5px solid green;
     }
-    .unavailable{
-        border: 5px solid red;
-        // background-color: 5px solid rgb(231, 157, 157) ;
+
+    // .table-availability .unavailable {
+    //     background-color: #ff000033 !important;
+    // }
+    .unavailable {
+            background-color: #ff000033 !important;
+            border: 5px solid red;
+        }
+
+        tr,
+        th {
+            // white-space: nowrap;
+            border: 1px solid black;
+        }
     }
 
-    tr,
-    th
-    {
-        // white-space: nowrap;
-        border: 1px solid black;
-    }
-}
+    .table-lunch,
+    .table-dinner {
+        display: flex;
+        // background-color: $bg-accordion;
 
-.table-lunch,
-.table-dinner {
-    display: flex;
-    // background-color: $bg-accordion;
-
-    table {
-        width: 100%;
-        text-align: center;
+        table {
+            width: 100%;
+            text-align: center;
+        }
     }
-}
