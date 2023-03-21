@@ -13,7 +13,6 @@ const Schedule = () => {
   const [lunchHallTwo, setLunchHallTwo] = useState([]);
   const [dinnerHallOne, setDinnerHallOne] = useState([]);
   const [dinnerHallTwo, setDinnerHallTwo] = useState([]);
-  const [unAvailable, setUnAvailable] = useState(false);
 
   let baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -28,30 +27,25 @@ const Schedule = () => {
         "token": "test"
       })
         .then((response) => {
-          setUnAvailable(true)
-          let checkLunch = response.data.lunch[0]
+          var checkLunch = response.data.lunch[0]
           if ("Hall2" in checkLunch) {
-            // console.log("0 ma hall 2 for lunch")
+            setLunchHallOne(response.data?.lunch[1].Hall1)
             setLunchHallTwo(response.data?.lunch[0].Hall2)
-            setLunchHallOne(response.data.lunch[1].Hall1)
           }
 
           if ("Hall1" in checkLunch) {
-            // console.log("0 ma hall 1 for lunch")
             setLunchHallOne(response.data?.lunch[0].Hall1)
-            setLunchHallTwo(response.data.lunch[1].Hall2)
+            setLunchHallTwo(response.data?.lunch[1].Hall2)
           }
 
-          let checkDInner = response.data.dinner[0]
+          var checkDInner = response.data.dinner[0]
           if ("Hall2" in checkDInner) {
-            // console.log("0 ma hall 2 for dinner")
-            setDinnerHallTwo(response.data?.dinner[0].Hall2)
             setDinnerHallOne(response.data?.dinner[1].Hall1)
+            setDinnerHallTwo(response.data?.dinner[0].Hall2)
           }
           if ("Hall1" in checkDInner) {
-            // console.log("0 ma hall 1 for dinner")
             setDinnerHallOne(response.data?.dinner[0].Hall1)
-            setDinnerHallTwo(response.data.dinner[1].Hall2)
+            setDinnerHallTwo(response.data?.dinner[1].Hall2)
           }
         })
         .catch((error) => {
@@ -70,16 +64,14 @@ const Schedule = () => {
         "token": "test"
       })
         .then((response) => {
-          setUnAvailable(true)
-
           let checkLunch = response.data.lunch[0]
           if ("Hall2" in checkLunch) {
             setLunchHallTwo(response.data?.lunch[0].Hall2)
-            setLunchHallOne(response.data.lunch[1].Hall1)
+            setLunchHallOne(response.data?.lunch[1].Hall1)
           }
           if ("Hall1" in checkLunch) {
             setLunchHallOne(response.data?.lunch[0].Hall1)
-            setLunchHallTwo(response.data.lunch[1].Hall2)
+            setLunchHallTwo(response.data?.lunch[1].Hall2)
           }
 
           let checkDInner = response.data.dinner[0]
@@ -89,7 +81,7 @@ const Schedule = () => {
           }
           if ("Hall1" in checkDInner) {
             setDinnerHallOne(response.data?.dinner[0].Hall1)
-            setDinnerHallTwo(response.data.dinner[1].Hall2)
+            setDinnerHallTwo(response.data?.dinner[1].Hall2)
           }
         })
         .catch((error) => {
@@ -129,7 +121,7 @@ const Schedule = () => {
     let days = [];
     var daysRequired = 7;
     for (let i = 0; i < daysRequired; i++) {
-      days.push(moment().add(i, 'days').format('dddd Do MMMM YYYY '));
+      days.push(moment().add(i, 'days').format('dddd Do MMMM YYYY'));
     }
     return days;
   }
@@ -153,6 +145,7 @@ const Schedule = () => {
     })
     return compareDate
   }
+  getWeekDays()
 
   // const arrayTestHere = getSevenDays()
   // getWeekDays().forEach((dateHere) => {
@@ -163,18 +156,18 @@ const Schedule = () => {
   //   return y
   // })
 
-  getWeekDays()
 
-  var arrayDate = []
-  const ReservationDays = () => {
-    lunchHallOne.forEach((item) => {
-      let dates = item.date
-      console.log(dates.substring(0, 12), "watch")
-      let conversionOfDate = new Date(dates).toISOString().substring(0, 10);
-      arrayDate.push(conversionOfDate)
-    })
-    return arrayDate
-  }
+
+  // var arrayDate = []
+  // const ReservationDays = () => {
+  //   lunchHallOne.forEach((item) => {
+  //     let dates = item.date
+  //     console.log(dates.substring(0, 12), "watch")
+  //     let conversionOfDate = new Date(dates).toISOString().substring(0, 10);
+  //     arrayDate.push(conversionOfDate)
+  //   })
+  //   return arrayDate
+  // }
 
   // lunchHallOne.map((item) => {
   //   compareDate.forEach((dateHere) => {
@@ -188,44 +181,95 @@ const Schedule = () => {
   //   })
   // })
 
-  var newArray = [{}]
-  useEffect(() => {
-    console.log(newArray, "array top")
-    console.log(compareDate, "compareDate inside use effect")
+  // var newArray = [{}]
+  // useEffect(() => {
+  //   console.log(newArray, "array top")
+  //   console.log(compareDate, "compareDate inside use effect")
+  //   compareDate.forEach((dateHere) => {
+  //     console.log(dateHere, "dateHere")
+  //     const replaceObject = lunchHallOne.find(el => el.date.substring(0, 16) === dateHere)
+  //     var index = compareDate.indexOf(replaceObject)
+  //     console.log(replaceObject, index, "check")
+  //     const deletedArray = newArray.splice(index, 0, replaceObject);
+  //     console.log("deleted array", deletedArray)
+  //   })
+  //   console.log(newArray, "array bottom")
+  // }, [lunchHallOne, compareDate, newArray])
+
+
+
+  var newArrayLunch = [{}]
+  const handleLunchHallOne = () => {
     compareDate.forEach((dateHere) => {
-      console.log(dateHere, "dateHere")
+      // console.log(dateHere, "dateHere")
       const replaceObject = lunchHallOne.find(el => el.date.substring(0, 16) === dateHere)
       var index = compareDate.indexOf(replaceObject)
       console.log(replaceObject, index, "check")
-      const deletedArray = newArray.splice(index, 0, replaceObject);
+      const deletedArray = newArrayLunch.splice(index, 0, replaceObject);
       console.log("deleted array", deletedArray)
-      // return newArray;
+      for (var i in newArrayLunch) {
+        if (newArrayLunch[i] === undefined) {
+          newArrayLunch[i] = {};
+        }
+      }
     })
-    console.log(newArray, "array bottom")
-    // const deletedArray = newArray.splice(index, 1, lunchHallOne[0]);
-  }, [lunchHallOne, compareDate, newArray])
+    return newArrayLunch;
+  }
 
+  var newLunchTwo = [{}]
+  const handleLunchHallTwo = () => {
+    compareDate.forEach((dateHere) => {
+      const replaceObject = lunchHallTwo.find(el => el.date.substring(0, 16) === dateHere)
+      var indexs = compareDate.indexOf(replaceObject)
+      // console.log(replaceObject, index, "check")
+      const deletedArray = newLunchTwo.splice(indexs, 0, replaceObject);
+      // console.log("deleted array", deletedArray)
+      for (var custom in newLunchTwo) {
+        if (newLunchTwo[custom] === undefined) {
+          newLunchTwo[custom] = {};
+        }
+      }
+    })
+    return newLunchTwo;
+  }
 
+  // console.log(handleLunchHallTwo(), "hall two for lunch")
+
+  var newArrayDinnerOne = [{}]
+  const handleDinnerHallOne = () => {
+    compareDate.forEach((dateHere) => {
+      const replaceObject = dinnerHallOne.find(el => el.date.substring(0, 16) === dateHere)
+      var index = compareDate.indexOf(replaceObject)
+      // console.log(replaceObject, index, "check")
+      const deletedArray = newArrayDinnerOne.splice(index, 0, replaceObject);
+      // console.log("deleted array", deletedArray)
+      for (var customer in newArrayDinnerOne) {
+        if (newArrayDinnerOne[customer] === undefined) {
+          newArrayDinnerOne[customer] = {};
+        }
+      }
+    })
+    return newArrayDinnerOne;
+  }
 
   var newArrayDinner = [{}]
-  const handleDinnerHallTwo=()=>{
+  const handleDinnerHallTwo = () => {
     compareDate.forEach((dateHere) => {
-      console.log(dateHere, "dateHere")
       const replaceObject = dinnerHallTwo.find(el => el.date.substring(0, 16) === dateHere)
       var index = compareDate.indexOf(replaceObject)
       console.log(replaceObject, index, "check")
       const deletedArray = newArrayDinner.splice(index, 0, replaceObject);
       console.log("deleted array", deletedArray)
-      for(var i in newArrayDinner) { 
-        if(newArrayDinner[i] === undefined) {
-          newArrayDinner[i] = {};
+      for (var customer in newArrayDinner) {
+        if (newArrayDinner[customer] === undefined) {
+          newArrayDinner[customer] = {};
         }
       }
     })
-    return newArrayDinner; 
+    return newArrayDinner;
   }
 
-  console.log(handleDinnerHallTwo(), "dinner-hall-two");
+  // console.log(handleDinnerHallTwo(), "dinner-hall-two");
 
   // useEffect(() => {
   //   console.log(newArrayDinner, "array top dinner")
@@ -241,8 +285,33 @@ const Schedule = () => {
   //   console.log(newArrayDinner, "array bottom dinner")
   // }, [lunchHallOne, compareDate, newArrayDinner])
 
+  /* {lunchHallOne.map((item) => {
+               compareDate.forEach((dateHere) => {
+                 const y = lunchHallOne.find(el => el.date.substring(0, 16) === dateHere)
+                 var index = lunchHallOne.indexOf(y);
+                 console.log(y, "here", index) */
+  /* // const weekdays = lunchHallOne
+      // const deletedArray = weekdays.splice(1, index, y);
+      // console.log(weekdays, "weekdays");
+      // console.log(deletedArray, "deletedArray"); */
+  /* return <div>Hi</div>
+    })
+  })
+  } */
+  /* {lunchHallOne.forEach((item) => {
+    let dates = item.date
+    let conversionOfDate = new Date(dates).toISOString().substring(0, 10);
+    arrayDate.push(conversionOfDate)
+    console.log("array of dates second", arrayDate)
+    const arrayTestHere = getWeekDays()
+    arrayTestHere.forEach((dateHere) => {
+      const y = lunchHallOne.find(el => el.date === dateHere);
+      console.log(y, "here")
+      return y
+    })
+  })} */
 
-  console.log(newArrayDinner, "new array dinner")
+  // console.log(newArrayDinner, "new array dinner")
 
   return (
     <div className="">
@@ -265,96 +334,49 @@ const Schedule = () => {
           <thead>
             <tr>
               <th></th>
-              {showSevenDays().map((item) => (
-                <th>{item}</th>
+              {showSevenDays().map((item, index) => (
+                <th key={index}>{item}</th>
               ))}
             </tr>
           </thead>
-          <tr>
-            <th>Hall 1</th>
-            {lunchHallOne.map((info, index) => (
-              <td className={unAvailable ? 'unavailable' : 'available'} key={index}>{info?.date}</td>
-            ))}
-            {/* {lunchHallOne.map((item) => {
-              compareDate.forEach((dateHere) => {
-                const y = lunchHallOne.find(el => el.date.substring(0, 16) === dateHere)
-                var index = lunchHallOne.indexOf(y);
-                console.log(y, "here", index) */}
-            {/* // const weekdays = lunchHallOne
-                // const deletedArray = weekdays.splice(1, index, y);
-                // console.log(weekdays, "weekdays");
-                // console.log(deletedArray, "deletedArray"); */}
-            {/* return <div>Hi</div>
-              })
-            })
-            } */}
-            {/* {lunchHallOne.forEach((item) => {
-              let dates = item.date
-              let conversionOfDate = new Date(dates).toISOString().substring(0, 10);
-              arrayDate.push(conversionOfDate)
-              console.log("array of dates second", arrayDate)
-              const arrayTestHere = getWeekDays()
-              arrayTestHere.forEach((dateHere) => {
-                const y = lunchHallOne.find(el => el.date === dateHere);
-                console.log(y, "here")
-                return y
-              })
-            })} */}
-            <td> </td>
-            <td> </td>
-            <td> </td>
-          </tr>
-          <tr>
-            <th>Hall 2</th>
-            {lunchHallTwo.map((info) => (
-              <td className={unAvailable ? 'unavailable' : 'available'}>{info.date} {info.customerName} {info.paxCount}</td>
-            ))}
-            <td></td>
-            <td> </td>
-            <td> </td>
-            <td></td>
-            <td> </td>
-            <td></td>
-          </tr>
           <tbody>
-
+            <tr>
+              <th>Hall 1</th>
+              {handleLunchHallOne().map((info, index) => (
+                <td className={info.date ? 'unavailable' : 'available'} key={index}> {info.customerName} <p className='pax-count'>{info.paxCount}</p></td>
+              ))}
+            </tr>
+            <tr>
+              <th>Hall 2</th>
+              {handleLunchHallTwo().map((info, index) => (
+                <td className={info.date ? 'unavailable' : 'available'} key={index}>{info.customerName} {info.paxCount}</td>
+              ))}
+            </tr>
           </tbody>
         </table>
       </div>
       <div className='table-dinner'>
         <p className='dinner'>dinner</p>
         <table className='table-availability'>
-          <TableHeader />
+          <th></th>
+          {showSevenDays().map((item) => (
+            <th>{item}</th>
+          ))}
           <tr>
             <th>Hall 1</th>
-            {dinnerHallOne.map((info) => (
-              <td className={unAvailable ? 'unavailable' : 'available'}>{info.customerName} {info.paxCount} {info.date}</td>
+            {handleDinnerHallOne().map((info, index) => (
+              <td className={info.date ? 'unavailable' : 'available'} key={index}>{info.customerName} {info.paxCount}</td>
             ))}
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
           </tr>
-          <tr>
-            <th>Hall 2</th>
-            {/* {dinnerHallTwo.map((info, index) => (
+          {/* {dinnerHallTwo.map((info, index) => (
               <td className={unAvailable ? 'unavailable' : 'available'}>{info.customerName} {info.paxCount} {info.date}</td>
             ))} */}
+          <tr>
+            <th>Hall 2</th>
             {handleDinnerHallTwo().map((info, index) => (
-              <td className={unAvailable ? 'unavailable' : 'available'}>{info.customerName} {info.paxCount} {info.date}</td>
+              <td className={info.date ? 'unavailable' : 'available'} key={index}>{info.customerName} {info.paxCount}</td>
             ))}
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
           </tr>
-          <tbody>
-
-          </tbody>
         </table>
       </div>
     </div>

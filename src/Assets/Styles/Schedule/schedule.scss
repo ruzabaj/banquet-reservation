@@ -65,42 +65,44 @@
 }
 
 .table-availability {
-    margin: 10px 10px 20px 0px;
-    // background-color: $bg-accordion;
+    // margin: 10px 10px 20px 0px;
     margin: 30px;
 
     td {
         height: 100px;
-        border: 3px solid green;
+        // border: 3px solid gray;
         background-color: rgb(195, 218, 195) !important;
     }
 
+    .pax-count {
+        font-weight: 600;
+    }
+
     .available {
-        border: 5px solid green;
+        border: 3px solid green;
     }
 
-    // .table-availability .unavailable {
-    //     background-color: #ff000033 !important;
-    // }
     .unavailable {
-            background-color: #ff000033 !important;
-            border: 5px solid red;
-        }
-
-        tr,
-        th {
-            // white-space: nowrap;
-            border: 1px solid black;
-        }
+        background-color: #ff000044 !important;
+        border: 5px solid red;
     }
-
-    .table-lunch,
-    .table-dinner {
-        display: flex;
-        // background-color: $bg-accordion;
-
-        table {
-            width: 100%;
-            text-align: center;
-        }
+    tr{
+        background-color: $secondary-color;;
     }
+    tr,
+    th {
+        // white-space: nowrap;
+        border: 1px solid black;
+    }
+}
+
+.table-lunch,
+.table-dinner {
+    display: flex;
+    // background-color: $bg-accordion;
+
+    table {
+        width: 100%;
+        text-align: center;
+    }
+}
