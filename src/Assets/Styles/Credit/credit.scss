@@ -81,12 +81,19 @@
         }
     }
 
-
+    .flex-datepicker {
+        display: flex;
+        gap: 10px;
+        margin: 0px 10px;
+        // flex-direction: column;
+    }
 .make-credit {
     flex: 4;
     background-color: $bg-color;
     .background-credit{
         border-bottom: 2px solid yellow;
+        padding-bottom: 20px;
+
         label{
             margin: 05px 10px ;
         }
@@ -139,14 +146,11 @@
                 }
             }
 
-            .flex-datepicker {
-                display: flex;
-                gap: 10px;
-                // flex-direction: column;
-            }
-            .btn-search{
-                @include btn-theme($success-color, $secondary-color);
+            
+            .btn-filter{
+                @include btn-theme($theme-color, $secondary-color);
                 border-radius: 5px;
+                height: 30px;
             }
         }
 

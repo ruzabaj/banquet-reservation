@@ -81,16 +81,7 @@ const Credit = () => {
                         <span className='text-search'>Search</span>
                     </div>
                     
-                    {/* <div className='flex-datepicker'>
-                        <div>
-                            <label>Date Range : </label>
-                            <DatePickerInput />
-                        </div>
-                        <div>
-                            <label>End Date : </label>
-                            <DatePickerInput />
-                        </div>
-                    </div> */}
+                    
 
                     <Dropdown className='toggle-category'>
                         <Dropdown.Toggle id="dropdown-basic">
@@ -114,8 +105,18 @@ const Credit = () => {
                             <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown> */}
-                    <button className='btn-search'>Filter</button>
+                    <button className='btn-filter'>Filter</button>
                 </div>
+                <div className='flex-datepicker'>
+                        <div>
+                            <label>Start Date: </label>
+                            <DatePickerInput />
+                        </div>
+                        <div>
+                            <label>End Date : </label>
+                            <DatePickerInput />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
