@@ -8,6 +8,7 @@ import SubmitBtn from '../../Components/Buttons/submitBtn';
 import Error from '../../Components/Error';
 import SideContainer from './../../Components/SideContainer/index';
 import { Link } from 'react-router-dom';
+import Paginate from '../../Components/Pagination';
 
 const Started = () => {
   let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -123,16 +124,25 @@ const Started = () => {
       <SideContainer />
       <div className='started'>
         <div className='info-reservation'>
-          <Link to="/schedule">
-            <div className='style-btn-availability'>
-              <button className='btn-availability'>Check Availability</button>
-            </div>
-          </Link>
-          <Link to="/">
-            <div className='style-btn-reservation'>
-              <button className='btn-reservation'>Make a reservation</button>
-            </div>
-          </Link>
+          <div className='btn-left'>
+            <Link to="/credit">
+              <div className='style-btn-credit'>
+                <button className='btn-credit'>Show Credit</button>
+              </div>
+            </Link>
+          </div>
+          <div className='btn-right'>
+            <Link to="/schedule">
+              <div className='style-btn-availability'>
+                <button className='btn-availability'>Check Availability</button>
+              </div>
+            </Link>
+            <Link to="/">
+              <div className='style-btn-reservation'>
+                <button className='btn-reservation'>Make a reservation</button>
+              </div>
+            </Link>
+          </div>
         </div>
         <Filter
           handleBtnChange={handleBtnChange}
@@ -151,6 +161,7 @@ const Started = () => {
           <SubmitBtn event={"Filter"} handle={handleFilter} />
         </div>
         <AccordionDetail detailList={detailList} />
+        <Paginate data={detailList}/>
       </div>
     </div>
   )

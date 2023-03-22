@@ -65,8 +65,7 @@
 }
 
 .table-availability {
-    // margin: 10px 10px 20px 0px;
-    margin: 30px;
+    margin: 10px 20px 20px 10px;
 
     td {
         height: 100px;
@@ -86,20 +85,22 @@
         background-color: #ff000044 !important;
         border: 5px solid red;
     }
-    tr{
-        background-color: $secondary-color;;
-    }
     tr,
     th {
         // white-space: nowrap;
         border: 1px solid black;
     }
 }
+.table-responsive-lunch, .table-responsive-dinner{
+    overflow-x: scroll;
+    .headings{
+        background-color: $secondary-color;
+    }
+}
 
 .table-lunch,
 .table-dinner {
     display: flex;
-    // background-color: $bg-accordion;
 
     table {
         width: 100%;
