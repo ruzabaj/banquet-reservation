@@ -1,38 +1,154 @@
 @import "../config";
 
-.credit-page{
+@mixin sticky-sibebar {
+    position: sticky;
+    top: 0;
+    left: 0;
+}
+
+@mixin margin-sidebar {
+    margin: 05px 10px;
+}
+
+@mixin buttons {
+    margin: 05px 10px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+@mixin btn-theme ($bg, $color) {
+    border: 0;
+    background-color: $bg;
+    color: $color
+}
+
+.credit-page {
     display: flex;
     height: 100%;
-    .credit-info{
+
+    .credit-info {
+        @include sticky-sibebar;
         flex: 1;
-        position: sticky;
-        top: 0;
-        left: 0;
+        background-color: $bg-sidebar;
         gap: 20px;
         height: 100vh;
-        background-color: $bg-sidebar;
-        h5{
-            margin: 05px 10px;
+
+        h5 {
+            @include margin-sidebar;
         }
-        .credit-remaining{
+
+        .dropdown-toggle {
             margin: 05px 10px;
+            width: 90%;
+            background-color: $theme-color;
+            border: $theme-color;
+
+            &:hover {
+                background-color: $theme-color-light;
+            }
+        }
+
+        .credit-remaining {
+            @include margin-sidebar;
+        }
+
+        .show-calculation {
+            @include margin-sidebar;
+        }
+
+        .btn-pay {
+            @include buttons;
+            @include btn-theme ($green, $secondary-color);
+        }
+
+        .btn-cancel {
+
+            @include buttons;
+            @include btn-theme ($danger-color, $secondary-color);
         }
     }
-    .credit-border-bottom{
+
+    .credit-border-bottom {
         padding: 10px 0px;
         border-bottom: 2px solid yellow;
     }
-    .dropdown-toggle{
-        margin: 05px 10px;
-        width: 90%;
-        background-color: $theme-color;
-        border: $theme-color;
-        &:hover{
-            background-color: $theme-color-light;
+
+    .same-width {
+        display: flex;
+
+        p {
+            width: 70%;
         }
     }
-    .make-credit{
-        flex: 4;
-        // border: 1px solid black;
+
+
+.make-credit {
+    flex: 4;
+    background-color: $bg-color;
+    .background-credit{
+        border-bottom: 2px solid yellow;
+        label{
+            margin: 05px 10px ;
+        }
+    }
+        .custom-filter {
+            height: auto;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            // justify-content: space-between;
+            // flex-direction: column;
+
+            .toggle-category {
+                .dropdown-toggle {
+                    width: 200px;
+                    @include btn-theme ($secondary-theme, $secondary-color);
+                }
+            }
+
+            .input-search {
+                display: flex;
+                align-items: center;
+                border-radius: 2px;
+                .filter-search {
+                    // width: calc(100% - 150px);
+                    // border: 1px solid $green;
+                    // border-radius: 3px;
+                    height: 35px;
+                    border: 0;
+                    outline: 0;
+                    
+                    &::placeholder {
+                        padding-left: 10px;
+                    }
+                }
+                
+                .eyeglass-icon {
+                    height: 35px;
+                    background-color: $secondary-color;
+                    // color: $secondary-color;
+                    // border-radius: 8%;
+                    font-size: 22px;
+                }
+                .text-search{
+                    background-color: $green;
+                    color: $secondary-color;
+                    border-radius: 10%;
+                    padding: 05px;
+                }
+            }
+
+            .flex-datepicker {
+                display: flex;
+                gap: 10px;
+                // flex-direction: column;
+            }
+            .btn-search{
+                @include btn-theme($success-color, $secondary-color);
+                border-radius: 5px;
+            }
+        }
+
     }
 }
