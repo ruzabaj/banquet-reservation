@@ -2,7 +2,8 @@
 
 .info-reservation{
     margin: 10px;
-    height: 50px;
+    height: auto;
+    padding: 10px;
     background-color: #dfd4d4bd;
     display: flex;
     align-items: center;
@@ -38,6 +39,20 @@
             border-radius: 10px;
             background-color: $btn-credit;
             color: $secondary-color;
+        }
+    }
+}
+@media screen and (max-width: 660px){
+    .info-reservation{
+        flex-direction: column !important;
+        align-items: start !important;
+    }
+    .btn-right{
+        flex-direction: column !important;
+    }
+    .accordion-table-header{
+        thead{
+            font-size: 12px;
         }
     }
 }

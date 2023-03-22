@@ -119,6 +119,17 @@ const Started = () => {
         })
     }
   }
+  // User is currently on this page
+  const [currentPage, setCurrentPage] = useState(1);
+  // No of Records to be displayed on each page   
+  const [recordsPerPage] = useState(5);
+
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = detailList.slice(indexOfFirstRecord, indexOfLastRecord);
+  console.log("from- pagination", currentRecords)
+  const nPages = Math.ceil(detailList.length / recordsPerPage)
+
   return (
     <div className='width-flex'>
       <SideContainer />
@@ -160,8 +171,14 @@ const Started = () => {
         <div className='btn-filter' >
           <SubmitBtn event={"Filter"} handle={handleFilter} />
         </div>
-        <AccordionDetail detailList={detailList} />
-        <Paginate data={detailList}/>
+        <AccordionDetail 
+        detailList={currentRecords} 
+        // detailList={detailList} 
+        />
+        <Paginate
+          nPages={nPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage} />
       </div>
     </div>
   )

@@ -1,0 +1,38 @@
+@import "../config";
+
+.credit-page{
+    display: flex;
+    height: 100%;
+    .credit-info{
+        flex: 1;
+        position: sticky;
+        top: 0;
+        left: 0;
+        gap: 20px;
+        height: 100vh;
+        background-color: $bg-sidebar;
+        h5{
+            margin: 05px 10px;
+        }
+        .credit-remaining{
+            margin: 05px 10px;
+        }
+    }
+    .credit-border-bottom{
+        padding: 10px 0px;
+        border-bottom: 2px solid yellow;
+    }
+    .dropdown-toggle{
+        margin: 05px 10px;
+        width: 90%;
+        background-color: $theme-color;
+        border: $theme-color;
+        &:hover{
+            background-color: $theme-color-light;
+        }
+    }
+    .make-credit{
+        flex: 4;
+        // border: 1px solid black;
+    }
+}
