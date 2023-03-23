@@ -91,14 +91,20 @@
     flex: 4;
     background-color: $bg-color;
     .background-credit{
-        border-bottom: 2px solid yellow;
-        padding-bottom: 20px;
-
-        label{
+        .filter{
+            display: flex;
+            align-items: center;
+            gap: 2px;
             margin: 05px 10px ;
+            label{
+                text-transform: uppercase;
+
+            }
         }
+        
     }
-        .custom-filter {
+    .custom-filter {
+            border-top: 2px solid yellow;
             height: auto;
             padding: 10px;
             display: flex;
@@ -154,5 +160,19 @@
             }
         }
 
+    }
+}
+.react-datepicker__header{
+    background-color: $theme-color;
+}
+@media screen and (max-width: 748px ) {
+    .custom-filter{
+        flex-direction: column;
+        align-items: start !important;
+    }
+}
+@media screen and (max-width: 528px ) {
+    .flex-datepicker{
+        flex-direction: column !important;
     }
 }

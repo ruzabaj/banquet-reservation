@@ -14,6 +14,15 @@
     }
 }
 
+.arrows{
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+    .left-arrow, .right-arrow{
+        font-size: 30px;
+        font-weight: 800;
+    }
+}
 
 .filter-availability {
     // background-color: $bg-filter; 
@@ -21,9 +30,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    // align-items: center;
     gap: 10px;
-    // margin: 20px;
+    // align-items: center;
+    
 
     .btn-search-availability {
         .Search {

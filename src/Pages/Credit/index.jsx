@@ -3,6 +3,7 @@ import "../../Assets/Styles/Credit/credit.scss";
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Steps } from 'antd';
 import { AiOutlineSearch } from "react-icons/ai";
+import { BiFilterAlt } from "react-icons/bi";
 import DatePickerInput from '../../Components/Datepicker';
 
 const Credit = () => {
@@ -52,7 +53,6 @@ const Credit = () => {
                 <button className='btn-cancel'>Cancel Payment</button>
             </div>
             <div className='make-credit'>
-                {/* credit layout two */}
                 {/* <Steps
                     direction="vertical"
                     current={0}
@@ -72,29 +72,31 @@ const Credit = () => {
                     ]}
                 /> */}
                 <div className='background-credit'>
-                <label>Filter : </label>
-                <div className='custom-filter'>
-
-                    <div className='input-search'>
-                        <span className='eyeglass-icon'><AiOutlineSearch /></span>
-                        <input type="text" placeholder="Search" className='filter-search' />
-                        <span className='text-search'>Search</span>
+                    <div className='filter'>
+                        <BiFilterAlt />
+                        <label> Filter Invoices </label>
                     </div>
-                    
-                    
+                    <div className='custom-filter'>
+                        <div className='input-search'>
+                            <span className='eyeglass-icon'><AiOutlineSearch /></span>
+                            <input type="text" placeholder="Search" className='filter-search' />
+                            <span className='text-search'>Search</span>
+                        </div>
 
-                    <Dropdown className='toggle-category'>
-                        <Dropdown.Toggle id="dropdown-basic">
-                            Filter by Categories
-                        </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">Cash</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Credit Card</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                    {/* <Dropdown className='toggle-category'>
+
+                        <Dropdown className='toggle-category'>
+                            <Dropdown.Toggle id="dropdown-basic">
+                                Filter by Categories
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">Cash</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Credit Card</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        {/* <Dropdown className='toggle-category'>
                         <Dropdown.Toggle id="dropdown-basic">
                             Type
                         </Dropdown.Toggle>
@@ -105,9 +107,9 @@ const Credit = () => {
                             <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown> */}
-                    <button className='btn-filter'>Filter</button>
-                </div>
-                <div className='flex-datepicker'>
+                        <button className='btn-filter'>Filter</button>
+                    </div>
+                    <div className='flex-datepicker'>
                         <div>
                             <label>Start Date: </label>
                             <DatePickerInput />
