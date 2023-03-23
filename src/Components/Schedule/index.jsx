@@ -226,6 +226,7 @@ const Schedule = () => {
   console.log("arrays", arrays )
 
   var onFirstLoad= getSevenDays()[0];
+  var onFirstLoadfuture= getSevenDays()[6];
 
 
 
@@ -255,14 +256,14 @@ const Schedule = () => {
           <BiLeftArrowAlt onClick={()=>handlePastDays(watchHere)}/>
         </div>
         <div className='right-arrow'>
-          <BiRightArrowAlt onClick={initialLoad? ()=>handleFutureDays() :()=>handleFutureDays(lastDate)}/>
+          <BiRightArrowAlt onClick={initialLoad? ()=>handleFutureDays(onFirstLoadfuture) :()=>handleFutureDays(lastDate)}/>
         </div>
       </div>
 
       <div className='table-lunch'>
         <p className='lunch'>lunch</p>
         <div className='table-responsive-lunch'>
-          <Availability headers={arrays}
+          <Availability headers={initialLoad? showSevenDays(): arrays}
            dinnerFirst={handleLunchHallOne()} dinnerSecond={handleLunchHallTwo()}
             />
         </div>
