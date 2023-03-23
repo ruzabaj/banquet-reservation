@@ -9,11 +9,14 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 
 const Schedule = () => {
   // const [dateOne, setDateOne] = useState(new Date());
-  // const [dateTwo, setDateTwo] = useState(new Date());
   const [lunchHallOne, setLunchHallOne] = useState([]);
   const [lunchHallTwo, setLunchHallTwo] = useState([]);
   const [dinnerHallOne, setDinnerHallOne] = useState([]);
   const [dinnerHallTwo, setDinnerHallTwo] = useState([]);
+  const [initialLoad, setInitialLoad] = useState(true);
+  const [firstDate, setFirstDate] = useState("");
+  const [lastDate, setLastDate] = useState("");
+  const [arrays, setArray] = useState([])
 
   let baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -114,7 +117,7 @@ const Schedule = () => {
   var compareDate = []
   const getWeekDays = () => {
     getSevenDays().forEach((datehere) => {
-      console.log(datehere, "date here 12345")
+      // console.log(datehere, "date here 12345")
       var date1 = new Date(datehere).toUTCString()
       var newDate = date1.substring(0, 16)
       compareDate.push(newDate)
@@ -185,35 +188,47 @@ const Schedule = () => {
   }
 
   const handlePastDays= (startingDate) => {
+    console.log(startingDate, "starting date")
     const pastSevenDays = () => {
+      console.log(startingDate, "starting date inside past seven days")
       let pastDays = [];
       var daysRequired = 7;
       for (let i =daysRequired; i>= 1; i--) {
         pastDays.push(moment(startingDate).subtract(i, 'days').format('MMMM YYYY D'));
       }
-      console.log(pastDays, "check")
+      console.log(pastDays, "handled past days")
+      // setFirstDate(pastDays[1])
+      // setArray(testDays)
       return pastDays;
     }
     return pastSevenDays();
   }
+  var watchHere= handlePastDays()[0];
 
-  const handleFutureDays= (startingDate) => {
-    // setPastBtn(false)
+  const handleFutureDays= (endate) => {
+    setInitialLoad(false)
     const testSevenDays = () => {
       let testDays = [];
       var daysRequired = 7;
       for (let i = 0; i < daysRequired; i++) {
-        testDays.push(moment(startingDate).add(i, 'days').format('dddd, Do MMMM YYYY'));
+        // testDays.push(moment(endate).add(i, 'days').format('dddd, Do MMMM YYYY'));
+        testDays.push(moment(endate).add(i, 'days').format('MMMM YYYY D'));
       }
-      // console.log(testDays)
+      console.log(testDays , "handled future days")
+      setLastDate(testDays[6])
+      setArray(testDays)
       return testDays;
     }
     return testSevenDays();
   }
 
+  console.log("Last Date", lastDate )
+  console.log("arrays", arrays )
+
   var onFirstLoad= getSevenDays()[0];
-  var watchHere= handlePastDays()[0];
-  console.log(watchHere, "watch here")
+
+
+
   // let datetest= moment(watchHere).format('dddd, Do MMMM YYYY')
   // .substring(0, 16);
 
@@ -240,29 +255,33 @@ const Schedule = () => {
           <BiLeftArrowAlt onClick={()=>handlePastDays(watchHere)}/>
         </div>
         <div className='right-arrow'>
-          <BiRightArrowAlt onClick={()=>handleFutureDays(onFirstLoad)}/>
+          <BiRightArrowAlt onClick={initialLoad? ()=>handleFutureDays() :()=>handleFutureDays(lastDate)}/>
         </div>
       </div>
-      {/* <div className='table-lunch'>
+
+      <div className='table-lunch'>
         <p className='lunch'>lunch</p>
         <div className='table-responsive-lunch'>
-          <Availability headers={handlePastDays()}
+          <Availability headers={arrays}
            dinnerFirst={handleLunchHallOne()} dinnerSecond={handleLunchHallTwo()}
             />
         </div>
-      </div> */}
-      <div className='table-lunch'>
+      </div>
+
+      {/* <div className='table-lunch'>
         <p className='lunch'>lunch</p>
         <div className='table-responsive-lunch'>
           <Availability headers={showSevenDays()} dinnerFirst={handleLunchHallOne()} dinnerSecond={handleLunchHallTwo()} />
         </div>
-      </div>
-      <div className='table-dinner'>
+      </div> */}
+
+      {/* <div className='table-dinner'>
         <p className="dinner">dinner</p>
         <div className='table-responsive-lunch'>
           <Availability headers={showSevenDays()} dinnerFirst={handleDinnerHallOne()} dinnerSecond={handleDinnerHallTwo()} />
         </div>
-      </div>
+      </div> */}
+
     </div>
   )
 }
