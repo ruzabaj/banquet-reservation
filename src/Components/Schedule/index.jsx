@@ -21,8 +21,8 @@ const Schedule = () => {
   let baseUrl = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
-    var startDate=   moment().format('YYYY-MM-DD')
-    var sevenDaysDate = moment(startDate).add(7,'days').format('YYYY-MM-DD')
+    var startDate = moment().format('YYYY-MM-DD')
+    var sevenDaysDate = moment(startDate).add(7, 'days').format('YYYY-MM-DD')
 
     if (startDate && sevenDaysDate) {
       axios.post(`${baseUrl}/schedule`, {
@@ -187,13 +187,13 @@ const Schedule = () => {
     return newArrayDinner;
   }
 
-  const handlePastDays= (startingDate) => {
+  const handlePastDays = (startingDate) => {
     console.log(startingDate, "starting date")
     const pastSevenDays = () => {
       console.log(startingDate, "starting date inside past seven days")
       let pastDays = [];
       var daysRequired = 7;
-      for (let i =daysRequired; i>= 1; i--) {
+      for (let i = daysRequired; i >= 1; i--) {
         pastDays.push(moment(startingDate).subtract(i, 'days').format('MMMM YYYY D'));
       }
       console.log(pastDays, "handled past days")
@@ -203,9 +203,9 @@ const Schedule = () => {
     }
     return pastSevenDays();
   }
-  var watchHere= handlePastDays()[0];
+  var watchHere = handlePastDays()[0];
 
-  const handleFutureDays= (endate) => {
+  const handleFutureDays = (endate) => {
     setInitialLoad(false)
     const testSevenDays = () => {
       let testDays = [];
@@ -214,7 +214,7 @@ const Schedule = () => {
         // testDays.push(moment(endate).add(i, 'days').format('dddd, Do MMMM YYYY'));
         testDays.push(moment(endate).add(i, 'days').format('MMMM YYYY D'));
       }
-      console.log(testDays , "handled future days")
+      console.log(testDays, "handled future days")
       setLastDate(testDays[6])
       setArray(testDays)
       return testDays;
@@ -222,13 +222,11 @@ const Schedule = () => {
     return testSevenDays();
   }
 
-  console.log("Last Date", lastDate )
-  console.log("arrays", arrays )
+  console.log("Last Date", lastDate)
+  console.log("arrays", arrays)
 
-  var onFirstLoad= getSevenDays()[0];
-  var onFirstLoadfuture= getSevenDays()[6];
-
-
+  var onFirstLoad = getSevenDays()[0];
+  var onFirstLoadfuture = getSevenDays()[6];
 
   // let datetest= moment(watchHere).format('dddd, Do MMMM YYYY')
   // .substring(0, 16);
@@ -253,19 +251,20 @@ const Schedule = () => {
       </div> */}
       <div className='arrows'>
         <div className='left-arrow'>
-          <BiLeftArrowAlt onClick={()=>handlePastDays(watchHere)}/>
+          <BiLeftArrowAlt onClick={() => handlePastDays(watchHere)} />
         </div>
         <div className='right-arrow'>
-          <BiRightArrowAlt onClick={initialLoad? ()=>handleFutureDays(onFirstLoadfuture) :()=>handleFutureDays(lastDate)}/>
+          <BiRightArrowAlt onClick={initialLoad ? () => handleFutureDays(onFirstLoadfuture) : () => handleFutureDays(lastDate)} />
         </div>
       </div>
 
       <div className='table-lunch'>
         <p className='lunch'>lunch</p>
         <div className='table-responsive-lunch'>
-          <Availability headers={initialLoad? showSevenDays(): arrays}
-           dinnerFirst={handleLunchHallOne()} dinnerSecond={handleLunchHallTwo()}
-            />
+          <Availability
+            headers={initialLoad ? showSevenDays() : arrays}
+            dinnerFirst={handleLunchHallOne()} dinnerSecond={handleLunchHallTwo()}
+          />
         </div>
       </div>
 
@@ -276,12 +275,15 @@ const Schedule = () => {
         </div>
       </div> */}
 
-      {/* <div className='table-dinner'>
+      <div className='table-dinner'>
         <p className="dinner">dinner</p>
         <div className='table-responsive-lunch'>
-          <Availability headers={showSevenDays()} dinnerFirst={handleDinnerHallOne()} dinnerSecond={handleDinnerHallTwo()} />
+          <Availability
+            headers={initialLoad ? showSevenDays() : arrays}
+            dinnerFirst={handleDinnerHallOne()}
+            dinnerSecond={handleDinnerHallTwo()} />
         </div>
-      </div> */}
+      </div>
 
     </div>
   )
