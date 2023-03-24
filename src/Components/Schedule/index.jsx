@@ -18,7 +18,6 @@ const Schedule = () => {
 
   let baseUrl = process.env.REACT_APP_BASE_URL;
  
-
   useEffect(() => {
     var startDate = moment().format('YYYY-MM-DD')
     var sevenDaysDate = moment().add(6, 'days').format('YYYY-MM-DD')
@@ -56,12 +55,12 @@ const Schedule = () => {
   }, [])
 
   useEffect(() => {
-    console.log("1st day", firstDate)
-    console.log("7th day", lastDate)
+    // console.log("1st day", firstDate)
+    // console.log("7th day", lastDate)
     if (firstDate && lastDate) {
       var start = moment(firstDate).format('YYYY-MM-DD')
       var end = moment(firstDate).add(6, 'days').format('YYYY-MM-DD')
-      console.log(start, end, "watch")
+      // console.log(start, end, "watch")
       axios.post(`${baseUrl}/schedule`, {
         startDate: `${start}`,
         endDate: `${end}`,
@@ -201,16 +200,16 @@ const Schedule = () => {
   const handlePastDays = (startingDate) => {
     setInitialLoad(false)
     const pastSevenDays = () => {
-      let pastDays = [];
+      let testDays = [];
       var daysRequired = 7;
       for (let i = daysRequired; i >= 1; i--) {
-        pastDays.push(moment(startingDate).subtract(i, 'days').format('dddd, YYYY MMMM D'));
+        testDays.push(moment(startingDate).subtract(i, 'days').format('dddd, YYYY MMMM D'));
       }
-      console.log(pastDays, "handled past days")
-      setFirstDate(pastDays[0])
-      setLastDate(pastDays[6])
-      setArray(pastDays)
-      return pastDays;
+      console.log(testDays, "handled past days")
+      setFirstDate(testDays[0])
+      setLastDate(testDays[6])
+      setArray(testDays)
+      return testDays;
     }
     return pastSevenDays();
   }
