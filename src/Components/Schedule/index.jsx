@@ -8,7 +8,6 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 // import SubmitBtn from "../../Components/Buttons/submitBtn";
 
 const Schedule = () => {
-  // const [dateOne, setDateOne] = useState(new Date());
   const [lunchHallOne, setLunchHallOne] = useState([]);
   const [lunchHallTwo, setLunchHallTwo] = useState([]);
   const [dinnerHallOne, setDinnerHallOne] = useState([]);
@@ -94,8 +93,6 @@ const Schedule = () => {
   //   }
   // }
 
-  // console.log(pastSevenDays(), "past");
-
   const showSevenDays = () => {
     let days = [];
     var daysRequired = 7;
@@ -117,14 +114,48 @@ const Schedule = () => {
   var compareDate = []
   const getWeekDays = () => {
     getSevenDays().forEach((datehere) => {
-      // console.log(datehere, "date here 12345")
       var date1 = new Date(datehere).toUTCString()
       var newDate = date1.substring(0, 16)
       compareDate.push(newDate)
     })
     return compareDate
   }
-  getWeekDays()
+  getWeekDays();
+
+  const handlePastDays = (startingDate) => {
+    const pastSevenDays = () => {
+      let pastDays = [];
+      var daysRequired = 7;
+      for (let i = daysRequired; i >= 1; i--) {
+        pastDays.push(moment(startingDate).subtract(i, 'days').format('MMMM YYYY D'));
+      }
+      console.log(pastDays, "handled past days")
+      setFirstDate(pastDays[1])
+      setLastDate(pastDays[6])
+      setArray(pastDays)
+      return pastDays;
+    }
+    return pastSevenDays();
+  }
+  //loop var watchHere = handlePastDays()[0];
+
+  const handleFutureDays = (endate) => {
+    setInitialLoad(false)
+    const testSevenDays = () => {
+      let testDays = [];
+      var daysRequired = 7;
+      for (let i = 0; i < daysRequired; i++) {
+        // testDays.push(moment(endate).add(i, 'days').format('dddd, Do MMMM YYYY'));
+        testDays.push(moment(endate).add(i, 'days').format('MMMM YYYY D'));
+      }
+      console.log(testDays, "handled future days")
+      setFirstDate(testDays[0])
+      setLastDate(testDays[6])
+      setArray(testDays)
+      return testDays;
+    }
+    return testSevenDays();
+  }
 
   var newArrayLunch = [{}]
   const handleLunchHallOne = () => {
@@ -187,52 +218,9 @@ const Schedule = () => {
     return newArrayDinner;
   }
 
-  const handlePastDays = (startingDate) => {
-    console.log(startingDate, "starting date")
-    const pastSevenDays = () => {
-      console.log(startingDate, "starting date inside past seven days")
-      let pastDays = [];
-      var daysRequired = 7;
-      for (let i = daysRequired; i >= 1; i--) {
-        pastDays.push(moment(startingDate).subtract(i, 'days').format('MMMM YYYY D'));
-      }
-      console.log(pastDays, "handled past days")
-      // setFirstDate(pastDays[1])
-      // setArray(testDays)
-      return pastDays;
-    }
-    return pastSevenDays();
-  }
-  var watchHere = handlePastDays()[0];
 
-  const handleFutureDays = (endate) => {
-    setInitialLoad(false)
-    const testSevenDays = () => {
-      let testDays = [];
-      var daysRequired = 7;
-      for (let i = 0; i < daysRequired; i++) {
-        // testDays.push(moment(endate).add(i, 'days').format('dddd, Do MMMM YYYY'));
-        testDays.push(moment(endate).add(i, 'days').format('MMMM YYYY D'));
-      }
-      console.log(testDays, "handled future days")
-      setLastDate(testDays[6])
-      setArray(testDays)
-      return testDays;
-    }
-    return testSevenDays();
-  }
-
-  console.log("Last Date", lastDate)
-  console.log("arrays", arrays)
-
-  var onFirstLoad = getSevenDays()[0];
+  var onFirstLoadPast = getSevenDays()[0];
   var onFirstLoadfuture = getSevenDays()[6];
-
-  // let datetest= moment(watchHere).format('dddd, Do MMMM YYYY')
-  // .substring(0, 16);
-
-  // console.log(onFirstLoad, "on First Load in format March 2023 24")
-  // console.log(datetest, "date test here")
 
   return (
     <div className="">
@@ -251,7 +239,7 @@ const Schedule = () => {
       </div> */}
       <div className='arrows'>
         <div className='left-arrow'>
-          <BiLeftArrowAlt onClick={() => handlePastDays(watchHere)} />
+          <BiLeftArrowAlt onClick={initialLoad ? () => handlePastDays(onFirstLoadPast) : () => handlePastDays(firstDate)} />
         </div>
         <div className='right-arrow'>
           <BiRightArrowAlt onClick={initialLoad ? () => handleFutureDays(onFirstLoadfuture) : () => handleFutureDays(lastDate)} />

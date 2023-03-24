@@ -110,6 +110,7 @@
 }
 .table-responsive-lunch, .table-responsive-dinner{
     overflow-x: scroll;
+    width: 100%;
     .headings{
         background-color: $secondary-color;
     }
