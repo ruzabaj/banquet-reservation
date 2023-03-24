@@ -4,7 +4,7 @@ import "../../Assets/Styles/Addbtn.scss";
 import { AiOutlinePlus } from "react-icons/ai";
 import AdvanceTableRows from './AdvanceTableRows';
 
-const AdvancePayment = ({paymentData, addPaymentRows, deletePaymentRows, handlePaymentChange}) => {
+const AdvancePayment = ({ paymentData, addPaymentRows, deletePaymentRows, handlePaymentChange, handleSelectChange }) => {
   // const todayDate = new Date().toISOString().substring(0, 10);
   // const [rowsData, setRowsData] = useState([]);
 
@@ -29,15 +29,25 @@ const AdvancePayment = ({paymentData, addPaymentRows, deletePaymentRows, handleP
   //   setRowsData(rowsInput);
   //   console.log("now row input", rowsInput)
   // }
-
+ 
   return (
     <div className='advance-field'>
-      <h5> Advance Payment </h5>
-      <div className='advance-payment-width'>
-        <button className='add-icon' onClick={addPaymentRows}><AiOutlinePlus /></button>
+      <div style={{ display: "flex" }}>
+        <h5> Advance Payment </h5>
+        <div className='advance-payment-width'>
+          <button className='add-icon' onClick={addPaymentRows}><AiOutlinePlus /></button>
+        </div>
       </div>
       <div className="row">
-        <div className="rate-info col-lg-12 col-sm-8">
+        <div className="payment-info col-lg-12 col-sm-8">
+          <select onChange={handleSelectChange}>
+            <option>Please select a payment option</option>
+            <option value="cash">Cash</option>
+            <option value="credit">Credit</option>
+            <option value="mobilePayment">Mobile Payment</option>
+          </select>
+        </div>
+        <div className="payment-info col-lg-12 col-sm-8">
           <AdvanceTableRows paymentData={paymentData} deletePaymentRows={deletePaymentRows} handlePaymentChange={handlePaymentChange} />
         </div>
       </div>

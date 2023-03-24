@@ -4,8 +4,8 @@ const Availability = ({ headers, dinnerFirst, dinnerSecond }) => {
     return (
         <table className='table-availability'>
             <th className='headings'></th>
-            {headers.map((item) => (
-                <th className='headings'>{item}</th>
+            {headers.map((item, index) => (
+                <th className='headings' key={index}>{item}</th>
             ))}
             <tr>
                 <th className='headings'>Hall 1</th>

@@ -94,16 +94,22 @@ const BanquetReservation = ({ customerID }) => {
     //for payment
     const todayDate = new Date().toISOString().substring(0, 10);
     const [paymentData, setPaymentData] = useState([]);
+    const [selected, setSelected] = useState("");
+
+    const handleSelectChange = (event) => {
+      setSelected(event.target.value)
+    }
 
     const addPaymentRows = () => {
         const paymentInput = {
-            PaymentAmount: '',
             paymentDate: todayDate,
+            PaymentAmount: "",
+            PaymentMode: selected
         }
         setPaymentData([...paymentData, paymentInput])
     }
 
-    console.log("payment data", paymentData)
+    // console.log("payment data", paymentData)
     const deletePaymentRows = (index) => {
         const rows = [...paymentData];
         rows.splice(index, 1);
@@ -121,8 +127,7 @@ const BanquetReservation = ({ customerID }) => {
     // useEffect(() => {
     //     setResHall([...resHall, selectedHall])
     // }, [selectedHall])
-
-
+  
     const handleBanquetReservation = async () => {
         try {
             let response = await axios.post(`${baseUrl}/banquetregistration`, {
@@ -239,7 +244,10 @@ const BanquetReservation = ({ customerID }) => {
 
             <AddDeleteTableRows rowsData={rowsData} addTableRows={addTableRows} deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall} timeSlot={values.TimeSlot} />
             <SpecialRequest handleInputChange={handleInputChange} />
-            <AdvancePayment paymentData={paymentData} addPaymentRows={addPaymentRows} deletePaymentRows={deletePaymentRows} handlePaymentChange={handlePaymentChange} />
+            <AdvancePayment paymentData={paymentData} addPaymentRows={addPaymentRows} deletePaymentRows={deletePaymentRows}
+             handlePaymentChange={handlePaymentChange} 
+             handleSelectChange={handleSelectChange}
+             />
             <SubmitBtn event={"Save"} handle={handleBanquetReservation} />
         </section>
     )

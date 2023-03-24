@@ -17,8 +17,7 @@ const Schedule = () => {
   const [lastDate, setLastDate] = useState("");
 
   let baseUrl = process.env.REACT_APP_BASE_URL;
-  console.log("1st day", firstDate)
-  console.log("7th day", lastDate)
+ 
 
   useEffect(() => {
     var startDate = moment().format('YYYY-MM-DD')
@@ -57,10 +56,12 @@ const Schedule = () => {
   }, [])
 
   useEffect(() => {
-    var start = moment(firstDate).format('YYYY-MM-DD')
-    var end = moment(firstDate).add(6, 'days').format('YYYY-MM-DD')
-    console.log(start, end , "watch")
+    console.log("1st day", firstDate)
+    console.log("7th day", lastDate)
     if (firstDate && lastDate) {
+      var start = moment(firstDate).format('YYYY-MM-DD')
+      var end = moment(firstDate).add(6, 'days').format('YYYY-MM-DD')
+      console.log(start, end, "watch")
       axios.post(`${baseUrl}/schedule`, {
         startDate: `${start}`,
         endDate: `${end}`,
@@ -152,13 +153,27 @@ const Schedule = () => {
     return newDateLunch;
   }
 
+  var newDateDinner = []
+  const changedDinnerHallOne = () => {
+    testDate.forEach((dateHere) => {
+      const replaceObjects = dinnerHallOne.find(el => el.date.substring(0, 16) === dateHere)
+      var index = testDate.indexOf(replaceObjects)
+      const deletedArray = newDateDinner.splice(index, 0, replaceObjects);
+      for (var i in newDateDinner) {
+        if (newDateDinner[i] === undefined) {
+          newDateDinner[i] = {};
+        }
+      }
+    })
+    return newDateDinner;
+  }
+
   var newDateLunchTwo = []
   const changedLunchHallTwo = () => {
     testDate.forEach((dateHere) => {
-      // console.log(testDate, "testDate")
-      const replaceObject = lunchHallTwo.find(el => el.date.substring(0, 16) === dateHere)
-      var index = testDate.indexOf(replaceObject)
-      const deletedArray = newDateLunchTwo.splice(index, 0, replaceObject);
+      const replaceObj = lunchHallTwo.find(el => el.date.substring(0, 16) === dateHere)
+      var index = testDate.indexOf(replaceObj)
+      const deletedArray = newDateLunchTwo.splice(index, 0, replaceObj);
       for (var i in newDateLunchTwo) {
         if (newDateLunchTwo[i] === undefined) {
           newDateLunchTwo[i] = {};
@@ -166,6 +181,21 @@ const Schedule = () => {
       }
     })
     return newDateLunchTwo;
+  }
+
+  var newDateDinnerTwo = []
+  const changedDinnerHallTwo = () => {
+    testDate.forEach((dateHere) => {
+      const replaceObjs = dinnerHallTwo.find(el => el.date.substring(0, 16) === dateHere)
+      var index = testDate.indexOf(replaceObjs)
+      const deletedArray = newDateDinnerTwo.splice(index, 0, replaceObjs);
+      for (var i in newDateDinnerTwo) {
+        if (newDateDinnerTwo[i] === undefined) {
+          newDateDinnerTwo[i] = {};
+        }
+      }
+    })
+    return newDateDinnerTwo;
   }
 
   const handlePastDays = (startingDate) => {
@@ -196,7 +226,6 @@ const Schedule = () => {
       // console.log(testDays, "handled future days")
       setFirstDate(testDays[0])
       setLastDate(testDays[6])
-      console.log(testDays, "test days future")
       setArray(testDays)
       return testDays;
     }
@@ -231,21 +260,6 @@ const Schedule = () => {
       }
     })
     return newLunchTwo;
-  }
-
-  var newArrayTest = [{}]
-  const handleTest = () => {
-    compareDate.forEach((dateHere) => {
-      const replaceObject = dinnerHallOne.find(el => el.date.substring(0, 16) === dateHere)
-      var index = compareDate.indexOf(replaceObject)
-      const deletedArray = newArrayTest.splice(index, 0, replaceObject);
-      for (var customer in newArrayTest) {
-        if (newArrayTest[customer] === undefined) {
-          newArrayTest[customer] = {};
-        }
-      }
-    })
-    return newArrayTest;
   }
 
   var newArrayDinnerOne = [{}]
@@ -316,17 +330,27 @@ const Schedule = () => {
         </div>
       }
 
-
-      <div className='table-dinner'>
-        <p className="dinner">dinner</p>
-        <div className='table-responsive-lunch'>
-          <Availability
-            headers={initialLoad ? showSevenDays() : arrays}
-            dinnerFirst={handleDinnerHallOne()}
-            dinnerSecond={handleDinnerHallTwo()} />
+      {initialLoad ?
+        <div className='table-dinner'>
+          <p className="dinner">dinner</p>
+          <div className='table-responsive-lunch'>
+            <Availability
+              headers={initialLoad ? showSevenDays() : arrays}
+              dinnerFirst={handleDinnerHallOne()}
+              dinnerSecond={handleDinnerHallTwo()} />
+          </div>
         </div>
-      </div>
-
+        :
+        <div className='table-dinner'>
+          <p className="dinner">dinner</p>
+          <div className='table-responsive-lunch'>
+            <Availability
+              headers={initialLoad ? showSevenDays() : arrays}
+              dinnerFirst={changedDinnerHallOne()}
+              dinnerSecond={changedDinnerHallTwo()} />
+          </div>
+        </div>
+      }
     </div>
   )
 }
