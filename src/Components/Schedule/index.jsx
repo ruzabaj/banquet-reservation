@@ -219,9 +219,6 @@ console.log(getTestDays())
   }
 
   const handlePastDays = (startingDate) => {
-    console.log("firstDate", firstDate)
-    console.log("starting date herne", startingDate)
-
     setInitialLoad(false)
     const pastSevenDays = () => {
       let testDays = [];

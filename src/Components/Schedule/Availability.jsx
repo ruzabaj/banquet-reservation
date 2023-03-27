@@ -1,6 +1,18 @@
 import React from 'react'
+import classNames from "classnames";
 
 const Availability = ({ headers, dinnerFirst, dinnerSecond }) => {
+    function selectColor(status) {
+        switch (status) {
+            case "":
+                return 'blue';
+            case null:
+                return 'red'
+            default:
+                return 'green'
+        }
+    }
+
     return (
         <table className='table-availability'>
             <th className='headings'></th>
@@ -10,9 +22,11 @@ const Availability = ({ headers, dinnerFirst, dinnerSecond }) => {
             <tr>
                 <th className='headings'>Hall 1</th>
                 {dinnerFirst.map((info, index) => (
-                    <td className={info.date ? 'unavailable' : 'available'} key={index}>{info.customerName}
+                    <td
+                        className={(!(info.paymentDetails?.billno)?? "payment") && info.date ? 'unavailable' : 'available'}
+                        key={index}>{info.customerName}
                         <p className='pax-count'>{info.paxCount}</p>
-                        </td>
+                    </td>
                 ))}
             </tr>
             <tr>
@@ -20,7 +34,7 @@ const Availability = ({ headers, dinnerFirst, dinnerSecond }) => {
                 {dinnerSecond.map((info, index) => (
                     <td className={info.date ? 'unavailable' : 'available'} key={index}>{info.customerName}
                         <p className='pax-count'>{info.paxCount}</p>
-                        
+
                     </td>
                 ))}
             </tr>
