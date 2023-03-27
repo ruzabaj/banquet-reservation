@@ -10,13 +10,18 @@ const Availability = ({ headers, dinnerFirst, dinnerSecond }) => {
             <tr>
                 <th className='headings'>Hall 1</th>
                 {dinnerFirst.map((info, index) => (
-                    <td className={info.date ? 'unavailable' : 'available'} key={index}>{info.customerName}<p className='pax-count'>{info.paxCount}</p></td>
+                    <td className={info.date ? 'unavailable' : 'available'} key={index}>{info.customerName}
+                        <p className='pax-count'>{info.paxCount}</p>
+                        </td>
                 ))}
             </tr>
             <tr>
                 <th className='headings'>Hall 2</th>
                 {dinnerSecond.map((info, index) => (
-                    <td className={info.date ? 'unavailable' : 'available'} key={index}>{info.customerName} <p className='pax-count'>{info.paxCount}</p></td>
+                    <td className={info.date ? 'unavailable' : 'available'} key={index}>{info.customerName}
+                        <p className='pax-count'>{info.paxCount}</p>
+                        
+                    </td>
                 ))}
             </tr>
         </table>

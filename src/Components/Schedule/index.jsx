@@ -17,83 +17,103 @@ const Schedule = () => {
   const [lastDate, setLastDate] = useState("");
 
   let baseUrl = process.env.REACT_APP_BASE_URL;
- 
+
   useEffect(() => {
     var startDate = moment().format('YYYY-MM-DD')
     var sevenDaysDate = moment().add(6, 'days').format('YYYY-MM-DD')
-
     axios.post(`${baseUrl}/schedule`, {
       startDate: `${startDate}`,
       endDate: `${sevenDaysDate}`,
       "token": "test"
     })
       .then((response) => {
-        var checkLunch = response.data.lunch[0]
-        if ("Hall2" in checkLunch) {
-          setLunchHallOne(response.data.lunch[1].Hall1)
-          setLunchHallTwo(response.data.lunch[0].Hall2)
+        if (response.data.lunch) {
+          var checkLunch = response.data.lunch[0]
+          if ("Hall2" in checkLunch) {
+            setLunchHallTwo(response.data.lunch[0].Hall2)
+            if (response.data.lunch[1]) {
+              setLunchHallOne(response.data.lunch[1].Hall1)
+            }
+          }
+
+          if ("Hall1" in checkLunch) {
+            setLunchHallOne(response.data.lunch[0].Hall1)
+            if (response.data.lunch[1]) {
+              setLunchHallTwo(response.data.lunch[1].Hall2)
+            }
+          }
         }
 
-        if ("Hall1" in checkLunch) {
-          setLunchHallOne(response.data.lunch[0].Hall1)
-          setLunchHallTwo(response.data.lunch[1].Hall2)
+        if (response.data.dinner) {
+          let checkDInner = response.data.dinner[0]
+          if ("Hall1" in checkDInner) {
+            setDinnerHallOne(response.data.dinner[0].Hall1)
+            if (response.data.dinner[1]) {
+              setDinnerHallTwo(response.data.dinner[1].Hall2)
+            }
+          }
+          if ("Hall2" in checkDInner) {
+            // console.log("Hall2 present in 0 dinner")
+            setDinnerHallTwo(response.data.dinner[0].Hall2)
+            if (response.data.dinner[1]) {
+              setDinnerHallOne(response.data.dinner[1].Hall1)
+            }
+          }
         }
 
-        let checkDInner = response.data.dinner[0]
-        if ("Hall2" in checkDInner) {
-          setDinnerHallTwo(response.data.dinner[0].Hall2)
-          setDinnerHallOne(response.data.dinner[1].Hall1)
-        }
-        if ("Hall1" in checkDInner) {
-          setDinnerHallOne(response.data.dinner[0].Hall1)
-          setDinnerHallTwo(response.data.dinner[1].Hall2)
-        }
       })
       .catch((error) => {
-        console.log(error)
+        console.log("error in useeffect", error)
       })
   }, [])
 
+
   useEffect(() => {
-    // console.log("1st day", firstDate)
-    // console.log("7th day", lastDate)
     if (firstDate && lastDate) {
       var start = moment(firstDate).format('YYYY-MM-DD')
       var end = moment(firstDate).add(6, 'days').format('YYYY-MM-DD')
-      // console.log(start, end, "watch")
       axios.post(`${baseUrl}/schedule`, {
         startDate: `${start}`,
         endDate: `${end}`,
         "token": "test"
       })
         .then((response) => {
-          var checkLunch = response.data.lunch[0]
-          if ("Hall2" in checkLunch) {
-            setLunchHallOne(response.data.lunch[1].Hall1)
-            setLunchHallTwo(response.data.lunch[0].Hall2)
+          if (response.data.lunch) {
+            if ("Hall2" in response.data.lunch[0]) {
+              setLunchHallTwo(response.data.lunch[0].Hall2)
+              if (response.data.lunch[1]) {
+                setLunchHallOne(response.data.lunch[1].Hall1)
+              }
+            }
+            if ("Hall1" in response.data.lunch[0]) {
+              setLunchHallOne(response.data.lunch[0].Hall1)
+              if (response.data.lunch[1]) {
+                setLunchHallTwo(response.data.lunch[1].Hall2)
+              }
+            }
           }
 
-          if ("Hall1" in checkLunch) {
-            setLunchHallOne(response.data.lunch[0].Hall1)
-            setLunchHallTwo(response.data.lunch[1].Hall2)
+          if (response.data.dinner) {
+            if ("Hall2" in response.data.dinner[0]) {
+              setDinnerHallTwo(response.data.dinner[0].Hall2)
+              if (response.data.dinner[1]) {
+                setDinnerHallOne(response.data.dinner[1].Hall1)
+              }
+            }
+            if ("Hall1" in response.data.dinner[0]) {
+              setDinnerHallOne(response.data.dinner[0].Hall1)
+              if (response.data.dinner[1]) {
+                setDinnerHallTwo(response.data.dinner[1].Hall2)
+              }
+            }
           }
 
-          let checkDInner = response.data.dinner[0]
-          if ("Hall2" in checkDInner) {
-            setDinnerHallTwo(response.data.dinner[0].Hall2)
-            setDinnerHallOne(response.data.dinner[1].Hall1)
-          }
-          if ("Hall1" in checkDInner) {
-            setDinnerHallOne(response.data.dinner[0].Hall1)
-            setDinnerHallTwo(response.data.dinner[1].Hall2)
-          }
         })
         .catch((error) => {
-          console.log(error)
+          console.log("error in schedule", error)
         })
     }
   }, [firstDate, lastDate])
-
 
   const showSevenDays = () => {
     let days = [];
@@ -129,15 +149,15 @@ const Schedule = () => {
   var testDate = []
   const getTestDays = () => {
     arrays.forEach((datehere) => {
-      var date1 = new Date(datehere).toUTCString()
-      var newDate = date1.substring(0, 16)
+      let newDate= moment(new Date(datehere)).format("ddd, DD MMM YYYY").toString()
+      // console.log("=>", newDate)
       testDate.push(newDate)
     })
     return testDate
   }
-  getTestDays();
+console.log(getTestDays())
 
-  var newDateLunch = []
+  var newDateLunch = [{}]
   const changedLunchHallOne = () => {
     testDate.forEach((dateHere) => {
       const replaceObject = lunchHallOne.find(el => el.date.substring(0, 16) === dateHere)
@@ -152,9 +172,10 @@ const Schedule = () => {
     return newDateLunch;
   }
 
-  var newDateDinner = []
+
+  var newDateDinner = [{}]
   const changedDinnerHallOne = () => {
-    testDate.forEach((dateHere) => {
+    testDate.forEach((dateHere, index) => {
       const replaceObjects = dinnerHallOne.find(el => el.date.substring(0, 16) === dateHere)
       var index = testDate.indexOf(replaceObjects)
       const deletedArray = newDateDinner.splice(index, 0, replaceObjects);
@@ -167,7 +188,7 @@ const Schedule = () => {
     return newDateDinner;
   }
 
-  var newDateLunchTwo = []
+  var newDateLunchTwo = [{}]
   const changedLunchHallTwo = () => {
     testDate.forEach((dateHere) => {
       const replaceObj = lunchHallTwo.find(el => el.date.substring(0, 16) === dateHere)
@@ -182,7 +203,7 @@ const Schedule = () => {
     return newDateLunchTwo;
   }
 
-  var newDateDinnerTwo = []
+  var newDateDinnerTwo = [{}]
   const changedDinnerHallTwo = () => {
     testDate.forEach((dateHere) => {
       const replaceObjs = dinnerHallTwo.find(el => el.date.substring(0, 16) === dateHere)
@@ -198,6 +219,9 @@ const Schedule = () => {
   }
 
   const handlePastDays = (startingDate) => {
+    console.log("firstDate", firstDate)
+    console.log("starting date herne", startingDate)
+
     setInitialLoad(false)
     const pastSevenDays = () => {
       let testDays = [];
@@ -205,7 +229,6 @@ const Schedule = () => {
       for (let i = daysRequired; i >= 1; i--) {
         testDays.push(moment(startingDate).subtract(i, 'days').format('dddd, YYYY MMMM D'));
       }
-      console.log(testDays, "handled past days")
       setFirstDate(testDays[0])
       setLastDate(testDays[6])
       setArray(testDays)
@@ -222,7 +245,6 @@ const Schedule = () => {
       for (let i = 0; i < daysRequired; i++) {
         testDays.push(moment(endate).add(i, 'days').format('dddd, YYYY MMMM D'));
       }
-      // console.log(testDays, "handled future days")
       setFirstDate(testDays[0])
       setLastDate(testDays[6])
       setArray(testDays)
@@ -281,7 +303,6 @@ const Schedule = () => {
     compareDate.forEach((dateHere) => {
       const replaceObject = dinnerHallTwo.find(el => el.date.substring(0, 16) === dateHere)
       var index = compareDate.indexOf(replaceObject)
-      // console.log(replaceObject, index, "check")
       const deletedArray = newArrayDinner.splice(index, 0, replaceObject);
       for (var customer in newArrayDinner) {
         if (newArrayDinner[customer] === undefined) {
@@ -293,10 +314,9 @@ const Schedule = () => {
   }
 
   let initialLoadFirst = moment(getSevenDays()[0])
-  var onFirstLoadPast = initialLoadFirst.format('dddd, YYYY MMMM D');
-  let initialLoadLast = moment(getSevenDays()[6])
-  var onFirstLoadPast = initialLoadLast.format('dddd, YYYY MMMM D');
+  // var onFirstLoadPast = initialLoadFirst.format('dddd, YYYY MMMM D');
   var onFirstLoadfuture = getSevenDays()[6];
+  var onFirstLoadPast = getSevenDays()[0];
 
   return (
     <div className="">
@@ -321,7 +341,7 @@ const Schedule = () => {
         </div>
         :
         <div className='table-lunch'>
-          <p className='lunch'>test </p>
+          <p className='lunch'>lunch </p>
           <div className='table-responsive-lunch'>
             <Availability headers={initialLoad ? showSevenDays() : arrays}
               dinnerFirst={changedLunchHallOne()} dinnerSecond={changedLunchHallTwo()} />
