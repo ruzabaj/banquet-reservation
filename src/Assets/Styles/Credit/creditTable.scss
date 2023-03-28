@@ -1,8 +1,44 @@
+@import "../config";
+
+.credit-table{
+    margin: 20px 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.basic-information{
+    overflow-x: auto;
+    background-color: $secondary-color;
+    text-align: center;
+    table{
+        border: 1px solid black;
+        width: 100%;
+        tr th{
+            background-color: $btn-credit;
+            color: $secondary-color;
+        }
+        tr {
+            &:hover{
+                background-color: $bg-sidebar;
+            }
+        }
+        tr, th, td{
+            border: 1px solid black;
+        }
+    }
+}
+
 .responsive-credit-table{
     overflow-x: auto;
+    background-color: $secondary-color;
+
     table {
         width: 100%;
         border: 1px solid black;
+    }
+    tr th{
+        background-color: $btn-credit;
+        color: $secondary-color;
     }
     th, td {
             border: 1px solid black;

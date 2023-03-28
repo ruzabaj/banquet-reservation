@@ -31,7 +31,8 @@
         flex: 1;
         background-color: $bg-sidebar;
         gap: 20px;
-        height: 100vh;
+        min-height: 100vh;
+        height: auto;
 
         h5 {
             @include margin-sidebar;
@@ -107,9 +108,13 @@
             }
 
         }
-
-        .custom-filter {
+        .show-filter{
+            padding: 30px 0px;
+            // background-color: $secondary-color;
             border-top: 2px solid yellow;
+            border-bottom: 2px solid yellow;
+        }
+        .custom-filter {
             height: auto;
             padding: 10px;
             display: flex;
@@ -118,11 +123,11 @@
             // justify-content: space-between;
             // flex-direction: column;
             .input-search {
-                background-color: white;
+                background-color: $secondary-color;
                 display: flex;
                 align-items: center;
                 border-radius: 2px;
-                // width: 100%;
+                border: 1px solid black;
 
                 .dropdown-search{
                     .select-search-input{
@@ -142,18 +147,14 @@
                     font-size: 22px;
                 }
             }
-
-            .btn-filter {
-                @include btn-theme($theme-color, $secondary-color);
-                border-radius: 5px;
-                height: 30px;
-            }
         }
         .credit-customer{
-            background-color: white;
+            background-color: $secondary-color;
+            border: 1px solid $primary-color;
             .select-search-input{
                 border: 0 !important;
                 width: 100% !important;
+                height: 35px !important;
             }
             .select-search-select{
                 width: 100% !important;
@@ -162,6 +163,26 @@
     }
 }
 
+.payment-history, .bill-list{
+    border-bottom: 1px solid $theme-color
+}
+
+.btn-filter {
+    @include btn-theme($theme-color, $secondary-color);
+    border-radius: 5px;
+    height: 30px;
+}
+
+.btn-details{
+    height: 30px;
+    // @include btn-theme($secondary-theme, $secondary-color);
+    // border-radius: 5px;
+    border: 0;
+    &:hover{
+        @include btn-theme($btn-credit-hover, $secondary-color);
+    }
+
+}
 .react-datepicker__header {
     background-color: $theme-color;
 }
