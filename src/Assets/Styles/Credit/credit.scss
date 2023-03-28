@@ -85,25 +85,30 @@
         display: flex;
         gap: 10px;
         margin: 0px 10px;
+        align-items: center;
         // flex-direction: column;
     }
-.make-credit {
-    flex: 4;
-    background-color: $bg-color;
-    .background-credit{
-        .filter{
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            margin: 05px 10px ;
-            label{
-                text-transform: uppercase;
 
+    .make-credit {
+        flex: 4;
+        background-color: $bg-color;
+
+        .background-credit {
+            .filter {
+                display: flex;
+                align-items: center;
+                gap: 2px;
+                margin: 05px 10px;
+
+                label {
+                    text-transform: uppercase;
+
+                }
             }
+
         }
-        
-    }
-    .custom-filter {
+
+        .custom-filter {
             border-top: 2px solid yellow;
             height: auto;
             padding: 10px;
@@ -112,31 +117,23 @@
             gap: 20px;
             // justify-content: space-between;
             // flex-direction: column;
-
-            .toggle-category {
-                .dropdown-toggle {
-                    width: 200px;
-                    @include btn-theme ($secondary-theme, $secondary-color);
-                }
-            }
-
             .input-search {
+                background-color: white;
                 display: flex;
                 align-items: center;
                 border-radius: 2px;
-                .filter-search {
-                    // width: calc(100% - 150px);
-                    // border: 1px solid $green;
-                    // border-radius: 3px;
-                    height: 35px;
-                    border: 0;
-                    outline: 0;
-                    
-                    &::placeholder {
-                        padding-left: 10px;
+                // width: 100%;
+
+                .dropdown-search{
+                    .select-search-input{
+                        border: 0 !important;
+                        width: 100% !important;
+                    }
+                    .select-search-select{
+                        width: 100% !important;
                     }
                 }
-                
+
                 .eyeglass-icon {
                     height: 35px;
                     background-color: $secondary-color;
@@ -144,35 +141,47 @@
                     // border-radius: 8%;
                     font-size: 22px;
                 }
-                .text-search{
-                    background-color: $green;
-                    color: $secondary-color;
-                    border-radius: 10%;
-                    padding: 05px;
-                }
             }
 
-            
-            .btn-filter{
+            .btn-filter {
                 @include btn-theme($theme-color, $secondary-color);
                 border-radius: 5px;
                 height: 30px;
             }
         }
-
+        .credit-customer{
+            background-color: white;
+            .select-search-input{
+                border: 0 !important;
+                width: 100% !important;
+            }
+            .select-search-select{
+                width: 100% !important;
+            }
+        }
     }
 }
-.react-datepicker__header{
+
+.react-datepicker__header {
     background-color: $theme-color;
 }
-@media screen and (max-width: 748px ) {
-    .custom-filter{
+
+.toggle-category {
+    .dropdown-toggle {
+        width: 200px;
+        @include btn-theme ($secondary-theme, $secondary-color);
+    }
+}
+
+@media screen and (max-width: 748px) {
+    .custom-filter {
         flex-direction: column;
         align-items: start !important;
     }
 }
-@media screen and (max-width: 528px ) {
-    .flex-datepicker{
+
+@media screen and (max-width: 528px) {
+    .flex-datepicker {
         flex-direction: column !important;
     }
 }
