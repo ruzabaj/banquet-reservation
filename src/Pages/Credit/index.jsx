@@ -25,7 +25,7 @@ const Credit = () => {
 
     const creditHeader =
         ["Bill No", "NoOfPax", "TimeSlot", "Advance Payment",
-            "Reservation Date", "Reservation For Date", "Total", "Sub Total", "VAT Amount"]
+            "Reservation Date", "Reservation For Date", "Total", "Sub Total", "VAT Amount", ""]
 
     // const description = 'This is a description.';
     let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -137,12 +137,12 @@ const Credit = () => {
         }
     }
 
-    const makePayment = () => {
+    const makePayment = (reservationID, billNum) => {
         axios.post(`${baseUrl}/makePayment`, {
-            banquetReservationID: "67",
+            banquetReservationID: `${reservationID}`,
             PaymentAmount: "10",
             PaymentMode: "Cash",
-            billno: "1",
+            billno: `${billNum}`,
             token: "test"
         })
             .then((res) => {
@@ -215,8 +215,6 @@ const Credit = () => {
                             </div>
                         ))}
                     </div>
-                    {/* <button className='btn-pay' onClick={makePayment}>Make Payment</button>
-                    <button className='btn-cancel'>Cancel Payment</button> */}
                 </div>
             </div>
             <div className='make-credit'>
@@ -320,6 +318,7 @@ const Credit = () => {
                                         <td>{info.Total}</td>
                                         <td>{info.subTotal}</td>
                                         <td>{info.vatAmount}</td>
+                                        <td><button className='btn-pay' onClick={()=>makePayment(info.BanquetReservationId, info.billno)}>Make Payment</button></td>
                                     </tr>
                                 ))}
                             </table>

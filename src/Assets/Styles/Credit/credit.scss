@@ -174,10 +174,10 @@
 }
 
 .btn-details{
+    border: 0;
     height: 30px;
     // @include btn-theme($secondary-theme, $secondary-color);
     // border-radius: 5px;
-    border: 0;
     &:hover{
         @include btn-theme($btn-credit-hover, $secondary-color);
     }
