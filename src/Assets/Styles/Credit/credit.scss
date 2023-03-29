@@ -57,10 +57,7 @@
             @include margin-sidebar;
         }
 
-        .btn-pay {
-            @include buttons;
-            @include btn-theme ($green, $secondary-color);
-        }
+        
 
         .btn-cancel {
 
@@ -166,8 +163,11 @@
 .payment-history, .bill-list{
     border-bottom: 1px solid $theme-color
 }
-
-.btn-filter {
+.btn-pay {
+    @include buttons;
+    @include btn-theme ($green, $secondary-color);
+}
+.btn-filter-credit {
     @include btn-theme($theme-color, $secondary-color);
     border-radius: 5px;
     height: 30px;
@@ -176,8 +176,9 @@
 .btn-details{
     border: 0;
     height: 30px;
-    // @include btn-theme($secondary-theme, $secondary-color);
-    // border-radius: 5px;
+    @include btn-theme($secondary-theme, $secondary-color);
+    border-radius: 5px;
+    margin-top: 5px;
     &:hover{
         @include btn-theme($btn-credit-hover, $secondary-color);
     }

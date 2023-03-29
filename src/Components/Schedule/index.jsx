@@ -10,6 +10,8 @@ const Schedule = () => {
   const [lunchHallTwo, setLunchHallTwo] = useState([]);
   const [dinnerHallOne, setDinnerHallOne] = useState([]);
   const [dinnerHallTwo, setDinnerHallTwo] = useState([]);
+  // const [bothHallOne, setBothHallOne] = useState([]);
+  // const [bothHallTwo, setBothHallTwo] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
   const [firstDate, setFirstDate] = useState("");
   const [arrays, setArray] = useState([])
@@ -61,6 +63,23 @@ const Schedule = () => {
           }
         }
 
+        // if (response.data.both) {
+        //   let checkBoth = response.data.both[0]
+        //   if ("Hall1" in checkBoth) {
+        //     setBothHallOne(response.data.both[0].Hall1)
+        //     if (response.data.both[1]) {
+        //       setBothHallTwo(response.data.both[1].Hall2)
+        //     }
+        //   }
+        //   if ("Hall2" in checkBoth) {
+        //     // console.log("Hall2 present in 0 dinner")
+        //     setBothHallTwo(response.data.both[0].Hall2)
+        //     if (response.data.both[1]) {
+        //       setBothHallOne(response.data.both[1].Hall1)
+        //     }
+        //   }
+        // }
+
       })
       .catch((error) => {
         console.log("error in useeffect", error)
@@ -107,7 +126,23 @@ const Schedule = () => {
               }
             }
           }
-
+          
+          // if (response.data.both) {
+          //   let checkBoth = response.data.both[0]
+          //   if ("Hall1" in checkBoth) {
+          //     setBothHallOne(response.data.both[0].Hall1)
+          //     if (response.data.both[1]) {
+          //       setBothHallTwo(response.data.both[1].Hall2)
+          //     }
+          //   }
+          //   if ("Hall2" in checkBoth) {
+          //     // console.log("Hall2 present in 0 dinner")
+          //     setBothHallTwo(response.data.both[0].Hall2)
+          //     if (response.data.both[1]) {
+          //       setBothHallOne(response.data.both[1].Hall1)
+          //     }
+          //   }
+          // }
         })
         .catch((error) => {
           console.log("error in schedule", error)
@@ -217,6 +252,36 @@ console.log(getTestDays())
     })
     return newDateDinnerTwo;
   }
+
+  // var newDateBothOne = [{}]
+  // const changedBothHallOne = () => {
+  //   testDate.forEach((dateHere) => {
+  //     const replaceObj = bothHallOne.find(el => el.date.substring(0, 16) === dateHere)
+  //     var index = testDate.indexOf(replaceObj)
+  //     const deletedArray = newDateBothOne.splice(index, 0, replaceObj);
+  //     for (var i in newDateBothOne) {
+  //       if (newDateBothOne[i] === undefined) {
+  //         newDateBothOne[i] = {};
+  //       }
+  //     }
+  //   })
+  //   return newDateBothOne;
+  // }
+
+  // var newDateBothTwo = [{}]
+  // const changedBothHallTwo = () => {
+  //   testDate.forEach((dateHere) => {
+  //     const replaceObjs = bothHallTwo.find(el => el.date.substring(0, 16) === dateHere)
+  //     var index = testDate.indexOf(replaceObjs)
+  //     const deletedArray = newDateBothTwo.splice(index, 0, replaceObjs);
+  //     for (var i in newDateBothTwo) {
+  //       if (newDateBothTwo[i] === undefined) {
+  //         newDateBothTwo[i] = {};
+  //       }
+  //     }
+  //   })
+  //   return newDateBothTwo;
+  // }
 
   const handlePastDays = (startingDate) => {
     setInitialLoad(false)
@@ -367,6 +432,28 @@ console.log(getTestDays())
           </div>
         </div>
       }
+
+      {/* {initialLoad ?
+        <div className='table-dinner'>
+          <p className="dinner">both</p>
+          <div className='table-responsive-lunch'>
+            <Availability
+              headers={initialLoad ? showSevenDays() : arrays}
+              dinnerFirst={changedBothHallOne()}
+              dinnerSecond={changedBothHallTwo()} />
+          </div>
+        </div>
+        :
+        <div className='table-dinner'>
+          <p className="dinner">both</p>
+          <div className='table-responsive-lunch'>
+            <Availability
+              headers={initialLoad ? showSevenDays() : arrays}
+              dinnerFirst={changedBothHallOne()}
+              dinnerSecond={changedBothHallTwo()} />
+          </div>
+        </div>
+      } */}
     </div>
   )
 }

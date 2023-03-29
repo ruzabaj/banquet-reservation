@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 const BanquetReservation = ({ customerID }) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
+
     const [reservationDate, setReservationDate] = useState(new Date());
     const [reservationForDate, setReservationForDate] = useState(new Date());
     const [hallList, setHallList] = useState([]);
@@ -63,9 +64,10 @@ const BanquetReservation = ({ customerID }) => {
             [id]: value,
         });
     }
-    // console.log("show-values", values)
-    const [rowsData, setRowsData] = useState([]);
 
+  
+
+    const [rowsData, setRowsData] = useState([]);
 
     const addTableRows = () => {
         // console.log("selected hall", selectedHall)
@@ -97,7 +99,7 @@ const BanquetReservation = ({ customerID }) => {
     const [selected, setSelected] = useState("");
 
     const handleSelectChange = (event) => {
-      setSelected(event.target.value)
+        setSelected(event.target.value)
     }
 
     const addPaymentRows = () => {
@@ -109,7 +111,7 @@ const BanquetReservation = ({ customerID }) => {
         setPaymentData([...paymentData, paymentInput])
     }
 
-    // console.log("payment data", paymentData)
+
     const deletePaymentRows = (index) => {
         const rows = [...paymentData];
         rows.splice(index, 1);
@@ -127,7 +129,11 @@ const BanquetReservation = ({ customerID }) => {
     // useEffect(() => {
     //     setResHall([...resHall, selectedHall])
     // }, [selectedHall])
-  
+
+    console.log("show-values", values);
+    console.log("rows data", rowsData)
+    console.log("payment data", paymentData)
+    
     const handleBanquetReservation = async () => {
         try {
             let response = await axios.post(`${baseUrl}/banquetregistration`, {
@@ -139,7 +145,6 @@ const BanquetReservation = ({ customerID }) => {
                     TimeSlot: values.TimeSlot,
                     customerID: customerID,
                     advancePayment: paymentData[0].PaymentAmount,
-                    // advancePayment: "",
                     NoOfPax: values.NoOfPax,
                     SpecialRequest: values.SpecialRequest
                 },
@@ -245,9 +250,9 @@ const BanquetReservation = ({ customerID }) => {
             <AddDeleteTableRows rowsData={rowsData} addTableRows={addTableRows} deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall} timeSlot={values.TimeSlot} />
             <SpecialRequest handleInputChange={handleInputChange} />
             <AdvancePayment paymentData={paymentData} addPaymentRows={addPaymentRows} deletePaymentRows={deletePaymentRows}
-             handlePaymentChange={handlePaymentChange} 
-             handleSelectChange={handleSelectChange}
-             />
+                handlePaymentChange={handlePaymentChange}
+                handleSelectChange={handleSelectChange}
+            />
             <SubmitBtn event={"Save"} handle={handleBanquetReservation} />
         </section>
     )

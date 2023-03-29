@@ -8,6 +8,8 @@ import axios from 'axios';
 import SelectSearch from 'react-select-search';
 import "../../Assets/Styles/Credit/creditTable.scss";
 import { Steps } from 'antd';
+import PaymentModal from '../../Components/Modals/PaymentModal';
+import StandardDate from "../../Components/StandardDate";
 
 const Credit = () => {
     const [isDisabled, setIsDisabled] = useState(true);
@@ -15,19 +17,32 @@ const Credit = () => {
     const [outletName, setOutletName] = useState([]);
     const [creditList, setCreditList] = useState([]);
     const [creditData, setCreditData] = useState([]);
-    const [creditDetails, setCreditDetails] = useState({});
-    const [paymentHistory, setPaymentHistory] = useState([]);
+    // const [creditDetails, setCreditDetails] = useState({});
     const [creditWiseBillList, setCreditWiseBillList] = useState([]);
     const [selectedCustomer, setSelectedCustomer] = useState("");
     const [selectedOutlet, setSelectedOutlet] = useState("");
     const [selectedCreditCustomer, setSelectedCreditCustomer] = useState("");
-    const [bookingDetail, setBookingDetail] = useState([])
+    const [dateOne, setDateOne] = useState(new Date());
+    const [dateTwo, setDateTwo] = useState(new Date());
+    const [dropdownChange, setDropdownChange] = useState("");
+
+    const [bookingDetail, setBookingDetail] = useState([]);
+    const [showBookingDetail, setShowBookingDetail] = useState(false);
+
+    const [paymentHistory, setPaymentHistory] = useState([]);
+    const [showPaymentHistory, setShowPaymentHistory] = useState(false);
+
+    const [creditLeft, setCreditLeft] = useState([]);
+    const [showCreditLeft, setShowCreditLeft] = useState(false);
 
     const creditHeader =
         ["Bill No", "NoOfPax", "TimeSlot", "Advance Payment",
-            "Reservation Date", "Reservation For Date", "Total", "Sub Total", "VAT Amount", ""]
+            "Reservation Date", "Reservation For Date", "Total", "Sub Total", "VAT Amount"]
 
-    // const description = 'This is a description.';
+    const creditLeftHeader =
+        ["Guest", "Guest Email",
+            "Total Credit", "Total Payment Made", "Advance Amount", "Remaining Amount"]
+
     let baseUrl = process.env.REACT_APP_BASE_URL;
 
     useEffect(() => {
@@ -78,10 +93,9 @@ const Credit = () => {
                 token: "test",
                 outlet: selectedOutlet,
                 customerName: selectedCreditCustomer,
-                // customerID:
             })
                 .then((response) => {
-                    // console.log(response.data)
+                    console.log("credit-data", response.data)
                     setCreditData(response.data)
                 })
                 .catch((error) => {
@@ -89,20 +103,6 @@ const Credit = () => {
                 })
         }
     }, [selectedOutlet, selectedCreditCustomer])
-
-    const handleBookingDetail = () => {
-        axios.post(`${baseUrl}/bookingDetails`, {
-            token: "test",
-            customerName: selectedCustomer
-        })
-            .then((response) => {
-                // console.log(response)
-                setBookingDetail(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
 
     const showCreditDetail = (id) => {
         if (selectedCreditCustomer && selectedOutlet) {
@@ -114,12 +114,13 @@ const Credit = () => {
             })
                 .then((response) => {
                     // console.log("detail", response.data.CreditWiseBillList)
-                    setCreditDetails(response.data.CreditDetails)
                     setPaymentHistory(response.data.PaymentHistory)
                     setCreditWiseBillList(response.data.CreditWiseBillList)
+                    setShowPaymentHistory(true)
                 })
                 .catch((error) => {
                     console.log(error)
+                    setShowPaymentHistory(false)
                 })
 
             axios.post(`${baseUrl}/bookingDetails`, {
@@ -128,95 +129,179 @@ const Credit = () => {
                 customerID: `${id}`
             })
                 .then((response) => {
-                    console.log("booking-detail",response.data)
+                    console.log("booking-detail", response.data)
                     setBookingDetail(response.data)
+                    setShowBookingDetail(true)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    setShowBookingDetail(false)
+                })
+        }
+    }
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const [amount, setAmount] = useState("");
+    const [options, setOptions] = useState("");
+
+    const handleChange = (e) => {
+        setAmount(e.target.value);
+    }
+
+    const handleOptions = (event) => {
+        setOptions(event.target.value)
+    }
+
+    console.log(amount, options, "ruja")
+
+    const makePayment = () => {
+        // console.log("inside make payment", id)
+        handleShow()
+    }
+
+    const handlePay = (id) => {
+        // console.log("inside handle pay", id)
+        if (amount && options) {
+            axios.post(`${baseUrl}/makePayment`, {
+                customerID: id,
+                PaymentAmount: `${amount}`,
+                PaymentMode: `${options}`,
+                token: "test",
+                outlet: selectedOutlet
+            })
+                .then((res) => {
+                    console.log(res)
+                    handleClose()
                 })
                 .catch((error) => {
                     console.log(error)
                 })
+
+            }
+            axios.post(`${baseUrl}/customerCreditDetails`, {
+                token: "test",
+                outlet: selectedOutlet,
+                customerName: selectedCreditCustomer,
+                customerID: `${id}`
+            })
+                .then((response) => {
+                    // console.log("detail", response.data.CreditWiseBillList)
+                    setPaymentHistory(response.data.PaymentHistory)
+                    setCreditWiseBillList(response.data.CreditWiseBillList)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+    }
+
+    const handleDropdownChange = (event) => {
+        setDropdownChange(event.target.value)
+    }
+
+    const handleFilter = () => {
+        if (dropdownChange === "All") {
+            axios.post(`${baseUrl}/customerCreditleft`, {
+                token: "test",
+                outlet: `${selectedOutlet}`,
+                type: `${dropdownChange}`,
+            })
+                .then((res) => {
+                    // console.log(res)
+                    setCreditLeft(res.data)
+                    setShowCreditLeft(true)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    setShowCreditLeft(false)
+                })
+        }
+        if (dropdownChange === "Ranged") {
+            axios.post(`${baseUrl}/customerCreditleft`, {
+                token: "test",
+                outlet: `${selectedOutlet}`,
+                type: `${dropdownChange}`,
+                dateStart: `${dateOne}`,
+                dateEnd: `${dateTwo}`
+            })
+                .then((res) => {
+                    console.log(res)
+                    setCreditLeft(res.data)
+                    setShowCreditLeft(true)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    setShowCreditLeft(false)
+                })
         }
     }
-
-    const makePayment = (reservationID, billNum) => {
-        axios.post(`${baseUrl}/makePayment`, {
-            banquetReservationID: `${reservationID}`,
-            PaymentAmount: "10",
-            PaymentMode: "Cash",
-            billno: `${billNum}`,
-            token: "test"
-        })
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
-
     return (
         <div className='credit-page'>
             <div className='credit-info'>
                 <div className='credit-remaining'>
-                    <div className='credit-border-bottom'>
-                        <h5>Credit Details</h5>
-                        <div className='same-width'>
-                            <p>Total Credit: </p>
-                            <span>{creditDetails.TotalCredit}</span>
-                        </div>
-                        <div className='same-width'>
-                            <p>Advance Amount : </p>
-                            <span>{creditDetails.AdvanceAmount}</span>
-                        </div>
-                        <div className='same-width'>
-                            <p>Total Payment Made: </p>
-                            <span>{creditDetails.TotalPaymentMade}</span>
-                        </div>
-                        <div className='same-width'>
-                            <p>Remaining Amount: </p>
-                            <span>{creditDetails.RemainingAmount}</span>
-                        </div>
-                    </div>
-                    <div className='credit-border-bottom'>
-                        <h5>Payment History</h5>
-                        {paymentHistory.map((amt, index) => (
-                            <div className='payment-history'>
-                                <p>Payment {index + 1}</p>
-                                <div className='same-width'>
-                                    <p>Payment Amount:</p>
-                                    <span>{amt.PaymentAmount}</span>
+                    <div >
+                        <h5>{selectedCreditCustomer}</h5>
+                        {creditData.map((detail) => (
+                            <div>
+                                <div className='credit-border-bottom'>
+                                    <div className='bill-list'>
+                                        <div className='same-width'>
+                                            <p>Email : </p>
+                                            <span>{detail.customerEmail}</span>
+                                        </div>
+                                        <div className='same-width'>
+                                            <p>Phone :</p>
+                                            <span>{detail.customerPhone}</span>
+                                        </div>
+                                        <div className='same-width'>
+                                            <p>Type :  </p>
+                                            <span>{detail.customerType}</span>
+                                        </div>
+                                        <div className='same-width'>
+                                            <p>VAT :  </p>
+                                            <span>{detail.customerVAT}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className='same-width'>
-                                    <p>Payment Mode:</p>
-                                    <span>{amt.PaymentMode}</span>
+
+                                <div className='credit-border-bottom'>
+                                    <h5>Credit Details</h5>
+                                    {detail.creditDetails.map((amount) => (
+                                        <div>
+                                            <div className='same-width'>
+                                                <p>Total Credit: </p>
+                                                <span>{amount.TotalCredit}</span>
+                                            </div>
+                                            <div className='same-width'>
+                                                <p>Advance Amount : </p>
+                                                <span>{amount.AdvanceAmount}</span>
+                                            </div>
+                                            <div className='same-width'>
+                                                <p>Total Payment Made: </p>
+                                                <span>{amount.TotalPaymentMade}</span>
+                                            </div>
+                                            <div className='same-width'>
+                                                <p>Remaining Amount: </p>
+                                                <span>{amount.RemainingAmount}</span>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-                                <div className='same-width'>
-                                    <p>Payment Type:</p>
-                                    <span>{amt.paymentType}</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className='credit-border-bottom'>
-                        <h5>Credit Bill</h5>
-                        {creditWiseBillList.map((bills) => (
-                            <div className='bill-list'>
-                                <div className='same-width'>
-                                    <p>Bill no: </p>
-                                    <span>{bills.billno}</span>
-                                </div>
-                                <div className='same-width'>
-                                    <p>Tax :</p>
-                                    <span>{bills.Tax}</span>
-                                </div>
-                                <div className='same-width'>
-                                    <p>Total :  </p>
-                                    <span>{bills.Total}</span>
+
+                                <div className='buttons'>
+                                    <button onClick={() => showCreditDetail(detail.customerID)} className="btn-details">Show Detail</button>
+                                    <button className='btn-pay' onClick={() => makePayment(detail.customerID)}>Make Payment</button>
+                                    <PaymentModal show={show} handleClose={handleClose} handleChange={handleChange} handleOptions={handleOptions} handlePay={handlePay} ids={detail.customerID} />
+
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
             </div>
+
             <div className='make-credit'>
                 <div className='background-credit'>
                     <div className='filter'>
@@ -252,77 +337,101 @@ const Credit = () => {
                         <div className='flex-datepicker'>
                             <div>
                                 <label></label>
-                                <Dropdown className='toggle-category'>
-                                    <Dropdown.Toggle id="dropdown-basic">
+                                <select className='toggle-category' onChange={handleDropdownChange}>
+                                    <label id="dropdown-basic">
                                         Filter By
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item href="#/action-1">All</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-2">Date Range</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                                    </label>
+                                    <option >Select an option </option>
+                                    <option value="All">All</option>
+                                    <option value="Ranged">Date Range</option>
+                                </select>
                             </div>
                             <div>
                                 <label>From: </label>
-                                <DatePickerInput />
+                                <DatePickerInput selectedDate={dateOne} setSelectedDate={setDateOne} />
                             </div>
                             <div>
                                 <label>To : </label>
-                                <DatePickerInput />
+                                <DatePickerInput selectedDate={dateTwo} setSelectedDate={setDateTwo} />
                             </div>
-                            <button className='btn-filter'>Filter</button>
+                            <button className='btn-filter-credit' onClick={handleFilter}>View Credit Left</button>
                         </div>
                     </div>
 
                     <div className='credit-table'>
-                        <div className='basic-information'>
-                            <table>
-                                <thead>
+                        {showBookingDetail &&
+                            <div className='responsive-credit-table'>
+                                <table>
                                     <tr>
-                                        <th>Email:</th>
-                                        <th>Phone:</th>
-                                        <th>Type:</th>
-                                        <th>VAT no:</th>
-                                        <th></th>
+                                        {creditHeader.map((headers, index) => (
+                                            <th key={index}>{headers}</th>
+                                        ))}
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {creditData.map((detail) => (
-                                        <tr onClick={() => showCreditDetail(detail.customerID)}>
-                                            <td>{detail.customerEmail}</td>
-                                            <td>{detail.customerPhone}</td>
-                                            <td>{detail.customerType}</td>
-                                            <td>{detail.customerVAT}</td>
-                                            <button onClick={() => showCreditDetail(detail.customerID)} className="btn-details">Details</button>
+                                    {bookingDetail.map((info) => (
+                                        <tr>
+                                            <td>{info.billno}</td>
+                                            <td>{info.NoOfPax}</td>
+                                            <td>{info.TimeSlot}</td>
+                                            <td>{info.advancePayment}</td>
+                                            <td><StandardDate date={info.reservationDate} /></td>
+                                            <td><StandardDate date={info.reservationForDate} /></td>
+                                            <td>{info.Total}</td>
+                                            <td>{info.subTotal}</td>
+                                            <td>{info.vatAmount}</td>
                                         </tr>
                                     ))}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className='responsive-credit-table'>
-                            <table>
-                                <tr>
-                                    {creditHeader.map((headers, index) => (
-                                        <th key={index}>{headers}</th>
-                                    ))}
-                                </tr>
-                                {bookingDetail.map((info) => (
+                                </table>
+                            </div>
+                        }
+
+                        {showPaymentHistory &&
+                            <div className='basic-information'>
+                                <label>Payment History</label>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th> Date:</th>
+                                            <th> Mode:</th>
+                                            <th> Amount:</th>
+                                            <th> Type:</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {paymentHistory.map((detail) => (
+                                            <tr>
+                                                <td><StandardDate date={detail.paymentDatetime} /></td>
+                                                <td>{detail.PaymentMode}</td>
+                                                <td>{detail.PaymentAmount}</td>
+                                                <td>{detail.paymentType}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+
+                        {showCreditLeft &&
+                            <div className='responsive-credit-table'>
+                                <label>Credit Left</label>
+                                <table>
                                     <tr>
-                                        <td>{info.billno}</td>
-                                        <td>{info.NoOfPax}</td>
-                                        <td>{info.TimeSlot}</td>
-                                        <td>{info.advancePayment}</td>
-                                        <td>{info.reservationDate}</td>
-                                        <td>{info.reservationForDate}</td>
-                                        <td>{info.Total}</td>
-                                        <td>{info.subTotal}</td>
-                                        <td>{info.vatAmount}</td>
-                                        <td><button className='btn-pay' onClick={()=>makePayment(info.BanquetReservationId, info.billno)}>Make Payment</button></td>
+                                        {creditLeftHeader.map((headers, index) => (
+                                            <th key={index}>{headers}</th>
+                                        ))}
                                     </tr>
-                                ))}
-                            </table>
-                        </div>
+                                    {creditLeft.map((info) => (
+                                        <tr>
+                                            <td>{info.guest}</td>
+                                            <td>{info.guestEmail}</td>
+                                            <td>{info.TotalCredit}</td>
+                                            <td>{info.TotalPaymentMade}</td>
+                                            <td>{info.AdvanceAmount}</td>
+                                            <td>{info.RemainingAmount}</td>
+                                        </tr>
+                                    ))}
+                                </table>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -331,25 +440,3 @@ const Credit = () => {
 }
 
 export default Credit
-
-
-
-{/* <Dropdown >
-                    <Dropdown.Toggle id="dropdown-basic" >
-                        Customer List
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Cash</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">Credit Card</Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown> */}
-{/* <SelectSearch
-                    defaultValue={selectedCustomer}
-                    search
-                    placeholder={"Customer List"}
-                    onChange={(event) => setSelectedCustomer(event)}
-                    options={customerName}
-                />
-                <button onClick={handleBookingDetail}>Booking Detail</button> */}

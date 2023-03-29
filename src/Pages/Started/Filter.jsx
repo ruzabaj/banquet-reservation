@@ -15,8 +15,8 @@ const Filter = ({startDate, setStartDate, endDate, setEndDate, handleBtnChange, 
             <label > Started</label>
           </div>
           <div className='btn-radio'>
-            <input type="radio" id="Finalised" name="state" value="Finalised" onChange={handleBtnChange} />
-            <label >Finalised</label>
+            <input type="radio" id="Finalized" name="state" value="Finalized" onChange={handleBtnChange} />
+            <label >Finalized</label>
           </div>
           <div className='btn-radio'>
             <input type="radio" id="Cancelled" name="state" value="Cancelled" onChange={handleBtnChange} />

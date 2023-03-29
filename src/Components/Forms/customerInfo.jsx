@@ -39,7 +39,7 @@ const CustomerInfo = () => {
             [id]: value,
         });
     }
-    console.log("see here", values)
+    // console.log("see here", values)
     useEffect(() => {
         axios.post(`${baseUrl}/customerList`, {
             token: "test"
@@ -111,8 +111,8 @@ const CustomerInfo = () => {
             vatno: values.panNumber,
         })
             .then((response) => {
-                console.log("res123", response.data)
-                console.log("res123", response.data.success)
+                // console.log("res123", response.data)
+                // console.log("res123", response.data.success)
                 setMessage("Congratulation! You have registered successfully")
                 setCustomerID(response.data.success)
                 setshowBanquet(true)
@@ -121,7 +121,7 @@ const CustomerInfo = () => {
 
             })
             .catch((error) => {
-                console.log("err", error.response.data)
+                // console.log("err", error.response.data)
                 setCheckError(true)
                 setshowBanquet(true)
             })
@@ -173,8 +173,6 @@ const CustomerInfo = () => {
                             <input type='text' id='country' placeholder='Nepal' value={isVerified ? verifiedCustomer.country : values.country} disabled={isDisabled} onChange={handleInputChange} />
                         </div>
                     </div>
-                    {console.log("type",verifiedCustomer.type)
-                    }
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                         <label>Type</label>
                         <div className='radio-type'>
