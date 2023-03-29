@@ -28,7 +28,7 @@ const Started = () => {
       token: `test`
     })
       .then((response) => {
-        console.log(response.data, "get started api")
+        // console.log(response.data, "get started api")
         setDetailList(response.data)
       })
       .catch((error) => {
@@ -92,11 +92,11 @@ const Started = () => {
         reservationForDateEnd: ""
       })
         .then((response) => {
-          console.log(response.data, "filter api reservation date")
+          // console.log(response.data, "filter api reservation date")
           setDetailList(response.data)
         })
         .catch((error) => {
-          console.log(error.response.data.error)
+          // console.log(error.response.data.error)
           setErrorMessage(error.response.data.error)
         })
     }
@@ -111,11 +111,11 @@ const Started = () => {
         reservationForDateEnd: `${selectedSecondDate}`
       })
         .then((response) => {
-          console.log(response.data, "filter api for reservation for date")
+          // console.log(response.data, "filter api for reservation for date")
           setDetailList(response.data)
         })
         .catch((error) => {
-          console.log(error)
+          // console.log(error)
         })
     }
   }
@@ -127,7 +127,7 @@ const Started = () => {
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = detailList.slice(indexOfFirstRecord, indexOfLastRecord);
-  console.log("from- pagination", currentRecords)
+  // console.log("from- pagination", currentRecords)
   const nPages = Math.ceil(detailList.length / recordsPerPage)
 
   return (

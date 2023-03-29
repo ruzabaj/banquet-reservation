@@ -21,7 +21,8 @@ const BanquetReservation = ({ customerID }) => {
     const [selectedHall, setSelectedHall] = useState("");
     const [outletList, setOutletList] = useState([]);
     const [selectedOutlet, setSelectedOutlet] = useState("");
-    const [showMessage, setShowMessage] = useState("")
+    const [showMessage, setShowMessage] = useState("");
+    const [showPaymentAdd, setShowPaymentAdd]= useState(false)
     // const [resHall, setResHall] = useState([]);
     // const [detail, setDetail] = useState([]);
 
@@ -100,6 +101,7 @@ const BanquetReservation = ({ customerID }) => {
 
     const handleSelectChange = (event) => {
         setSelected(event.target.value)
+        setShowPaymentAdd(true)
     }
 
     const addPaymentRows = () => {
@@ -130,9 +132,9 @@ const BanquetReservation = ({ customerID }) => {
     //     setResHall([...resHall, selectedHall])
     // }, [selectedHall])
 
-    console.log("show-values", values);
-    console.log("rows data", rowsData)
-    console.log("payment data", paymentData)
+    // console.log("show-values", values);
+    // console.log("rows data", rowsData)
+    // console.log("payment data", paymentData)
     
     const handleBanquetReservation = async () => {
         try {
@@ -158,12 +160,12 @@ const BanquetReservation = ({ customerID }) => {
                 "tblbanquetPayment_details": paymentData
             })
 
-            console.log(response)
+            // console.log(response)
             setShowMessage(response.data.result)
             handleShowModal()
         }
         catch (error) {
-            console.log(error.response.data.error)
+            // console.log(error.response.data.error)
             setShowMessage(error.response.data.error)
             handleShowModal()
         }
@@ -252,6 +254,7 @@ const BanquetReservation = ({ customerID }) => {
             <AdvancePayment paymentData={paymentData} addPaymentRows={addPaymentRows} deletePaymentRows={deletePaymentRows}
                 handlePaymentChange={handlePaymentChange}
                 handleSelectChange={handleSelectChange}
+                showPaymentAdd={showPaymentAdd}
             />
             <SubmitBtn event={"Save"} handle={handleBanquetReservation} />
         </section>

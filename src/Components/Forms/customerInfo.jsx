@@ -19,8 +19,8 @@ const CustomerInfo = () => {
     const [checkError, setCheckError] = useState(false)
     const [message, setMessage] = useState("")
 
-    console.log("here", isVerified, verifiedCustomer.address, verifiedCustomer.country, verifiedCustomer.type)
-    console.log("=>", customerID)
+    // console.log("here", isVerified, verifiedCustomer.address, verifiedCustomer.country, verifiedCustomer.type)
+    // console.log("=>", customerID)
 
     const [values, setValues] = useState({
         fullName: "",
@@ -55,7 +55,7 @@ const CustomerInfo = () => {
     // console.log(customerList, "customerList")
 
     const handleVerify = () => {
-        console.log("inisde verify")
+        // console.log("inisde verify")
         axios.post(`${baseUrl}/customercheck`, {
             token: "test",
             Name: values.fullName,
@@ -63,7 +63,7 @@ const CustomerInfo = () => {
             Phone: values.phone,
         })
             .then((response) => {
-                console.log("res", response)
+                // console.log("res", response)
                 setIsVerified(true)
                 setVerifiedCustomer(response.data.success[0])
                 setCustomerID(response.data.success[0].customerId)
@@ -73,7 +73,7 @@ const CustomerInfo = () => {
 
             })
             .catch((error) => {
-                console.log("error here", error.response.data.error)
+                // console.log("error here", error.response.data.error)
                 setIsVerified(false)
                 setIsDisabled(false)
                 setCheckError(true)
@@ -96,7 +96,7 @@ const CustomerInfo = () => {
         //     delete verifiedCustomer[prop];
         //   }
     }
-    console.log("verifiedCustomer", verifiedCustomer)
+    // console.log("verifiedCustomer", verifiedCustomer)
 
     const handleCustomer = () => {
         axios.post(`${baseUrl}/customerpost`, {
@@ -132,7 +132,7 @@ const CustomerInfo = () => {
     const handleShow = () => setShow(true);
     let navigate = useNavigate();
     const goExtra = () => {
-        console.log("clicked extra")
+        // console.log("clicked extra")
         navigate("/started")
     }
     return (

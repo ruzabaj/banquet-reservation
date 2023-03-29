@@ -1,8 +1,8 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Link } from 'react-router-dom';
 // import NavDropdown from 'react-bootstrap/NavDropdown';
-// import { Link } from 'react-router-dom';
 import "../../Assets/Styles/Navbar/navbar.scss";
 
 function CollapsibleExample() {
@@ -18,9 +18,19 @@ function CollapsibleExample() {
               <p>Started</p>
             </Nav> */}
             <Nav className='make-reservation'>
-                {/* <Link to="/">
+                <Link to="/started">
+                  <p>Started</p>
+                </Link>
+            </Nav>
+            <Nav className='make-reservation'>
+                <Link to="/">
                   <p>Make a Reservation</p>
-                </Link> */}
+                </Link>
+            </Nav>
+            <Nav className='make-reservation'>
+                <Link to="/schedule">
+                  <p>Availability</p>
+                </Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

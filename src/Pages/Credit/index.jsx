@@ -155,7 +155,7 @@ const Credit = () => {
         setOptions(event.target.value)
     }
 
-    console.log(amount, options, "ruja")
+    // console.log(amount, options, "ruja")
 
     const makePayment = () => {
         // console.log("inside make payment", id)
