@@ -6,7 +6,7 @@ import PaymentTable from '../Table/PaymentTable';
 import PaymentHistory from './../../Pages/Started/PaymentHistory';
 import axios from 'axios';
 
-const AccordionDetail = ({ detailList }) => {
+const AccordionDetail = ({ detailList, setDetailList, state}) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
     const headerRateDetail = ["Hall", "Rate Name", "Amount", "PAX", "Total"]
 
@@ -93,6 +93,8 @@ const AccordionDetail = ({ detailList }) => {
                                 rateDetailPax={rateDetailPax}
                                 rateDetailAmt={rateDetailAmt}
                                 reservatorID={accord.idtblbanquetReservation}
+                                setDetailList={setDetailList}
+                                state={state}
                                  />
                         </div>
                     </Accordion.Body>

@@ -181,7 +181,7 @@ const BanquetReservation = ({ customerID }) => {
         <section className='banquet-reservation'>
             <ReactModal show={showModal}
                 message={showMessage}
-                buttonOne={""}
+                buttonOne={"Ok"}
                 buttonTwo={"Close"}
                 handleTarget={handleCloseModal}
                 handleClose={handleCloseModal}

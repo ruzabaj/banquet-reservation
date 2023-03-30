@@ -14,7 +14,7 @@ const CreditPaymentTable = ({headers, contents}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {contents.map((detail, index) => (
+                    {!contents?.error && contents.map((detail, index) => (
                         <tr key={index}>
                             <td><StandardDate date={detail.paymentDatetime} /></td>
                             <td>{detail.PaymentMode}</td>

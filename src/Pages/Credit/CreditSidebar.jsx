@@ -12,6 +12,7 @@ const CreditSidebar = ({ customerEmail, customerPhone,
     handleChange, 
     customersName}) => {
 
+     
     return (
         <div className='credit-info'>
             <div className='credit-remaining'>

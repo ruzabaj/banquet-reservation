@@ -28,7 +28,6 @@ const Started = () => {
       token: `test`
     })
       .then((response) => {
-        // console.log(response.data, "get started api")
         setDetailList(response.data)
       })
       .catch((error) => {
@@ -111,7 +110,6 @@ const Started = () => {
         reservationForDateEnd: `${selectedSecondDate}`
       })
         .then((response) => {
-          // console.log(response.data, "filter api for reservation for date")
           setDetailList(response.data)
         })
         .catch((error) => {
@@ -127,7 +125,6 @@ const Started = () => {
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = detailList.slice(indexOfFirstRecord, indexOfLastRecord);
-  // console.log("from- pagination", currentRecords)
   const nPages = Math.ceil(detailList.length / recordsPerPage)
 
   return (
@@ -172,8 +169,10 @@ const Started = () => {
           <SubmitBtn event={"Filter"} handle={handleFilter} />
         </div>
         <AccordionDetail 
-        detailList={currentRecords} 
-        // detailList={detailList} 
+        // for pagination: detailList={currentRecords} 
+        detailList={detailList} 
+        setDetailList={setDetailList}
+        state={state}
         />
         <Paginate
           nPages={nPages}

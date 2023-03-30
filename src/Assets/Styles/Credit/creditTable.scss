@@ -1,5 +1,16 @@
 @import "../config";
 
+.responsive-credit-user-table,
+.responsive-credit-table,
+.basic-information {
+    overflow: auto !important;
+}
+
+.responsive-table>table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
 .position-sticky:focus,
 .position-sticky:visited,
 .position-sticky:focus-within {
@@ -15,7 +26,7 @@
 }
 
 .basic-information {
-    overflow-x: auto;
+    border-collapse: collapse;
     background-color: $secondary-color;
     text-align: center;
 
@@ -43,12 +54,12 @@
 }
 
 .responsive-credit-user-table {
-    overflow-x: auto;
     background-color: $secondary-color;
 
     table {
         width: 100%;
         border: 1px solid black;
+        border-collapse: collapse;
     }
 
     tr th {
@@ -63,14 +74,14 @@
         padding: 8px;
     }
 }
-.responsive-credit-table {
-    overflow-x: auto;
-    background-color: $secondary-color;
 
+.responsive-credit-table {
+    background-color: $secondary-color;
 
     table {
         width: 100%;
         border: 1px solid black;
+        border-collapse: collapse;
     }
 
     tr th {

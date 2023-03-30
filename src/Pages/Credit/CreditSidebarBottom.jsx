@@ -1,7 +1,17 @@
 import React from 'react'
 
 const CreditSidebarBottom = ({information}) => {
-    const {TotalCredit, AdvanceAmount, TotalPaymentMade, RemainingAmount}= information
+    const {TotalCredit, AdvanceAmount, TotalPaymentMade, RemainingAmount}= information;
+    const checkNan = (sales) => {
+        if (sales) {
+            let value = parseFloat(sales).toLocaleString(undefined, { maximumFractionDigits: 3 });
+            return value
+        }
+        else {
+            return ""
+        }
+    }
+
     return (
         <div className='credit-border-bottom'>
             <h5>Credit Details</h5>
@@ -12,7 +22,7 @@ const CreditSidebarBottom = ({information}) => {
                 </div>
                 <div className='same-width'>
                     <p>Advance Amount : </p>
-                    <span>{AdvanceAmount}</span>
+                    <span>{checkNan(AdvanceAmount)}</span>
                 </div>
                 <div className='same-width'>
                     <p>Total Payment Made: </p>

@@ -5,12 +5,14 @@ import "../../Assets/Styles/Credit/creditTable.scss";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiFilterAlt } from "react-icons/bi";
 import SelectSearch from 'react-select-search';
-import DatePickerInput from '../../Components/Datepicker';
+// import DatePickerInput from '../../Components/Datepicker';
 import SelectSearchInput from '../../Components/SelectSearch';
 import CreditPaymentTable from "../../Components/Table/CreditPaymentTable";
 import CreditTable from '../../Components/Table/CreditTable';
 import CreditSidebar from './CreditSidebar';
 import CreditLeftTable from '../../Components/Table/CreditLeftTable';
+import SimilarCustomerTable from '../../Components/Table/SimilarCustomerTable';
+import CreditDatepicker from './CreditDatepicker';
 
 const Credit = () => {
     const [customerID, setCustomerID] = useState("");
@@ -23,13 +25,13 @@ const Credit = () => {
     const [dateOne, setDateOne] = useState(new Date());
     const [dateTwo, setDateTwo] = useState(new Date());
 
-    const [customerName, setCustomerName] = useState([]);
     const [outletName, setOutletName] = useState([]);
     const [creditList, setCreditList] = useState([]);
     const [creditData, setCreditData] = useState([]);
 
-    const [creditWiseBillList, setCreditWiseBillList] = useState([]);
-    const [selectedCustomer, setSelectedCustomer] = useState("");
+    // const [customerName, setCustomerName] = useState([]);
+    // const [creditWiseBillList, setCreditWiseBillList] = useState([]);
+    // const [selectedCustomer, setSelectedCustomer] = useState("");
     const [selectedOutlet, setSelectedOutlet] = useState("");
     const [selectedCreditCustomer, setSelectedCreditCustomer] = useState("");
 
@@ -62,16 +64,15 @@ const Credit = () => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
 
     useEffect(() => {
-        axios.post(`${baseUrl}/customerNameList`, {
-            token: "test"
-        })
-            .then((response) => {
-                // console.log(response.data)
-                setCustomerName(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+        // axios.post(`${baseUrl}/customerNameList`, {
+        //     token: "test"
+        // })
+        //     .then((response) => {
+        //         setCustomerName(response.data)
+        //     })
+        //     .catch((error) => {
+        //         console.log(error)
+        //     })
 
         axios.post(`${baseUrl}/outlets`, {
             token: "test"
@@ -139,7 +140,7 @@ const Credit = () => {
                 .then((response) => {
                     // console.log("detail", response.data.CreditDetails)
                     setPaymentHistory(response.data.PaymentHistory)
-                    setCreditWiseBillList(response.data.CreditWiseBillList)
+                    // setCreditWiseBillList(response.data.CreditWiseBillList)
                     setCreditDetails(response.data.CreditDetails)
                     setShowPaymentHistory(true)
                 })
@@ -210,7 +211,7 @@ const Credit = () => {
         })
             .then((response) => {
                 setPaymentHistory(response.data.PaymentHistory)
-                setCreditWiseBillList(response.data.CreditWiseBillList)
+                // setCreditWiseBillList(response.data.CreditWiseBillList)
                 setCreditDetails(response.data.CreditDetails)
                 setShowPaymentHistory(true)
             })
@@ -325,54 +326,21 @@ const Credit = () => {
                                 />
                             </div>
                         </div>
-                        <div className='flex-datepicker'>
-                            <div>
-                                <label></label>
-                                <select className='toggle-category' onChange={handleDropdownChange}>
-                                    <label id="dropdown-basic">
-                                        Filter By
-                                    </label>
-                                    <option >Select an option </option>
-                                    <option value="All">All</option>
-                                    <option value="Ranged">Date Range</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label>From: </label>
-                                <DatePickerInput selectedDate={dateOne} setSelectedDate={setDateOne} />
-                            </div>
-                            <div>
-                                <label>To : </label>
-                                <DatePickerInput selectedDate={dateTwo} setSelectedDate={setDateTwo} />
-                            </div>
-                            <button className='btn-filter-credit' onClick={handleFilter}>View Credit Left</button>
-                        </div>
+                        <CreditDatepicker
+                            handleChange={handleDropdownChange}
+                            dateOne={dateOne}
+                            setDateOne={setDateOne}
+                            dateTwo={dateTwo}
+                            setDateTwo={setDateTwo}
+                            handleFilter={handleFilter} />
                     </div>
 
                     <div className='credit-table'>
                         {showCreditDetails &&
-                            <div className='responsive-credit-user-table'>
-                                <table>
-                                    <tr className='credit-header'>
-                                        {similarHeader.map((header, index) => (
-                                            <th key={index}>{header}</th>
-                                        ))}
-                                    </tr>
-                                    {creditData.map((detail, index) => (
-                                        <tr key={index} tabIndex="1" className='position-sticky'
-                                            onClick={() => showCreditDetail(detail.customerID, detail.customerEmail,
-                                                detail.customerPhone, detail.customerType, detail.customerVAT)}>
-                                            <td>{detail.customerEmail}</td>
-                                            <td>{detail.customerPhone}</td>
-                                            <td>{detail.customerType}</td>
-                                            <td>{detail.customerVAT}</td>
-                                            <button onClick={() => showCreditDetail(detail.customerID, detail.customerEmail, detail.customerPhone,
-                                                detail.customerType, detail.customerVAT)}
-                                                className="btn-details">Show Detail</button>
-                                        </tr>
-                                    ))}
-                                </table>
-                            </div>
+                            <SimilarCustomerTable
+                                headers={similarHeader}
+                                contents={creditData}
+                                showDetail={showCreditDetail} />
                         }
 
                         {showBookingDetail &&
@@ -396,6 +364,7 @@ const Credit = () => {
                             />
                         }
                     </div>
+
                 </div>
             </div>
         </div>

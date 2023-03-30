@@ -73,7 +73,7 @@ const CustomerInfo = () => {
 
             })
             .catch((error) => {
-                // console.log("error here", error.response.data.error)
+                console.log("error here", error.response.data.error)
                 setIsVerified(false)
                 setIsDisabled(false)
                 setCheckError(true)
@@ -130,18 +130,24 @@ const CustomerInfo = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    
     let navigate = useNavigate();
     const goExtra = () => {
-        // console.log("clicked extra")
         navigate("/started")
     }
     return (
         <div>
             <button onClick={goExtra}>Back</button>
-            <ReactModal show={show} handleClose={handleClose} message={message} />
+            <ReactModal
+                show={show}
+                handleClose={handleClose}
+                message={message}
+                buttonOne={"OK"}
+                buttonTwo={"Close"} 
+                handleTarget={handleClose}
+                />
             <section className='customer'>
                 <h5>Customer Information</h5>
-                {/* <SelectSearch options={customerList} placeholder="Ram Shrestha" /> */}
                 <div className='row customer-info'>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                         <label>Name</label>
