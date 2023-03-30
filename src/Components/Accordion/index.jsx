@@ -92,6 +92,7 @@ const AccordionDetail = ({ detailList }) => {
                                 reservationForDate={accord.reservationForDate}
                                 rateDetailPax={rateDetailPax}
                                 rateDetailAmt={rateDetailAmt}
+                                reservatorID={accord.idtblbanquetReservation}
                                  />
                         </div>
                     </Accordion.Body>

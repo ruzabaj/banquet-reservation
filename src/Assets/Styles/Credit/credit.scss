@@ -179,7 +179,7 @@
     @include btn-theme($secondary-theme, $secondary-color);
     border-radius: 5px;
     margin-top: 5px;
-    &:hover{
+    &:hover, &:focus{
         @include btn-theme($btn-credit-hover, $secondary-color);
     }
 

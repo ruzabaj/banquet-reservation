@@ -2,13 +2,16 @@ import React from 'react'
 import "../../Assets/Styles/selectSearch.scss";
 import SelectSearch from 'react-select-search';
 
-const SelectSearchInput = ({List, text, setSelectedItem}) => {
+const SelectSearchInput = ({ defaultName, List, text, setSelectedItem }) => {
     return (
         <div>
-            <SelectSearch options={List}
-             placeholder={text} 
-             onChange={(event) => setSelectedItem(event)}
-             />
+            <SelectSearch
+                search
+                defaultValue={defaultName}
+                options={List}
+                placeholder={text}
+                onChange={(event) => setSelectedItem(event)}
+            />
         </div>
     )
 }

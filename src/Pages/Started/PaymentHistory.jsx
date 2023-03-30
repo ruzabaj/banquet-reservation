@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import ReactModal from '../../Components/Modals';
 import StandardDate from "../../Components/StandardDate";
 
-const PaymentHistory = ({ paymentList, customerID, reservationForDate, rateDetailAmt, rateDetailPax }) => {
+const PaymentHistory = ({ paymentList, customerID, reservationForDate, rateDetailAmt, rateDetailPax, reservatorID }) => {
     const [paymentAmt, setPaymentAmt] = useState("");
     let selectedReservationForDate = new Date(reservationForDate).toISOString().substring(0, 10);
 
@@ -34,7 +34,7 @@ const PaymentHistory = ({ paymentList, customerID, reservationForDate, rateDetai
         axios.post(`${baseUrl}/finalize`,
             {
                 customerID: `${customerID}`,
-                reservationForDate: `${selectedReservationForDate}`,
+                banquetreservationID: `${reservatorID}`,
                 token: "test"
             })
             .then((res) => {
@@ -56,11 +56,13 @@ const PaymentHistory = ({ paymentList, customerID, reservationForDate, rateDetai
         axios.post(`${baseUrl}/cancel`,
             {
                 customerID: `${customerID}`,
-                reservationForDate: `${selectedReservationForDate}`,
+                // reservationForDate: `${selectedReservationForDate}`,
+                banquetreservationID: `${reservatorID}`,
                 token: "test"
             })
             .then((res) => {
                 console.log(res)
+                handleCloseModal()
             })
             .catch((error) => {
                 console.log(error)

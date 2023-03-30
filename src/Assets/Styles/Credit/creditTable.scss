@@ -1,34 +1,48 @@
 @import "../config";
 
-.credit-table{
+.position-sticky:focus,
+.position-sticky:visited,
+.position-sticky:focus-within {
+    background-color: $btn-credit-hover;
+    color: $secondary-color;
+}
+
+.credit-table {
     margin: 20px 5px;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
-.basic-information{
+
+.basic-information {
     overflow-x: auto;
     background-color: $secondary-color;
     text-align: center;
-    table{
+
+    table {
         border: 1px solid black;
         width: 100%;
-        tr th{
+
+        tr th {
             background-color: $btn-credit;
             color: $secondary-color;
         }
+
         tr {
-            &:hover{
+            &:hover {
                 background-color: $bg-sidebar;
             }
         }
-        tr, th, td{
+
+        tr,
+        th,
+        td {
             border: 1px solid black;
         }
     }
 }
 
-.responsive-credit-table{
+.responsive-credit-user-table {
     overflow-x: auto;
     background-color: $secondary-color;
 
@@ -36,13 +50,38 @@
         width: 100%;
         border: 1px solid black;
     }
-    tr th{
+
+    tr th {
+        background-color: $theme-color;
+        color: $secondary-color;
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+        text-align: left;
+        padding: 8px;
+    }
+}
+.responsive-credit-table {
+    overflow-x: auto;
+    background-color: $secondary-color;
+
+
+    table {
+        width: 100%;
+        border: 1px solid black;
+    }
+
+    tr th {
         background-color: $btn-credit;
         color: $secondary-color;
     }
-    th, td {
-            border: 1px solid black;
+
+    th,
+    td {
+        border: 1px solid black;
         text-align: left;
         padding: 8px;
-        }
+    }
 }

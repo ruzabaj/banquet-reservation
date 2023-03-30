@@ -22,7 +22,7 @@ const BanquetReservation = ({ customerID }) => {
     const [outletList, setOutletList] = useState([]);
     const [selectedOutlet, setSelectedOutlet] = useState("");
     const [showMessage, setShowMessage] = useState("");
-    const [showPaymentAdd, setShowPaymentAdd]= useState(false)
+    const [showPaymentAdd, setShowPaymentAdd] = useState(false)
     // const [resHall, setResHall] = useState([]);
     // const [detail, setDetail] = useState([]);
 
@@ -66,7 +66,7 @@ const BanquetReservation = ({ customerID }) => {
         });
     }
 
-  
+
 
     const [rowsData, setRowsData] = useState([]);
 
@@ -106,7 +106,7 @@ const BanquetReservation = ({ customerID }) => {
 
     const addPaymentRows = () => {
         const paymentInput = {
-            paymentDate: todayDate,
+            // paymentDate: todayDate,
             PaymentAmount: "",
             PaymentMode: selected
         }
@@ -135,7 +135,7 @@ const BanquetReservation = ({ customerID }) => {
     // console.log("show-values", values);
     // console.log("rows data", rowsData)
     // console.log("payment data", paymentData)
-    
+
     const handleBanquetReservation = async () => {
         try {
             let response = await axios.post(`${baseUrl}/banquetregistration`, {
@@ -209,7 +209,11 @@ const BanquetReservation = ({ customerID }) => {
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
                     <label>Hall Selection:</label>
                     <div>
-                        <SelectSearchInput List={hallList} text={"Select Hall"} setSelectedItem={setSelectedHall} />
+                        <SelectSearchInput
+                            defaultName={selectedHall}
+                            List={hallList}
+                            text={"Select Hall"}
+                            setSelectedItem={setSelectedHall} />
                     </div>
                 </div>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
@@ -244,7 +248,11 @@ const BanquetReservation = ({ customerID }) => {
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
                     <label>Outlet Name:</label>
                     <div>
-                        <SelectSearchInput List={outletList} text={"Select Outlet"} setSelectedItem={setSelectedOutlet} />
+                        <SelectSearchInput
+                            defaultName={selectedOutlet}
+                            List={outletList}
+                            text={"Select Outlet"}
+                            setSelectedItem={setSelectedOutlet} />
                     </div>
                 </div>
             </div>

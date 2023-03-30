@@ -44,9 +44,9 @@ const AdvancePayment = ({ showPaymentAdd, paymentData, addPaymentRows, deletePay
         <div className="payment-info col-lg-12 col-sm-8">
           <select onChange={handleSelectChange}>
             <option>Please select a payment option</option>
-            <option value="cash">Cash</option>
-            <option value="credit">Credit</option>
-            <option value="mobilePayment">Mobile Payment</option>
+            <option value="Cash">Cash</option>
+            <option value="Mobile Payment">Mobile Payment</option>
+            <option value="Cheque">Cheque</option>
           </select>
         </div>
         {showPaymentAdd && <p>Enter Advance Payment Below</p>}

@@ -1,29 +1,41 @@
 import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 import "../../Assets/Styles/Credit/credit.scss";
-import Dropdown from 'react-bootstrap/Dropdown';
+import "../../Assets/Styles/Credit/creditTable.scss";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiFilterAlt } from "react-icons/bi";
-import DatePickerInput from '../../Components/Datepicker';
-import axios from 'axios';
 import SelectSearch from 'react-select-search';
-import "../../Assets/Styles/Credit/creditTable.scss";
-import { Steps } from 'antd';
-import PaymentModal from '../../Components/Modals/PaymentModal';
-import StandardDate from "../../Components/StandardDate";
+import DatePickerInput from '../../Components/Datepicker';
+import SelectSearchInput from '../../Components/SelectSearch';
+import CreditPaymentTable from "../../Components/Table/CreditPaymentTable";
+import CreditTable from '../../Components/Table/CreditTable';
+import CreditSidebar from './CreditSidebar';
+import CreditLeftTable from '../../Components/Table/CreditLeftTable';
 
 const Credit = () => {
+    const [customerID, setCustomerID] = useState("");
+    const [customerEmail, setCustomerEmail] = useState("");
+    const [customerPhone, setCustomerPhone] = useState("");
+    const [customerType, setCustomerType] = useState("");
+    const [customerVAT, setCustomerVAT] = useState("");
+
     const [isDisabled, setIsDisabled] = useState(true);
+    const [dateOne, setDateOne] = useState(new Date());
+    const [dateTwo, setDateTwo] = useState(new Date());
+
     const [customerName, setCustomerName] = useState([]);
     const [outletName, setOutletName] = useState([]);
     const [creditList, setCreditList] = useState([]);
     const [creditData, setCreditData] = useState([]);
-    // const [creditDetails, setCreditDetails] = useState({});
+
     const [creditWiseBillList, setCreditWiseBillList] = useState([]);
     const [selectedCustomer, setSelectedCustomer] = useState("");
     const [selectedOutlet, setSelectedOutlet] = useState("");
     const [selectedCreditCustomer, setSelectedCreditCustomer] = useState("");
-    const [dateOne, setDateOne] = useState(new Date());
-    const [dateTwo, setDateTwo] = useState(new Date());
+
+    const [creditDetails, setCreditDetails] = useState([]);
+    const [showCreditDetails, setShowCreditDetails] = useState(false);
+
     const [dropdownChange, setDropdownChange] = useState("");
 
     const [bookingDetail, setBookingDetail] = useState([]);
@@ -42,6 +54,10 @@ const Credit = () => {
     const creditLeftHeader =
         ["Guest", "Guest Email",
             "Total Credit", "Total Payment Made", "Advance Amount", "Remaining Amount"]
+
+    const similarHeader = ["Email", "Phone", "Type", "VAT", ""]
+
+    const paymentHeader = ["Date", "Mode", "Amount", "Type"]
 
     let baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -97,14 +113,22 @@ const Credit = () => {
                 .then((response) => {
                     console.log("credit-data", response.data)
                     setCreditData(response.data)
+                    setShowCreditDetails(true)
                 })
                 .catch((error) => {
                     console.log(error)
+                    setShowCreditDetails(false)
                 })
         }
     }, [selectedOutlet, selectedCreditCustomer])
 
-    const showCreditDetail = (id) => {
+    const showCreditDetail = (id, email, phone, type, vat) => {
+        setCustomerID(id)
+        setCustomerEmail(email)
+        setCustomerPhone(phone)
+        setCustomerType(type)
+        setCustomerVAT(vat)
+
         if (selectedCreditCustomer && selectedOutlet) {
             axios.post(`${baseUrl}/customerCreditDetails`, {
                 token: "test",
@@ -113,9 +137,10 @@ const Credit = () => {
                 customerID: `${id}`
             })
                 .then((response) => {
-                    // console.log("detail", response.data.CreditWiseBillList)
+                    // console.log("detail", response.data.CreditDetails)
                     setPaymentHistory(response.data.PaymentHistory)
                     setCreditWiseBillList(response.data.CreditWiseBillList)
+                    setCreditDetails(response.data.CreditDetails)
                     setShowPaymentHistory(true)
                 })
                 .catch((error) => {
@@ -129,7 +154,7 @@ const Credit = () => {
                 customerID: `${id}`
             })
                 .then((response) => {
-                    console.log("booking-detail", response.data)
+                    // console.log("booking-detail", response.data)
                     setBookingDetail(response.data)
                     setShowBookingDetail(true)
                 })
@@ -155,15 +180,11 @@ const Credit = () => {
         setOptions(event.target.value)
     }
 
-    // console.log(amount, options, "ruja")
-
     const makePayment = () => {
-        // console.log("inside make payment", id)
         handleShow()
     }
 
     const handlePay = (id) => {
-        // console.log("inside handle pay", id)
         if (amount && options) {
             axios.post(`${baseUrl}/makePayment`, {
                 customerID: id,
@@ -180,21 +201,37 @@ const Credit = () => {
                     console.log(error)
                 })
 
-            }
-            axios.post(`${baseUrl}/customerCreditDetails`, {
-                token: "test",
-                outlet: selectedOutlet,
-                customerName: selectedCreditCustomer,
-                customerID: `${id}`
+        }
+        axios.post(`${baseUrl}/customerCreditDetails`, {
+            token: "test",
+            outlet: selectedOutlet,
+            customerName: selectedCreditCustomer,
+            customerID: `${id}`
+        })
+            .then((response) => {
+                setPaymentHistory(response.data.PaymentHistory)
+                setCreditWiseBillList(response.data.CreditWiseBillList)
+                setCreditDetails(response.data.CreditDetails)
+                setShowPaymentHistory(true)
             })
-                .then((response) => {
-                    // console.log("detail", response.data.CreditWiseBillList)
-                    setPaymentHistory(response.data.PaymentHistory)
-                    setCreditWiseBillList(response.data.CreditWiseBillList)
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+            .catch((error) => {
+                console.log(error)
+            })
+
+        axios.post(`${baseUrl}/bookingDetails`, {
+            token: "test",
+            customerName: selectedCreditCustomer,
+            customerID: `${id}`
+        })
+            .then((response) => {
+                setBookingDetail(response.data)
+                setShowBookingDetail(true)
+            })
+            .catch((error) => {
+                console.log(error)
+                setShowBookingDetail(false)
+            })
+
     }
 
     const handleDropdownChange = (event) => {
@@ -209,7 +246,6 @@ const Credit = () => {
                 type: `${dropdownChange}`,
             })
                 .then((res) => {
-                    // console.log(res)
                     setCreditLeft(res.data)
                     setShowCreditLeft(true)
                 })
@@ -219,12 +255,15 @@ const Credit = () => {
                 })
         }
         if (dropdownChange === "Ranged") {
+            let dateStart = new Date(dateOne).toISOString().substring(0, 11);
+            let dateEnd = new Date(dateTwo).toISOString().substring(0, 11);
+
             axios.post(`${baseUrl}/customerCreditleft`, {
                 token: "test",
                 outlet: `${selectedOutlet}`,
                 type: `${dropdownChange}`,
-                dateStart: `${dateOne}`,
-                dateEnd: `${dateTwo}`
+                dateStart: `${dateStart}`,
+                dateEnd: `${dateEnd}`
             })
                 .then((res) => {
                     console.log(res)
@@ -237,70 +276,24 @@ const Credit = () => {
                 })
         }
     }
+    console.log(customerID, "id")
     return (
         <div className='credit-page'>
-            <div className='credit-info'>
-                <div className='credit-remaining'>
-                    <div >
-                        <h5>{selectedCreditCustomer}</h5>
-                        {creditData.map((detail) => (
-                            <div>
-                                <div className='credit-border-bottom'>
-                                    <div className='bill-list'>
-                                        <div className='same-width'>
-                                            <p>Email : </p>
-                                            <span>{detail.customerEmail}</span>
-                                        </div>
-                                        <div className='same-width'>
-                                            <p>Phone :</p>
-                                            <span>{detail.customerPhone}</span>
-                                        </div>
-                                        <div className='same-width'>
-                                            <p>Type :  </p>
-                                            <span>{detail.customerType}</span>
-                                        </div>
-                                        <div className='same-width'>
-                                            <p>VAT :  </p>
-                                            <span>{detail.customerVAT}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className='credit-border-bottom'>
-                                    <h5>Credit Details</h5>
-                                    {detail.creditDetails.map((amount) => (
-                                        <div>
-                                            <div className='same-width'>
-                                                <p>Total Credit: </p>
-                                                <span>{amount.TotalCredit}</span>
-                                            </div>
-                                            <div className='same-width'>
-                                                <p>Advance Amount : </p>
-                                                <span>{amount.AdvanceAmount}</span>
-                                            </div>
-                                            <div className='same-width'>
-                                                <p>Total Payment Made: </p>
-                                                <span>{amount.TotalPaymentMade}</span>
-                                            </div>
-                                            <div className='same-width'>
-                                                <p>Remaining Amount: </p>
-                                                <span>{amount.RemainingAmount}</span>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className='buttons'>
-                                    <button onClick={() => showCreditDetail(detail.customerID)} className="btn-details">Show Detail</button>
-                                    <button className='btn-pay' onClick={() => makePayment(detail.customerID)}>Make Payment</button>
-                                    <PaymentModal show={show} handleClose={handleClose} handleChange={handleChange} handleOptions={handleOptions} handlePay={handlePay} ids={detail.customerID} />
-
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            <CreditSidebar
+                customerID={customerID}
+                customerEmail={customerEmail}
+                customerPhone={customerPhone}
+                customerType={customerType}
+                customerVAT={customerVAT}
+                creditDetails={creditDetails}
+                makePayment={makePayment}
+                handlePay={handlePay}
+                show={show}
+                handleClose={handleClose}
+                handleChange={handleChange}
+                handleOptions={handleOptions}
+                customersName={selectedCreditCustomer}
+            />
 
             <div className='make-credit'>
                 <div className='background-credit'>
@@ -313,13 +306,11 @@ const Credit = () => {
                             <div className='input-search'>
                                 <span className='eyeglass-icon'><AiOutlineSearch /></span>
                                 <div className='dropdown-search'>
-                                    <SelectSearch
-                                        defaultValue={selectedOutlet}
-                                        search
-                                        placeholder={"Select Oulet Name"}
-                                        onChange={(event) => setSelectedOutlet(event)}
-                                        options={outletName}
-
+                                    <SelectSearchInput
+                                        defaultName={selectedOutlet}
+                                        text={"Select Outlet Name"}
+                                        setSelectedItem={setSelectedOutlet}
+                                        List={outletName}
                                     />
                                 </div>
                             </div>
@@ -359,78 +350,50 @@ const Credit = () => {
                     </div>
 
                     <div className='credit-table'>
-                        {showBookingDetail &&
-                            <div className='responsive-credit-table'>
+                        {showCreditDetails &&
+                            <div className='responsive-credit-user-table'>
                                 <table>
-                                    <tr>
-                                        {creditHeader.map((headers, index) => (
-                                            <th key={index}>{headers}</th>
+                                    <tr className='credit-header'>
+                                        {similarHeader.map((header, index) => (
+                                            <th key={index}>{header}</th>
                                         ))}
                                     </tr>
-                                    {bookingDetail.map((info) => (
-                                        <tr>
-                                            <td>{info.billno}</td>
-                                            <td>{info.NoOfPax}</td>
-                                            <td>{info.TimeSlot}</td>
-                                            <td>{info.advancePayment}</td>
-                                            <td><StandardDate date={info.reservationDate} /></td>
-                                            <td><StandardDate date={info.reservationForDate} /></td>
-                                            <td>{info.Total}</td>
-                                            <td>{info.subTotal}</td>
-                                            <td>{info.vatAmount}</td>
+                                    {creditData.map((detail, index) => (
+                                        <tr key={index} tabIndex="1" className='position-sticky'
+                                            onClick={() => showCreditDetail(detail.customerID, detail.customerEmail,
+                                                detail.customerPhone, detail.customerType, detail.customerVAT)}>
+                                            <td>{detail.customerEmail}</td>
+                                            <td>{detail.customerPhone}</td>
+                                            <td>{detail.customerType}</td>
+                                            <td>{detail.customerVAT}</td>
+                                            <button onClick={() => showCreditDetail(detail.customerID, detail.customerEmail, detail.customerPhone,
+                                                detail.customerType, detail.customerVAT)}
+                                                className="btn-details">Show Detail</button>
                                         </tr>
                                     ))}
                                 </table>
                             </div>
+                        }
+
+                        {showBookingDetail &&
+                            <CreditTable
+                                headers={creditHeader}
+                                titles={"Bill Information"}
+                                contents={bookingDetail} />
                         }
 
                         {showPaymentHistory &&
-                            <div className='basic-information'>
-                                <label>Payment History</label>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th> Date:</th>
-                                            <th> Mode:</th>
-                                            <th> Amount:</th>
-                                            <th> Type:</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {paymentHistory.map((detail) => (
-                                            <tr>
-                                                <td><StandardDate date={detail.paymentDatetime} /></td>
-                                                <td>{detail.PaymentMode}</td>
-                                                <td>{detail.PaymentAmount}</td>
-                                                <td>{detail.paymentType}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                            <CreditPaymentTable
+                                headers={paymentHeader}
+                                contents={paymentHistory} />
                         }
 
                         {showCreditLeft &&
-                            <div className='responsive-credit-table'>
-                                <label>Credit Left</label>
-                                <table>
-                                    <tr>
-                                        {creditLeftHeader.map((headers, index) => (
-                                            <th key={index}>{headers}</th>
-                                        ))}
-                                    </tr>
-                                    {creditLeft.map((info) => (
-                                        <tr>
-                                            <td>{info.guest}</td>
-                                            <td>{info.guestEmail}</td>
-                                            <td>{info.TotalCredit}</td>
-                                            <td>{info.TotalPaymentMade}</td>
-                                            <td>{info.AdvanceAmount}</td>
-                                            <td>{info.RemainingAmount}</td>
-                                        </tr>
-                                    ))}
-                                </table>
-                            </div>
+                            <CreditLeftTable
+                                headers={creditLeftHeader}
+                                contents={creditLeft}
+                                titles={"Credit Left"}
+                            />
                         }
                     </div>
                 </div>
