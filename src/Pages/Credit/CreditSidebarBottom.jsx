@@ -18,7 +18,7 @@ const CreditSidebarBottom = ({information}) => {
             <div>
                 <div className='same-width'>
                     <p>Total Credit: </p>
-                    <span>{TotalCredit}</span>
+                    <span>{checkNan(TotalCredit)}</span>
                 </div>
                 <div className='same-width'>
                     <p>Advance Amount : </p>
@@ -26,11 +26,11 @@ const CreditSidebarBottom = ({information}) => {
                 </div>
                 <div className='same-width'>
                     <p>Total Payment Made: </p>
-                    <span>{TotalPaymentMade}</span>
+                    <span>{checkNan(TotalPaymentMade)}</span>
                 </div>
                 <div className='same-width'>
                     <p>Remaining Amount: </p>
-                    <span>{RemainingAmount}</span>
+                    <span>{checkNan(RemainingAmount)}</span>
                 </div>
             </div>
         </div>

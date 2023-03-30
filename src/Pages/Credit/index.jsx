@@ -201,37 +201,38 @@ const Credit = () => {
                 .catch((error) => {
                     console.log(error)
                 })
-
         }
-        axios.post(`${baseUrl}/customerCreditDetails`, {
-            token: "test",
-            outlet: selectedOutlet,
-            customerName: selectedCreditCustomer,
-            customerID: `${id}`
-        })
-            .then((response) => {
-                setPaymentHistory(response.data.PaymentHistory)
-                // setCreditWiseBillList(response.data.CreditWiseBillList)
-                setCreditDetails(response.data.CreditDetails)
-                setShowPaymentHistory(true)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
 
-        axios.post(`${baseUrl}/bookingDetails`, {
-            token: "test",
-            customerName: selectedCreditCustomer,
-            customerID: `${id}`
-        })
-            .then((response) => {
-                setBookingDetail(response.data)
-                setShowBookingDetail(true)
+        setTimeout(() => {
+            axios.post(`${baseUrl}/customerCreditDetails`, {
+                token: "test",
+                outlet: selectedOutlet,
+                customerName: selectedCreditCustomer,
+                customerID: `${id}`
             })
-            .catch((error) => {
-                console.log(error)
-                setShowBookingDetail(false)
+                .then((response) => {
+                    setPaymentHistory(response.data.PaymentHistory)
+                    setCreditDetails(response.data.CreditDetails)
+                    setShowPaymentHistory(true)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+
+            axios.post(`${baseUrl}/bookingDetails`, {
+                token: "test",
+                customerName: selectedCreditCustomer,
+                customerID: `${id}`
             })
+                .then((response) => {
+                    setBookingDetail(response.data)
+                    setShowBookingDetail(true)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    setShowBookingDetail(false)
+                })
+        }, 1000);
 
     }
 
