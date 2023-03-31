@@ -5,7 +5,7 @@ const CreditPaymentTable = ({headers, contents}) => {
     return (
         <div className='basic-information'>
             <label>Payment History</label>
-            <table>
+            <table className='responsive'>
                 <thead>
                     <tr>
                         {headers.map((headings, index) => (

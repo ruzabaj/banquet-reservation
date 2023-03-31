@@ -1,4 +1,22 @@
 @import "../config";
+.same-width {
+    display: flex;
+
+    p {
+        width: 70%;
+    }
+}
+.no-break{
+    white-space: nowrap;
+}
+
+.started-border-bottom{
+    border-bottom: 2px solid $theme-color;
+    margin: 0px 5px;
+    .started-border{
+        padding: 5px;
+    }
+}
 
 .side-container {
     // flex: 2;
@@ -8,8 +26,22 @@
     left: 0;
     background-color: rgb(231, 223, 223);
 }
-@media screen and (max-width: 660px) {
+.side-container-small{
     .side-container{
+        display: flex;
+        justify-content: space-around;
+        .started-border{
+            border: 2px solid $theme-color;
+        }
+    }
+}
+@media screen and (min-width: 660px) {
+    .side-container-small{
+        display: none !important;
+    }
+}
+@media screen and (max-width: 660px) {
+    .side-conatiner-lg{
         display: none !important;
     }
 }

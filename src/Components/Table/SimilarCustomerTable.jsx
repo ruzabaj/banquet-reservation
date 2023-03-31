@@ -3,7 +3,7 @@ import React from 'react'
 const SimilarCustomerTable = ({headers, contents, showDetail}) => {
     return (
         <div className='responsive-credit-user-table'>
-            <table>
+            <table className='responsive'>
                 <tr className='credit-header'>
                     {headers.map((header, index) => (
                         <th key={index}>{header}</th>

@@ -14,24 +14,27 @@ function CollapsibleExample() {
           <Navbar.Brand>Alice Reception</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            {/* <Nav className="me-auto">
-              <p>Started</p>
-            </Nav> */}
-            <Nav className='make-reservation'>
-                <Link to="/started">
-                  <p>Started</p>
-                </Link>
-            </Nav>
-            <Nav className='make-reservation'>
+            <div className='nav-link'>
+              <Nav className='view-reservation'>
                 <Link to="/">
-                  <p>Make a Reservation</p>
+                  <p>View Reservation</p>
                 </Link>
-            </Nav>
-            <Nav className='make-reservation'>
+              </Nav>
+            </div>
+            <div className='nav-link'>
+              <Nav className='make-reservation'>
+                <Link to="/register">
+                  <p>Make Reservation</p>
+                </Link>
+              </Nav>
+            </div>
+            <div className='nav-link'>
+              <Nav className='view-availability'>
                 <Link to="/schedule">
-                  <p>Availability</p>
+                  <p>View Availability</p>
                 </Link>
-            </Nav>
+              </Nav>
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>

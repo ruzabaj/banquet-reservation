@@ -5,7 +5,6 @@ import "../../Assets/Styles/Credit/creditTable.scss";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiFilterAlt } from "react-icons/bi";
 import SelectSearch from 'react-select-search';
-// import DatePickerInput from '../../Components/Datepicker';
 import SelectSearchInput from '../../Components/SelectSearch';
 import CreditPaymentTable from "../../Components/Table/CreditPaymentTable";
 import CreditTable from '../../Components/Table/CreditTable';
@@ -29,9 +28,6 @@ const Credit = () => {
     const [creditList, setCreditList] = useState([]);
     const [creditData, setCreditData] = useState([]);
 
-    // const [customerName, setCustomerName] = useState([]);
-    // const [creditWiseBillList, setCreditWiseBillList] = useState([]);
-    // const [selectedCustomer, setSelectedCustomer] = useState("");
     const [selectedOutlet, setSelectedOutlet] = useState("");
     const [selectedCreditCustomer, setSelectedCreditCustomer] = useState("");
 
@@ -64,21 +60,10 @@ const Credit = () => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
 
     useEffect(() => {
-        // axios.post(`${baseUrl}/customerNameList`, {
-        //     token: "test"
-        // })
-        //     .then((response) => {
-        //         setCustomerName(response.data)
-        //     })
-        //     .catch((error) => {
-        //         console.log(error)
-        //     })
-
         axios.post(`${baseUrl}/outlets`, {
             token: "test"
         })
             .then((response) => {
-                // console.log(response.data)
                 setOutletName(response.data)
                 setIsDisabled(false)
             })
@@ -297,7 +282,7 @@ const Credit = () => {
                 customersName={selectedCreditCustomer}
             />
 
-            <div className='make-credit'>
+            <div className='make-credit container'>
                 <div className='background-credit'>
                     <div className='filter'>
                         <BiFilterAlt />

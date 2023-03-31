@@ -11,7 +11,7 @@
     color: $secondary-color !important;
 }
 
-.make-reservation a {
+.make-reservation a , .view-availability a, .view-reservation a{
     text-decoration: none;
     color: $secondary-color !important;
 }
@@ -23,6 +23,15 @@
 .navbar-brand {
     margin-left: 10px;
     color: $secondary-color !important;
+}
+
+.nav-link{
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 40px;
+    width: auto;
+    padding: 5px 5px 0px 5px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 @media screen and (min-width:768px){

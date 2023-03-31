@@ -1,20 +1,141 @@
 @import "../config";
 
+// @mixin responsive-table{
+//     thead {
+//       color: white;
+//       display: none;
+//     }
+
+//     tbody {
+//       display: flex;
+//       flex-flow: row wrap;
+//       width: 100%;
+
+//       td {
+//         background-color: white;
+//         display: block;
+//         padding: .75rem 1rem;
+//         width: 100%;
+
+//         &::before {
+//           content: attr(aria-label);
+//           display: inline-block;
+//           font-weight: bold;
+//           margin: 0 1rem 0 0;
+//           min-width: 80px;
+//         }
+
+//         &:first-child {
+//           background-color: black;
+//           color: white;
+//           text-align: center;
+
+//           &::before {
+//             display: none;
+//           }
+//         }
+//       }
+//     }
+
+//     tr {
+//       display: flex;
+//       flex-flow: column wrap;
+//       flex: 0 0 100%;
+//       padding: 1.25rem 1rem;
+//       max-width: 100%;
+//       width: 100%;
+//     }
+
+//     @media screen and (min-width: 600px) {
+//       tr {
+//         flex: 0 0 50%;
+//         max-width: 50%;
+//         width: 100%;
+//       }
+//     }
+
+//     @media screen and (min-width: 900px) {
+
+//       background-color: #efefef;
+
+//       thead {
+//         display: table-header-group;
+
+//         th {
+//           background-color: black;
+//           padding: 1rem;
+//           text-align: center;
+//         }
+//       }
+
+//       tbody {
+//         display: table-row-group;
+
+//         td {
+//           background-color: transparent;
+//           display: table-cell;
+//           padding: 1rem;
+//           text-align: center;
+//           width: auto;
+
+//           &::before {
+//             display: none;
+//           }
+
+//           &:first-child {
+//             background-color: transparent;
+//             color: inherit;
+//           }
+//         }
+//       }
+
+//       tr {
+//         display: table-row;
+//         margin: 0;
+
+//         &:nth-child(odd) {
+//           background-color: white;
+//         }
+
+//         &:nth-child(even) {
+//           background-color: light gray;
+//         }
+//       }
+//     }
+//   }
+
 .responsive-credit-user-table,
 .responsive-credit-table,
 .basic-information {
-    overflow: auto !important;
-    max-width: 100%;
-    table {
-          overflow-x: auto;
-          width: 100%;
-          box-shadow: 0 0 1px 1px rgba(0, 0, 0, .1);
-        }
+    // width: calc(100% - 241px);
+    // @include responsive-table
+    overflow: auto;
+    width: 100%;
+
+    .responsive {
+        width: 100%;
+    }
 }
 
-.responsive-table>table {
-    width: 100%;
-    border-collapse: collapse;
+@media screen and (max-width: 940px) {
+
+    .responsive-credit-user-table,
+    .responsive-credit-table,
+    .basic-information {
+        width: 660px !important;
+    }
+}
+
+@media screen and (max-width: 939px) {
+
+    .responsive-credit-user-table,
+    .responsive-credit-table,
+    .basic-information {
+        width: calc(100% - 200px) !important;
+    }
+    // .input-search{
+    //     width: 200px !important;
+    // }
 }
 
 .position-sticky:focus,
@@ -34,7 +155,7 @@
 .basic-information {
     border-collapse: collapse;
     background-color: $secondary-color;
-    text-align: center;
+    // text-align: center;
 
     table {
         border: 1px solid black;

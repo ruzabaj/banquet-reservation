@@ -165,7 +165,7 @@ const BanquetReservation = ({ customerID }) => {
             handleShowModal()
         }
         catch (error) {
-            // console.log(error.response.data.error)
+            console.log(error)
             setShowMessage(error.response.data.error)
             handleShowModal()
         }

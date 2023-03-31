@@ -5,7 +5,7 @@ const CreditTable = ({headers, contents, titles}) => {
     return (
         <div className='responsive-credit-table'>
             <label>{titles}</label>
-            <table>
+            <table className='responsive'>
                 <tr>
                     {headers.map((header, index) => (
                         <th key={index}>{header}</th>

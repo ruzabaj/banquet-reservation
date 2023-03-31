@@ -5,7 +5,6 @@ const CreditDatepicker = ({handleChange, dateOne, setDateOne, dateTwo, setDateTw
     return (
         <div className='flex-datepicker'>
             <div>
-                <label></label>
                 <select className='toggle-category' 
                 onChange={handleChange}>
                     <label id="dropdown-basic">

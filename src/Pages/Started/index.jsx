@@ -129,7 +129,9 @@ const Started = () => {
 
   return (
     <div className='width-flex'>
-      <SideContainer />
+      <div className='side-conatiner-lg'>
+        <SideContainer />
+      </div>
       <div className='started'>
         <div className='info-reservation'>
           <div className='btn-left'>
@@ -139,18 +141,18 @@ const Started = () => {
               </div>
             </Link>
           </div>
-          <div className='btn-right'>
+          {/* <div className='btn-right'>
             <Link to="/schedule">
-              <div className='style-btn-availability'>
-                <button className='btn-availability'>Check Availability</button>
-              </div>
+            <div className='style-btn-availability'>
+            <button className='btn-availability'>Check Availability</button>
+            </div>
             </Link>
             <Link to="/">
-              <div className='style-btn-reservation'>
-                <button className='btn-reservation'>Make a reservation</button>
-              </div>
+            <div className='style-btn-reservation'>
+            <button className='btn-reservation'>Make a reservation</button>
+            </div>
             </Link>
-          </div>
+          </div> */}
         </div>
         <Filter
           handleBtnChange={handleBtnChange}
@@ -168,11 +170,13 @@ const Started = () => {
         <div className='btn-filter' >
           <SubmitBtn event={"Filter"} handle={handleFilter} />
         </div>
-        <AccordionDetail 
-        // for pagination: detailList={currentRecords} 
-        detailList={detailList} 
-        setDetailList={setDetailList}
-        state={state}
+        <div className='side-container-small'>
+          <SideContainer />
+        </div>
+        <AccordionDetail
+          detailList={detailList}
+          setDetailList={setDetailList}
+          state={state}
         />
         <Paginate
           nPages={nPages}

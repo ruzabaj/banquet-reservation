@@ -6,7 +6,7 @@ import SubmitBtn from '../Buttons/submitBtn';
 import RegisterBtns from '../Buttons/registerBtns';
 import ReactModal from './../Modals/index';
 import BanquetReservation from './banquetReservation';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 const CustomerInfo = () => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -131,13 +131,13 @@ const CustomerInfo = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     
-    let navigate = useNavigate();
-    const goExtra = () => {
-        navigate("/started")
-    }
+    // let navigate = useNavigate();
+    // const goExtra = () => {
+    //     navigate("/started")
+    // }
     return (
         <div>
-            <button onClick={goExtra}>Back</button>
+            {/* <button onClick={goExtra}>Back</button> */}
             <ReactModal
                 show={show}
                 handleClose={handleClose}
