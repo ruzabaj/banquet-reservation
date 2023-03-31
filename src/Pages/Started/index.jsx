@@ -130,6 +130,7 @@ const Started = () => {
   return (
     <div className='width-flex'>
       <div className='side-conatiner-lg'>
+        
         <SideContainer />
       </div>
       <div className='started'>

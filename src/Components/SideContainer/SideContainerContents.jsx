@@ -2,8 +2,10 @@ import React from 'react'
 import StandardDate from "../StandardDate";
 
 const SideBarContents = ({statistics, title}) => {
+  
   return (
     <div className='started-border-bottom'>
+      
       {statistics.length >= 1 ?
         statistics.map((stats) => (
           <div className='started-border'>
