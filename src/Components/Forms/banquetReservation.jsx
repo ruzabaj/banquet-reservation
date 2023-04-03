@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import "../../Assets/Styles/Form/banquetReservation.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import SelectSearchInput from './../SelectSearch/index';
@@ -39,7 +39,7 @@ const BanquetReservation = ({ customerID }) => {
                 setHallList(response.data)
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
         axios.post(`${baseUrl}/outlets`, {
             token: "test"
@@ -48,7 +48,7 @@ const BanquetReservation = ({ customerID }) => {
                 setOutletList(response.data)
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -66,12 +66,11 @@ const BanquetReservation = ({ customerID }) => {
         });
     }
 
-
-
     const [rowsData, setRowsData] = useState([]);
+    const [showTable, setShowTable] = useState(false);
+    const buttonRef = useRef(null);
 
     const addTableRows = () => {
-        // console.log("selected hall", selectedHall)
         const rowsInput = {
             RateName: '',
             RateAmount: '',
@@ -79,7 +78,9 @@ const BanquetReservation = ({ customerID }) => {
             HallName: selectedHall
         }
         setRowsData([...rowsData, rowsInput])
+        setShowTable(!showTable);
     }
+    // console.log(showTable);
 
     const deleteTableRows = (index) => {
         const rows = [...rowsData];
@@ -135,6 +136,12 @@ const BanquetReservation = ({ customerID }) => {
     // console.log("show-values", values);
     // console.log("rows data", rowsData)
     // console.log("payment data", paymentData)
+    const [advancedPayment, setAdvancedPayment] = useState("");
+
+    const handleAdvancedPayment = (event) => {
+        setAdvancedPayment(event.target.value)
+    }
+    // let advancePaymentDate= new Date().toISOString().substring(0,10);
 
     const handleBanquetReservation = async () => {
         try {
@@ -146,7 +153,7 @@ const BanquetReservation = ({ customerID }) => {
                     reservationState: "Started",
                     TimeSlot: values.TimeSlot,
                     customerID: customerID,
-                    advancePayment: paymentData[0].PaymentAmount,
+                    advancePayment: advancedPayment,
                     NoOfPax: values.NoOfPax,
                     SpecialRequest: values.SpecialRequest
                 },
@@ -157,7 +164,13 @@ const BanquetReservation = ({ customerID }) => {
                     }
                 ],
                 "tblbanquetRate_details": rowsData,
-                "tblbanquetPayment_details": paymentData
+                "tblbanquetPayment_details": [
+                    {
+                        paymentDate: todayDate,
+                        PaymentAmount: advancedPayment,
+                        PaymentMode: selected
+                    }
+                ]
             })
 
             // console.log(response)
@@ -165,7 +178,7 @@ const BanquetReservation = ({ customerID }) => {
             handleShowModal()
         }
         catch (error) {
-            console.log(error)
+            // console.log(error)
             setShowMessage(error.response.data.error)
             handleShowModal()
         }
@@ -257,12 +270,17 @@ const BanquetReservation = ({ customerID }) => {
                 </div>
             </div>
 
-            <AddDeleteTableRows rowsData={rowsData} addTableRows={addTableRows} deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall} timeSlot={values.TimeSlot} />
+            <AddDeleteTableRows rowsData={rowsData} 
+            showTable={showTable}
+            buttonRef={buttonRef}
+             addTableRows={addTableRows} 
+             deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall} timeSlot={values.TimeSlot} />
             <SpecialRequest handleInputChange={handleInputChange} />
             <AdvancePayment paymentData={paymentData} addPaymentRows={addPaymentRows} deletePaymentRows={deletePaymentRows}
                 handlePaymentChange={handlePaymentChange}
                 handleSelectChange={handleSelectChange}
                 showPaymentAdd={showPaymentAdd}
+                handleAdvancedPayment={handleAdvancedPayment}
             />
             <SubmitBtn event={"Save"} handle={handleBanquetReservation} />
         </section>

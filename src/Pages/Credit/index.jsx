@@ -68,7 +68,7 @@ const Credit = () => {
                 setIsDisabled(false)
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
     }, [])
 
@@ -84,7 +84,7 @@ const Credit = () => {
                     setCreditList(response.data)
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                 })
         }
     }, [selectedOutlet])
@@ -97,12 +97,12 @@ const Credit = () => {
                 customerName: selectedCreditCustomer,
             })
                 .then((response) => {
-                    console.log("credit-data", response.data)
+                    // console.log("credit-data", response.data)
                     setCreditData(response.data)
                     setShowCreditDetails(true)
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                     setShowCreditDetails(false)
                 })
         }
@@ -130,7 +130,7 @@ const Credit = () => {
                     setShowPaymentHistory(true)
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                     setShowPaymentHistory(false)
                 })
 
@@ -145,7 +145,7 @@ const Credit = () => {
                     setShowBookingDetail(true)
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                     setShowBookingDetail(false)
                 })
         }
@@ -180,11 +180,11 @@ const Credit = () => {
                 outlet: selectedOutlet
             })
                 .then((res) => {
-                    console.log(res)
+                    // console.log(res)
                     handleClose()
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                 })
         }
 
@@ -201,7 +201,7 @@ const Credit = () => {
                     setShowPaymentHistory(true)
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                 })
 
             axios.post(`${baseUrl}/bookingDetails`, {
@@ -214,7 +214,7 @@ const Credit = () => {
                     setShowBookingDetail(true)
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                     setShowBookingDetail(false)
                 })
         }, 1000);
@@ -237,7 +237,7 @@ const Credit = () => {
                     setShowCreditLeft(true)
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                     setShowCreditLeft(false)
                 })
         }
@@ -253,17 +253,17 @@ const Credit = () => {
                 dateEnd: `${dateEnd}`
             })
                 .then((res) => {
-                    console.log(res)
+                    // console.log(res)
                     setCreditLeft(res.data)
                     setShowCreditLeft(true)
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                     setShowCreditLeft(false)
                 })
         }
     }
-    console.log(customerID, "id")
+    // console.log(customerID, "id")
     return (
         <div className='credit-page'>
             <CreditSidebar

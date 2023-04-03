@@ -44,10 +44,10 @@ const PaymentHistory = ({ paymentList,
                 token: "test"
             })
             .then((res) => {
-                console.log(res)
+                // console.log(res)
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
 
         axios.post(`${baseUrl}/getStarted`, {
@@ -57,7 +57,7 @@ const PaymentHistory = ({ paymentList,
                 setDetailList(response.data)
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
     }
     const [cancelModal, setCancelModal] = useState(false);
@@ -78,11 +78,11 @@ const PaymentHistory = ({ paymentList,
                     token: "test"
                 })
                 .then((res) => {
-                    console.log(res)
+                    // console.log(res)
                     handleCloseModal()
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                 })
         }
 
@@ -93,7 +93,7 @@ const PaymentHistory = ({ paymentList,
                 setDetailList(response.data)
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
     }
 

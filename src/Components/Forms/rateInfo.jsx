@@ -17,7 +17,7 @@ const RateInfo = ({ halls }) => {
     // console.log(amount, "here amount")
 
     const handleRow = () => {
-        console.log("clicked handle row")
+        // console.log("clicked handle row")
     }
 
     return (

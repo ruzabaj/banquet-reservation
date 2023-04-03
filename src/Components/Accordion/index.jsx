@@ -22,13 +22,13 @@ const AccordionDetail = ({ detailList, setDetailList, state}) => {
                 token: `test`
             })
             .then((response) => {
-                console.log(response.data, "rate")
+                // console.log(response.data, "rate")
                 setRateDetailList(response.data)
                 setRateDetailAmt(response.data[0].RateAmount)
                 setRateDetailPax(response.data[0].NoOfPax)
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
 
         axios.post(`${baseUrl}/paymentHistory`,
@@ -37,11 +37,11 @@ const AccordionDetail = ({ detailList, setDetailList, state}) => {
                 token: "test"
             })
             .then((res) => {
-                console.log(res.data, "payment")
+                // console.log(res.data, "payment")
                 setPaymentList(res.data)
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
     }
 

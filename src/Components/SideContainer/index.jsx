@@ -15,14 +15,14 @@ const SideContainer = () => {
       token: "test"
     })
       .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         setTodayInfo(response.data)
         setLunchStatistics(response.data.LunchDetailsjson)
         setDinnerStatistics(response.data.DinnerDetailsjson)
         setBothStatistics(response.data.BothDetailsjson)
       })
       .catch((error) => {
-        console.log(error)
+        // console.log(error)
       })
   }, [])
 
@@ -30,8 +30,8 @@ const SideContainer = () => {
     <div>
       <div className='today-info'>
         <p><span>Date : </span>{dateToday}</p>
-        <p><span>PAX : </span>{todaysInfo.totalPax}</p>
-        <p><span>Reservation Count : </span>{todaysInfo.reservationCount}</p>
+        <p><span>No. of Reservation  : </span>{todaysInfo.reservationCount}</p>
+        <p><span>Total PAX : </span>{todaysInfo.totalPax}</p>
       </div>
 
       <div className='side-container'>

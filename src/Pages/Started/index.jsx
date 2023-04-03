@@ -58,7 +58,6 @@ const Started = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
-
   const handleFilter = () => {
     if (startDate === null) {
       var selectedFirstDate = startDate ?? '';
@@ -130,8 +129,7 @@ const Started = () => {
   return (
     <div className='width-flex'>
       <div className='side-conatiner-lg'>
-        
-        <SideContainer />
+        <SideContainer/>
       </div>
       <div className='started'>
         <div className='info-reservation'>

@@ -35,7 +35,7 @@ let standardDate = new Date(date).toISOString().substring(0, 10)
                 handleCloseEdit()
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
 
             axios.post(`${baseUrl}/rateDetails`,
@@ -50,7 +50,7 @@ let standardDate = new Date(date).toISOString().substring(0, 10)
                 setRateDetailPax(response.data[0].NoOfPax)
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
 
             axios.post(`${baseUrl}/paymentHistory`,
@@ -63,7 +63,7 @@ let standardDate = new Date(date).toISOString().substring(0, 10)
                 setPaymentList(res.data)
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
     }
     return (
