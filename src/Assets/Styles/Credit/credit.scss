@@ -22,11 +22,6 @@
     color: $color
 }
 @media screen and (max-width: 768px) {
-    // .credit-page{
-    //     display: flex;
-    //     flex-direction: column;
-    
-    // }
     .credit-info {
         height: auto !important;
     }
@@ -37,6 +32,12 @@
         min-height: 100vh !important;
     }
 }
+.payment-modal{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
 .credit-page {
     display: flex;
     height: 100%;
@@ -46,7 +47,6 @@
         flex: 1;
         background-color: $bg-sidebar;
         gap: 20px;
-        // height: auto;
         h5 {
             @include margin-sidebar;
         }
