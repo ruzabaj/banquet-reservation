@@ -56,6 +56,7 @@ const Login = () => {
                     <img src='./alice_bg.jpg' alt='background-alice' />
                     <div className='right-side-contents'>
                         <h2>Welcome </h2>
+                        {/* <img src='./welcome.jpg' alt='namaste' className='welcome'/> */}
                         {/* <p>Sign in to continue</p> */}
                     </div>
                     {/* <div className='comapny-name'>

@@ -25,7 +25,7 @@ const SideContainer = ({ token }) => {
           // console.log(error)
         })
     }
-  }, [])
+  }, [token])
 
   return (
     <div>
