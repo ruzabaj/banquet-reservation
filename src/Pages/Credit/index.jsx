@@ -12,8 +12,12 @@ import CreditSidebar from './CreditSidebar';
 import CreditLeftTable from '../../Components/Table/CreditLeftTable';
 import SimilarCustomerTable from '../../Components/Table/SimilarCustomerTable';
 import CreditDatepicker from './CreditDatepicker';
+import Navbar from "../../Components/Navbar";
+import { useNavigate } from 'react-router-dom';
 
 const Credit = () => {
+    let navigate=useNavigate();
+    
     const [customerID, setCustomerID] = useState("");
     const [customerEmail, setCustomerEmail] = useState("");
     const [customerPhone, setCustomerPhone] = useState("");
@@ -45,6 +49,8 @@ const Credit = () => {
     const [creditLeft, setCreditLeft] = useState([]);
     const [showCreditLeft, setShowCreditLeft] = useState(false);
 
+    const [token, setToken] = useState("");
+
     const creditHeader =
         ["Bill No", "NoOfPax", "TimeSlot", "Advance Payment",
             "Reservation Date", "Reservation For Date", "Total", "Sub Total", "VAT Amount"]
@@ -60,8 +66,17 @@ const Credit = () => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
 
     useEffect(() => {
+        let tokenCheck = localStorage.getItem("tokens");
+        if (!tokenCheck) {
+            navigate('/')
+        } else {
+            setToken(localStorage.getItem("tokens"))
+        }
+    }, [])
+
+    useEffect(() => {
         axios.post(`${baseUrl}/outlets`, {
-            token: "test"
+            token: `${token}`
         })
             .then((response) => {
                 setOutletName(response.data)
@@ -77,7 +92,7 @@ const Credit = () => {
         if (selectedOutlet) {
             axios.post(`${baseUrl}/creditCustomerList`,
                 {
-                    token: "test",
+                    token: `${token}`,
                     outlet: selectedOutlet
                 })
                 .then((response) => {
@@ -92,7 +107,7 @@ const Credit = () => {
     useEffect(() => {
         if (selectedOutlet && selectedCreditCustomer) {
             axios.post(`${baseUrl}/customerCreditData`, {
-                token: "test",
+                token: `${token}`,
                 outlet: selectedOutlet,
                 customerName: selectedCreditCustomer,
             })
@@ -100,6 +115,7 @@ const Credit = () => {
                     // console.log("credit-data", response.data)
                     setCreditData(response.data)
                     setShowCreditDetails(true)
+                    setBtnDisabled(true)
                 })
                 .catch((error) => {
                     // console.log(error)
@@ -117,7 +133,7 @@ const Credit = () => {
 
         if (selectedCreditCustomer && selectedOutlet) {
             axios.post(`${baseUrl}/customerCreditDetails`, {
-                token: "test",
+                token: `${token}`,
                 outlet: selectedOutlet,
                 customerName: selectedCreditCustomer,
                 customerID: `${id}`
@@ -128,6 +144,8 @@ const Credit = () => {
                     // setCreditWiseBillList(response.data.CreditWiseBillList)
                     setCreditDetails(response.data.CreditDetails)
                     setShowPaymentHistory(true)
+                    setBtnDisabled(true)
+
                 })
                 .catch((error) => {
                     // console.log(error)
@@ -135,7 +153,7 @@ const Credit = () => {
                 })
 
             axios.post(`${baseUrl}/bookingDetails`, {
-                token: "test",
+                token: `${token}`,
                 customerName: selectedCreditCustomer,
                 customerID: `${id}`
             })
@@ -176,7 +194,7 @@ const Credit = () => {
                 customerID: id,
                 PaymentAmount: `${amount}`,
                 PaymentMode: `${options}`,
-                token: "test",
+                token: `${token}`,
                 outlet: selectedOutlet
             })
                 .then((res) => {
@@ -190,7 +208,7 @@ const Credit = () => {
 
         setTimeout(() => {
             axios.post(`${baseUrl}/customerCreditDetails`, {
-                token: "test",
+                token: `${token}`,
                 outlet: selectedOutlet,
                 customerName: selectedCreditCustomer,
                 customerID: `${id}`
@@ -205,7 +223,7 @@ const Credit = () => {
                 })
 
             axios.post(`${baseUrl}/bookingDetails`, {
-                token: "test",
+                token: `${token}`,
                 customerName: selectedCreditCustomer,
                 customerID: `${id}`
             })
@@ -228,7 +246,7 @@ const Credit = () => {
     const handleFilter = () => {
         if (dropdownChange === "All") {
             axios.post(`${baseUrl}/customerCreditleft`, {
-                token: "test",
+                token: `${token}`,
                 outlet: `${selectedOutlet}`,
                 type: `${dropdownChange}`,
             })
@@ -246,7 +264,7 @@ const Credit = () => {
             let dateEnd = new Date(dateTwo).toISOString().substring(0, 11);
 
             axios.post(`${baseUrl}/customerCreditleft`, {
-                token: "test",
+                token: `${token}`,
                 outlet: `${selectedOutlet}`,
                 type: `${dropdownChange}`,
                 dateStart: `${dateStart}`,
@@ -264,93 +282,99 @@ const Credit = () => {
         }
     }
     // console.log(customerID, "id")
-    return (
-        <div className='credit-page'>
-            <CreditSidebar
-                customerID={customerID}
-                customerEmail={customerEmail}
-                customerPhone={customerPhone}
-                customerType={customerType}
-                customerVAT={customerVAT}
-                creditDetails={creditDetails}
-                makePayment={makePayment}
-                handlePay={handlePay}
-                show={show}
-                handleClose={handleClose}
-                handleChange={handleChange}
-                handleOptions={handleOptions}
-                customersName={selectedCreditCustomer}
-            />
+    const [btnDisabled, setBtnDisabled] = useState(false);
 
-            <div className='make-credit container'>
-                <div className='background-credit'>
-                    <div className='filter'>
-                        <BiFilterAlt />
-                        <label> Filter Credit </label>
-                    </div>
-                    <div className='show-filter'>
-                        <div className='custom-filter'>
-                            <div className='input-search'>
-                                <span className='eyeglass-icon'><AiOutlineSearch /></span>
-                                <div className='dropdown-search'>
-                                    <SelectSearchInput
-                                        defaultName={selectedOutlet}
-                                        text={"Select Outlet Name"}
-                                        setSelectedItem={setSelectedOutlet}
-                                        List={outletName}
+    return (
+        <div>
+            <Navbar />
+            <div className='credit-page'>
+                <CreditSidebar
+                    customerID={customerID}
+                    customerEmail={customerEmail}
+                    customerPhone={customerPhone}
+                    customerType={customerType}
+                    customerVAT={customerVAT}
+                    creditDetails={creditDetails}
+                    makePayment={makePayment}
+                    handlePay={handlePay}
+                    show={show}
+                    handleClose={handleClose}
+                    handleChange={handleChange}
+                    handleOptions={handleOptions}
+                    customersName={selectedCreditCustomer}
+                    btnDisabled={btnDisabled}
+                />
+
+                <div className='make-credit container'>
+                    <div className='background-credit'>
+                        <div className='filter'>
+                            <BiFilterAlt />
+                            <label> Filter Credit </label>
+                        </div>
+                        <div className='show-filter'>
+                            <div className='custom-filter'>
+                                <div className='input-search'>
+                                    <span className='eyeglass-icon'><AiOutlineSearch /></span>
+                                    <div className='dropdown-search'>
+                                        <SelectSearchInput
+                                            defaultName={selectedOutlet}
+                                            text={"Select Outlet Name"}
+                                            setSelectedItem={setSelectedOutlet}
+                                            List={outletName}
+                                        />
+                                    </div>
+                                </div>
+                                <div className='credit-customer'>
+                                    <SelectSearch
+                                        defaultValue={selectedCreditCustomer}
+                                        search
+                                        placeholder={"Customer Credit List"}
+                                        onChange={(event) => setSelectedCreditCustomer(event)}
+                                        options={creditList}
+                                        disabled={isDisabled}
                                     />
                                 </div>
                             </div>
-                            <div className='credit-customer'>
-                                <SelectSearch
-                                    defaultValue={selectedCreditCustomer}
-                                    search
-                                    placeholder={"Customer Credit List"}
-                                    onChange={(event) => setSelectedCreditCustomer(event)}
-                                    options={creditList}
-                                    disabled={isDisabled}
-                                />
-                            </div>
+                            <CreditDatepicker
+                                handleChange={handleDropdownChange}
+                                dateOne={dateOne}
+                                setDateOne={setDateOne}
+                                dateTwo={dateTwo}
+                                setDateTwo={setDateTwo}
+                                handleFilter={handleFilter} />
                         </div>
-                        <CreditDatepicker
-                            handleChange={handleDropdownChange}
-                            dateOne={dateOne}
-                            setDateOne={setDateOne}
-                            dateTwo={dateTwo}
-                            setDateTwo={setDateTwo}
-                            handleFilter={handleFilter} />
+
+                        <div className='credit-table'>
+                            {showCreditDetails &&
+                                <SimilarCustomerTable
+                                    headers={similarHeader}
+                                    contents={creditData}
+                                    showDetail={showCreditDetail} />
+                            }
+
+                            {showBookingDetail &&
+                                <CreditTable
+                                    headers={creditHeader}
+                                    titles={"Bill Information"}
+                                    contents={bookingDetail} />
+                            }
+
+                            {showPaymentHistory &&
+                                <CreditPaymentTable
+                                    headers={paymentHeader}
+                                    contents={paymentHistory} />
+                            }
+
+                            {showCreditLeft &&
+                                <CreditLeftTable
+                                    headers={creditLeftHeader}
+                                    contents={creditLeft}
+                                    titles={"Credit Left"}
+                                />
+                            }
+                        </div>
+
                     </div>
-
-                    <div className='credit-table'>
-                        {showCreditDetails &&
-                            <SimilarCustomerTable
-                                headers={similarHeader}
-                                contents={creditData}
-                                showDetail={showCreditDetail} />
-                        }
-
-                        {showBookingDetail &&
-                            <CreditTable
-                                headers={creditHeader}
-                                titles={"Bill Information"}
-                                contents={bookingDetail} />
-                        }
-
-                        {showPaymentHistory &&
-                            <CreditPaymentTable
-                                headers={paymentHeader}
-                                contents={paymentHistory} />
-                        }
-
-                        {showCreditLeft &&
-                            <CreditLeftTable
-                                headers={creditLeftHeader}
-                                contents={creditLeft}
-                                titles={"Credit Left"}
-                            />
-                        }
-                    </div>
-
                 </div>
             </div>
         </div>

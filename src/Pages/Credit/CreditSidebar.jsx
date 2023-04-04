@@ -9,10 +9,11 @@ const CreditSidebar = ({ customerEmail, customerPhone,
     handleOptions,
     makePayment, customerID,
     handlePay, show, handleClose,
-    handleChange, 
-    customersName}) => {
+    handleChange,
+    btnDisabled,
+    customersName }) => {
 
-     
+
     return (
         <div className='credit-info'>
             <div className='credit-remaining'>
@@ -26,10 +27,12 @@ const CreditSidebar = ({ customerEmail, customerPhone,
                 <CreditSidebarBottom information={creditDetails} />
 
                 <div className='buttons'>
-                    <button className='btn-pay'
-                        onClick={() => makePayment(customerID)}>
-                        Make Payment
-                    </button>
+                    {btnDisabled &&
+                        <button className='btn-pay'
+                            onClick={() => makePayment(customerID)}>
+                            Make Payment
+                        </button>
+                    }
                     <PaymentModal
                         show={show}
                         handleClose={handleClose}

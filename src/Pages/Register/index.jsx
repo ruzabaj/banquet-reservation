@@ -3,13 +3,15 @@ import React from 'react'
 import CustomerInfo from '../../Components/Forms/customerInfo'
 import "../../Assets/Styles/Form/form.scss";
 import "../../Assets/Styles/Btn.scss";
+import Navbar from "../../Components/Navbar";
 
 const Register = () => {
-    
     return (
-        <div className='form-page'>
-            {/* <Heading heading={"Alice Reception"} /> */}
-            <CustomerInfo />
+        <div>
+            <Navbar />
+            <div className='form-page'>
+                <CustomerInfo />
+            </div>
         </div>
     )
 }

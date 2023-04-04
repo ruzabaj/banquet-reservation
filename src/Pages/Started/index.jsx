@@ -7,8 +7,9 @@ import Filter from './Filter';
 import SubmitBtn from '../../Components/Buttons/submitBtn';
 import Error from '../../Components/Error';
 import SideContainer from './../../Components/SideContainer/index';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Paginate from '../../Components/Pagination';
+import Navbar from "../../Components/Navbar";
 
 const Started = () => {
   let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -19,22 +20,32 @@ const Started = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  let navigate = useNavigate();
+
   useEffect(() => {
-    setToken(localStorage.getItem("token"))
+    console.log("inside token check")
+    let tokenCheck = localStorage.getItem("tokens");
+    if (!tokenCheck) {
+      navigate('/')
+    } else {
+      setToken(localStorage.getItem("tokens"))
+    }
+    console.log(token)
   }, [])
 
   useEffect(() => {
-    axios.post(`${baseUrl}/getStarted`, {
-      token: `test`
-    })
-      .then((response) => {
-        setDetailList(response.data)
+    if (token) {
+      axios.post(`${baseUrl}/getStarted`, {
+        token: `${token}`
       })
-      .catch((error) => {
-        console.log(error)
-      })
-
-  }, [])
+        .then((response) => {
+          setDetailList(response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  }, [token])
 
   useEffect(() => {
     if (errorMessage) {
@@ -81,7 +92,7 @@ const Started = () => {
 
     if (isChecked === false) {
       axios.post(`${baseUrl}/banquetreport`, {
-        token: `test`,
+        token: `${token}`,
         customerName: `${customerName}`,
         state: `${state}`,
         reservationDatestart: `${selectedFirstDate}`,
@@ -100,7 +111,7 @@ const Started = () => {
     }
     else {
       axios.post(`${baseUrl}/banquetreport`, {
-        token: `test`,
+        token: `${token}`,
         customerName: `${customerName}`,
         state: `${state}`,
         reservationDatestart: "",
@@ -127,60 +138,52 @@ const Started = () => {
   const nPages = Math.ceil(detailList.length / recordsPerPage)
 
   return (
-    <div className='width-flex'>
-      <div className='side-conatiner-lg'>
-        <SideContainer/>
-      </div>
-      <div className='started'>
-        <div className='info-reservation'>
-          <div className='btn-left'>
-            <Link to="/credit">
-              <div className='style-btn-credit'>
-                <button className='btn-credit'>Show Credit</button>
-              </div>
-            </Link>
+    <div>
+      <Navbar />
+      <div className='width-flex'>
+        <div className='side-conatiner-lg'>
+          <SideContainer token={token}/>
+        </div>
+        <div className='started'>
+          <div className='info-reservation'>
+            <div className='btn-left'>
+              <Link to="/credit">
+                <div className='style-btn-credit'>
+                  <button className='btn-credit'>Show Credit</button>
+                </div>
+              </Link>
+            </div>
           </div>
-          {/* <div className='btn-right'>
-            <Link to="/schedule">
-            <div className='style-btn-availability'>
-            <button className='btn-availability'>Check Availability</button>
-            </div>
-            </Link>
-            <Link to="/">
-            <div className='style-btn-reservation'>
-            <button className='btn-reservation'>Make a reservation</button>
-            </div>
-            </Link>
-          </div> */}
+          <Filter
+            handleBtnChange={handleBtnChange}
+            handleCustomerName={handleCustomerName}
+            isChecked={isChecked}
+            setIsChecked={setIsChecked}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+          />
+          <div className='message'>
+            <Error messageName={'error'} errorMessage={errorMessage} />
+          </div>
+          <div className='btn-filter' >
+            <SubmitBtn event={"Filter"} handle={handleFilter} />
+          </div>
+          <div className='side-container-small'>
+            <SideContainer token={token}/>
+          </div>
+          <AccordionDetail
+            detailList={detailList}
+            setDetailList={setDetailList}
+            state={state}
+            token={token}
+          />
+          <Paginate
+            nPages={nPages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage} />
         </div>
-        <Filter
-          handleBtnChange={handleBtnChange}
-          handleCustomerName={handleCustomerName}
-          isChecked={isChecked}
-          setIsChecked={setIsChecked}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-        />
-        <div className='message'>
-          <Error messageName={'error'} errorMessage={errorMessage} />
-        </div>
-        <div className='btn-filter' >
-          <SubmitBtn event={"Filter"} handle={handleFilter} />
-        </div>
-        <div className='side-container-small'>
-          <SideContainer />
-        </div>
-        <AccordionDetail
-          detailList={detailList}
-          setDetailList={setDetailList}
-          state={state}
-        />
-        <Paginate
-          nPages={nPages}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage} />
       </div>
     </div>
   )

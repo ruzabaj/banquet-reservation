@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import SideBarContents from './SideContainerContents';
 import "../../Assets/Styles/Schedule/schedule.scss";
 
-const SideContainer = () => {
+const SideContainer = ({ token }) => {
   const [todaysInfo, setTodayInfo] = useState({})
   const [bothStatistics, setBothStatistics] = useState([]);
   const [dinnerStatistics, setDinnerStatistics] = useState([]);
@@ -11,19 +11,20 @@ const SideContainer = () => {
   const dateToday = new Date().toISOString().substring(0, 10);
 
   useEffect(() => {
-    axios.post(`https://banquet.silverlinepos.com/stats`, {
-      token: "test"
-    })
-      .then((response) => {
-        // console.log(response.data)
-        setTodayInfo(response.data)
-        setLunchStatistics(response.data.LunchDetailsjson)
-        setDinnerStatistics(response.data.DinnerDetailsjson)
-        setBothStatistics(response.data.BothDetailsjson)
+    if (token) {
+      axios.post(`https://banquet.silverlinepos.com/stats`, {
+        token: `${token}`
       })
-      .catch((error) => {
-        // console.log(error)
-      })
+        .then((response) => {
+          setTodayInfo(response.data)
+          setLunchStatistics(response.data.LunchDetailsjson)
+          setDinnerStatistics(response.data.DinnerDetailsjson)
+          setBothStatistics(response.data.BothDetailsjson)
+        })
+        .catch((error) => {
+          // console.log(error)
+        })
+    }
   }, [])
 
   return (

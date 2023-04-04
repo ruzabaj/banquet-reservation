@@ -6,7 +6,7 @@ import PaymentTable from '../Table/PaymentTable';
 import PaymentHistory from './../../Pages/Started/PaymentHistory';
 import axios from 'axios';
 
-const AccordionDetail = ({ detailList, setDetailList, state}) => {
+const AccordionDetail = ({ detailList, setDetailList, state, token}) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
     const headerRateDetail = ["Hall", "Rate Name", "Amount", "PAX", "Total"]
 
@@ -19,7 +19,7 @@ const AccordionDetail = ({ detailList, setDetailList, state}) => {
         axios.post(`${baseUrl}/rateDetails`,
             {
                 banquetReservationID: `${reservatorID}`,
-                token: `test`
+                token: `${token}`
             })
             .then((response) => {
                 // console.log(response.data, "rate")
@@ -34,7 +34,7 @@ const AccordionDetail = ({ detailList, setDetailList, state}) => {
         axios.post(`${baseUrl}/paymentHistory`,
             {
                 banquetReservationID: `${reservatorID}`,
-                token: "test"
+                token: `${token}`
             })
             .then((res) => {
                 // console.log(res.data, "payment")

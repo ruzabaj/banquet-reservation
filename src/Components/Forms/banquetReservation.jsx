@@ -12,7 +12,7 @@ import AddDeleteTableRows from './AddTable';
 import ReactModal from '../Modals';
 import { useNavigate } from 'react-router-dom';
 
-const BanquetReservation = ({ customerID }) => {
+const BanquetReservation = ({ customerID, token }) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
 
     const [reservationDate, setReservationDate] = useState(new Date());
@@ -33,7 +33,7 @@ const BanquetReservation = ({ customerID }) => {
 
     useEffect(() => {
         axios.post(`${baseUrl}/halls`, {
-            token: "test"
+            token: `${token}`
         })
             .then((response) => {
                 setHallList(response.data)
@@ -42,7 +42,7 @@ const BanquetReservation = ({ customerID }) => {
                 // console.log(error)
             })
         axios.post(`${baseUrl}/outlets`, {
-            token: "test"
+            token: `${token}`
         })
             .then((response) => {
                 setOutletList(response.data)
@@ -74,7 +74,7 @@ const BanquetReservation = ({ customerID }) => {
         const rowsInput = {
             RateName: '',
             RateAmount: '',
-            NoOfPax: '',
+            NoOfPax: values.NoOfPax,
             HallName: selectedHall
         }
         setRowsData([...rowsData, rowsInput])

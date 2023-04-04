@@ -1,0 +1,116 @@
+@import "../config";
+
+@mixin standard-theme {
+    background-color: $theme-color;
+    color: $secondary-color;
+}
+
+@mixin center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin login-form-align {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+@mixin text-color($colors){
+    color: $colors;
+
+}
+.error{
+    @include text-color($theme-color)
+}
+
+.login-page {
+    display: flex;
+    height: 100vh;
+
+    .right-side {
+        flex: 3;
+        background-color: rgb(155, 69, 63);
+        color: $secondary-color;
+        .bg-image{
+            position: relative;
+            img{
+                height: 100vh;
+                width: 100%;
+                object-fit: cover;
+            }
+            .right-side-contents {
+                position: absolute;
+                top: 20%;
+                left: 45%;
+            }
+        }
+        
+        //      border: 2px solid red;
+        //     @include center;
+        //     flex-direction: column;
+        //     height: 80%;
+        //     margin-top: -10px;
+        // }
+    }
+
+    .left-side {
+        // border: 2px solid purple;
+        flex: 2;
+        flex-direction: column;
+        @include center;
+        background-color: rgb(240, 235, 235);
+        .left-title {
+            display: flex;
+            align-items: start;
+            color: $theme-color;
+            width: 55%;
+            margin: 0px 10px;
+        }
+
+        .login-form {
+            // border: 1px solid black;
+            border-radius: 5px;
+            width: 100%;
+            height: 300px;
+            @include login-form-align;
+            
+            .form-group {
+                width: calc(100% - 275px)
+            }
+        }
+        .input-icon{
+            position: relative;
+            .eye-icon{
+                position: absolute;
+                right: 4px;
+                bottom: 10px;
+
+            }
+        }
+        
+        .btn-submit {
+            @include standard-theme;
+            width: calc(100% - 350px);
+            height: 35px;
+            border: 0px;
+            border-radius: 3px;
+        }
+    }
+}
+.comapny-name {
+    // position: absolute;
+    // top: 0;
+    display: flex;
+    align-items: center;
+
+    .alice-logo {
+        margin: 10px;
+        width: 170px;
+        height: 150px;
+        object-fit: contain;
+    }
+}

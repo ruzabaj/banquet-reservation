@@ -5,13 +5,14 @@ import StandardDate from "../../Components/StandardDate";
 
 const PaymentHistory = ({ paymentList,
     customerID,
-    reservationForDate,
+    // reservationForDate,
     rateDetailAmt,
     rateDetailPax,
     reservatorID,
     setDetailList, state }) => {
+
     const [paymentAmt, setPaymentAmt] = useState("");
-    let selectedReservationForDate = new Date(reservationForDate).toISOString().substring(0, 10);
+    // let selectedReservationForDate = new Date(reservationForDate).toISOString().substring(0, 10);
 
     let baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -36,19 +37,42 @@ const PaymentHistory = ({ paymentList,
         })
     }, [paymentList])
 
-    const handleFinalise = () => {
-        axios.post(`${baseUrl}/finalize`,
-            {
-                customerID: `${customerID}`,
-                banquetreservationID: `${reservatorID}`,
-                token: "test"
+    const [finaliseModal, setFinaliseModal] = useState(false);
+
+    const handleCloseFinaliseModal = () => setFinaliseModal(false);
+    const handleShowFinaliseModal = () => setFinaliseModal(true);
+
+    const handleFinaliseModal = () => {
+        handleShowFinaliseModal();
+    }
+
+    const handleFinalise = (id) => {
+        if (id) {
+            axios.post(`${baseUrl}/finalize`,
+                {
+                    customerID: `${id}`,
+                    banquetreservationID: `${reservatorID}`,
+                    token: "test"
+                })
+                .then((res) => {
+                    // console.log(res)
+                    handleCloseFinaliseModal()
+                })
+                .catch((error) => {
+                    // console.log(error)
+                })
+
+            axios.post(`${baseUrl}/getStarted`, {
+                token: `test`
             })
-            .then((res) => {
-                // console.log(res)
-            })
-            .catch((error) => {
-                // console.log(error)
-            })
+                .then((response) => {
+                    setDetailList(response.data)
+                })
+                .catch((error) => {
+                    console.log(error.response.data, "error")
+                    setDetailList([])
+                })
+        }
 
         axios.post(`${baseUrl}/getStarted`, {
             token: `test`
@@ -57,9 +81,12 @@ const PaymentHistory = ({ paymentList,
                 setDetailList(response.data)
             })
             .catch((error) => {
-                // console.log(error)
+                console.log(error.response.data, "error")
+                setDetailList([])
             })
     }
+
+
     const [cancelModal, setCancelModal] = useState(false);
 
     const handleCloseModal = () => setCancelModal(false);
@@ -140,11 +167,11 @@ const PaymentHistory = ({ paymentList,
                     <label>Advance : <span>{checkNan(paymentAmt)}</span></label>
                     <label>Remaining Balance :<span>{checkNan(balance)}</span> </label>
                 </div>
-                
+
                 {(state === "Cancelled") ? "" :
                     <div className='payment-button'>
                         <button className='btn-finalise'
-                            onClick={handleFinalise}
+                            onClick={handleFinaliseModal}
                         >Finalise</button>
                         <button className='btn-cancel'
                             onClick={handleShowCancelModal}
@@ -158,6 +185,14 @@ const PaymentHistory = ({ paymentList,
                     buttonTwo={"No"}
                     handleTarget={() => handleCancel(customerID)}
                     handleClose={handleCloseModal}
+                />
+                <ReactModal
+                    show={finaliseModal}
+                    message={"Are you sure you want to finalise?"}
+                    buttonOne={"Yes"}
+                    buttonTwo={"No"}
+                    handleTarget={() => handleFinalise(customerID)}
+                    handleClose={handleCloseFinaliseModal}
                 />
             </div>
         </div>

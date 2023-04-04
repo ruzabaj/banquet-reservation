@@ -16,7 +16,7 @@ function CollapsibleExample() {
           <Navbar.Collapse id="responsive-navbar-nav">
             <div className='nav-link'>
               <Nav className='view-reservation'>
-                <Link to="/">
+                <Link to="/started">
                   <p>View Reservation</p>
                 </Link>
               </Nav>

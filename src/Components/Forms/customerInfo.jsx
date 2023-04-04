@@ -6,10 +6,12 @@ import SubmitBtn from '../Buttons/submitBtn';
 import RegisterBtns from '../Buttons/registerBtns';
 import ReactModal from './../Modals/index';
 import BanquetReservation from './banquetReservation';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CustomerInfo = () => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
+    let navigate= useNavigate();
+
     const [showBanquet, setshowBanquet] = useState(false)
     const [customerID, setCustomerID] = useState("")
     const [isDisabled, setIsDisabled] = useState(true);
@@ -18,9 +20,18 @@ const CustomerInfo = () => {
     const [verifiedCustomer, setVerifiedCustomer] = useState({});
     const [checkError, setCheckError] = useState(false)
     const [message, setMessage] = useState("")
+    const [token, setToken] = useState("")
 
     // console.log("here", isVerified, verifiedCustomer.address, verifiedCustomer.country, verifiedCustomer.type)
     // console.log("=>", customerID)
+    useEffect(() => {
+        let tokenCheck = localStorage.getItem("tokens");
+        if (!tokenCheck) {
+          navigate('/')
+        } else {
+          setToken(localStorage.getItem("tokens"))
+        }
+      }, [])
 
     const [values, setValues] = useState({
         fullName: "",
@@ -42,7 +53,7 @@ const CustomerInfo = () => {
     // console.log("see here", values)
     useEffect(() => {
         axios.post(`${baseUrl}/customerList`, {
-            token: "test"
+            token:  `${token}`
         })
             .then((response) => {
                 setCustomerList(response.data)
@@ -57,7 +68,7 @@ const CustomerInfo = () => {
     const handleVerify = () => {
         // console.log("inisde verify")
         axios.post(`${baseUrl}/customercheck`, {
-            token: "test",
+            token: `${token}`,
             Name: values.fullName,
             Email: values.email,
             Phone: values.phone,
@@ -100,7 +111,7 @@ const CustomerInfo = () => {
 
     const handleCustomer = () => {
         axios.post(`${baseUrl}/customerpost`, {
-            token: "test",
+            token: `${token}`,
             Name: values.fullName,
             Email: values.email,
             Phone: values.phone,
@@ -131,13 +142,8 @@ const CustomerInfo = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     
-    // let navigate = useNavigate();
-    // const goExtra = () => {
-    //     navigate("/started")
-    // }
     return (
         <div>
-            {/* <button onClick={goExtra}>Back</button> */}
             <ReactModal
                 show={show}
                 handleClose={handleClose}
@@ -220,7 +226,7 @@ const CustomerInfo = () => {
             <RegisterBtns handleCustomer={handleCustomer} handleReset={handleReset} isVerified={isVerified} />
 
             <div className={showBanquet ? 'after-registration' : 'before-registration'}>
-                <BanquetReservation customerID={customerID} />
+                <BanquetReservation customerID={customerID} token={token}/>
             </div>
         </div>
     )

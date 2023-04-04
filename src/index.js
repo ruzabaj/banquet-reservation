@@ -6,16 +6,19 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-select-search/style.css';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Routing from './Routes';
 import Navbar from "./Components/Navbar/index";
+import Login from './Pages/Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
-      <Navbar />
       <Routing />
+      <Routes>
+        <Route path="/" element={<Login />} />
+      </Routes>
     </Router>
   </React.StrictMode>
 );

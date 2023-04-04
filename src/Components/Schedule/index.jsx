@@ -4,6 +4,8 @@ import axios from 'axios';
 import moment from 'moment';
 import Availability from './Availability';
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
+import { useNavigate } from 'react-router-dom';
+import Navbar from "../Navbar";
 
 const Schedule = () => {
   const [lunchHallOne, setLunchHallOne] = useState([]);
@@ -15,18 +17,28 @@ const Schedule = () => {
   const [initialLoad, setInitialLoad] = useState(true);
   const [firstDate, setFirstDate] = useState("");
   const [arrays, setArray] = useState([])
+  const [token, setToken] = useState("");
 
   const [lastDate, setLastDate] = useState("");
 
   let baseUrl = process.env.REACT_APP_BASE_URL;
+  let navigate = useNavigate();
 
+  useEffect(() => {
+    let tokenCheck = localStorage.getItem("tokens");
+    if (!tokenCheck) {
+      navigate('/')
+    } else {
+      setToken(localStorage.getItem("tokens"))
+    }
+  }, [])
   useEffect(() => {
     var startDate = moment().format('YYYY-MM-DD')
     var sevenDaysDate = moment().add(6, 'days').format('YYYY-MM-DD')
     axios.post(`${baseUrl}/schedule`, {
       startDate: `${startDate}`,
       endDate: `${sevenDaysDate}`,
-      "token": "test"
+      token: `${token}`
     })
       .then((response) => {
         if (response.data.lunch) {
@@ -94,7 +106,7 @@ const Schedule = () => {
       axios.post(`${baseUrl}/schedule`, {
         startDate: `${start}`,
         endDate: `${end}`,
-        "token": "test"
+        token: `${token}`
       })
         .then((response) => {
           if (response.data.lunch) {
@@ -126,7 +138,7 @@ const Schedule = () => {
               }
             }
           }
-          
+
           // if (response.data.both) {
           //   let checkBoth = response.data.both[0]
           //   if ("Hall1" in checkBoth) {
@@ -184,13 +196,13 @@ const Schedule = () => {
   var testDate = []
   const getTestDays = () => {
     arrays.forEach((datehere) => {
-      let newDate= moment(new Date(datehere)).format("ddd, DD MMM YYYY").toString()
+      let newDate = moment(new Date(datehere)).format("ddd, DD MMM YYYY").toString()
       // console.log("=>", newDate)
       testDate.push(newDate)
     })
     return testDate
   }
-console.log(getTestDays())
+  console.log(getTestDays())
 
   var newDateLunch = [{}]
   const changedLunchHallOne = () => {
@@ -382,6 +394,7 @@ console.log(getTestDays())
 
   return (
     <div className="">
+      <Navbar />
       <div className='arrows'>
         <div className='left-arrow'>
           <BiLeftArrowAlt onClick={initialLoad ? () => handlePastDays(onFirstLoadPast) : () => handlePastDays(firstDate)} />
