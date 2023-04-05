@@ -32,6 +32,7 @@ const Schedule = () => {
       setToken(localStorage.getItem("tokens"))
     }
   }, [])
+  
   useEffect(() => {
     var startDate = moment().format('YYYY-MM-DD')
     var sevenDaysDate = moment().add(6, 'days').format('YYYY-MM-DD')
@@ -96,11 +97,11 @@ const Schedule = () => {
       .catch((error) => {
         console.log("error in useeffect", error)
       })
-  }, [])
+  }, [token])
 
 
   useEffect(() => {
-    if (firstDate && lastDate) {
+    if (firstDate && lastDate && token) {
       var start = moment(firstDate).format('YYYY-MM-DD')
       var end = moment(firstDate).add(6, 'days').format('YYYY-MM-DD')
       axios.post(`${baseUrl}/schedule`, {
@@ -160,7 +161,7 @@ const Schedule = () => {
           console.log("error in schedule", error)
         })
     }
-  }, [firstDate, lastDate])
+  }, [firstDate, lastDate, token])
 
   const showSevenDays = () => {
     let days = [];

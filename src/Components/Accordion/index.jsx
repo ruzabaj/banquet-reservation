@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Accordion from 'react-bootstrap/Accordion';
+import axios from 'axios';
 import AccordionTable from '../Table';
-import "../../Assets/Styles/Accordion/accordion.scss";
 import PaymentTable from '../Table/PaymentTable';
 import PaymentHistory from './../../Pages/Started/PaymentHistory';
-import axios from 'axios';
+import "../../Assets/Styles/Accordion/accordion.scss";
 
-const AccordionDetail = ({ detailList, setDetailList, state, token}) => {
+const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
     const headerRateDetail = ["Hall", "Rate Name", "Amount", "PAX", "Total"]
 
@@ -55,6 +55,7 @@ const AccordionDetail = ({ detailList, setDetailList, state, token}) => {
                             <th className='extend-width-200'>Name</th>
                             <th className='extend-width-pax'>No. of PAX</th>
                             <th className='extend-width-150'>Outlet Selected</th>
+                            <th className='extend-width'>Time Slot</th>
                             <th className='extend-width-200'>Reservation Date</th>
                             <th className='extend-width-200'>Reservation For Date</th>
                             <th className='extend-width-150'>Hall Names</th>
@@ -66,7 +67,9 @@ const AccordionDetail = ({ detailList, setDetailList, state, token}) => {
             {detailList.map((accord, index) => (
                 <Accordion.Item eventKey={index} key={index} onClick={() => handlePaymentHistory(accord.idtblbanquetReservation)}>
                     <Accordion.Header>
-                        <AccordionTable headers={accord} />
+                        <AccordionTable
+                            accord={accord}
+                            setDetailList={setDetailList} />
                     </Accordion.Header>
                     <Accordion.Body className='accordion-body'>
                         <div className='payment-table'>
@@ -75,12 +78,15 @@ const AccordionDetail = ({ detailList, setDetailList, state, token}) => {
                                 rateList={rateDetailList}
                                 id={accord.customerID}
                                 date={accord.reservationDate}
+                                setDetailList={setDetailList}
                                 setRateDetailList={setRateDetailList}
                                 setRateDetailAmt={setRateDetailAmt}
                                 setRateDetailPax={setRateDetailPax}
                                 setPaymentList={setPaymentList}
                                 customerID={accord.customerID}
-                                reservationDate={accord.reservationDate} />
+                                reservationDate={accord.reservationDate}
+                                reservtionID={accord.idtblbanquetReservation}
+                            />
                         </div>
                         <div className='payment-history'>
                             <label>Payment History</label>
@@ -95,7 +101,8 @@ const AccordionDetail = ({ detailList, setDetailList, state, token}) => {
                                 reservatorID={accord.idtblbanquetReservation}
                                 setDetailList={setDetailList}
                                 state={state}
-                                 />
+                                token={token}
+                            />
                         </div>
                     </Accordion.Body>
                 </Accordion.Item>

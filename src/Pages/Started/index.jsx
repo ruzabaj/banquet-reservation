@@ -16,21 +16,19 @@ const Started = () => {
   const [detailList, setDetailList] = useState([]);
   const [customerName, setCustomerName] = useState("");
   const [state, setState] = useState("");
-  const [token, setToken] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [token, setToken] = useState("");
 
   let navigate = useNavigate();
 
   useEffect(() => {
-    console.log("inside token check")
     let tokenCheck = localStorage.getItem("tokens");
     if (!tokenCheck) {
       navigate('/')
     } else {
       setToken(localStorage.getItem("tokens"))
     }
-    console.log(token)
   }, [])
 
   useEffect(() => {
@@ -39,6 +37,7 @@ const Started = () => {
         token: `${token}`
       })
         .then((response) => {
+          // console.log(response.data)
           setDetailList(response.data)
         })
         .catch((error) => {
@@ -128,8 +127,8 @@ const Started = () => {
     }
   }
   // User is currently on this page
-  const [currentPage, setCurrentPage] = useState(1);
   // No of Records to be displayed on each page   
+  const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(5);
 
   const indexOfLastRecord = currentPage * recordsPerPage;

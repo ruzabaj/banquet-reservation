@@ -50,7 +50,7 @@ const BanquetReservation = ({ customerID, token }) => {
             .catch((error) => {
                 // console.log(error)
             })
-    }, [])
+    }, [token])
 
     const [values, setValues] = useState({
         NoOfPax: "",
@@ -142,6 +142,14 @@ const BanquetReservation = ({ customerID, token }) => {
         setAdvancedPayment(event.target.value)
     }
     // let advancePaymentDate= new Date().toISOString().substring(0,10);
+    useEffect(() => {
+        if ((selectedReservationDate && selectedReservationForDate && selectedOutlet && selectedHall && values.TimeSlot) !== ""){
+            console.log("not empty any of the fields")
+        }
+        else{
+            console.log("empty fields")
+        }
+    }, [selectedReservationDate, selectedReservationForDate, selectedOutlet, selectedHall, values.TimeSlot])
 
     const handleBanquetReservation = async () => {
         try {
@@ -270,11 +278,11 @@ const BanquetReservation = ({ customerID, token }) => {
                 </div>
             </div>
 
-            <AddDeleteTableRows rowsData={rowsData} 
-            showTable={showTable}
-            buttonRef={buttonRef}
-             addTableRows={addTableRows} 
-             deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall} timeSlot={values.TimeSlot} />
+            <AddDeleteTableRows rowsData={rowsData}
+                showTable={showTable}
+                buttonRef={buttonRef}
+                addTableRows={addTableRows}
+                deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall} timeSlot={values.TimeSlot} />
             <SpecialRequest handleInputChange={handleInputChange} />
             <AdvancePayment paymentData={paymentData} addPaymentRows={addPaymentRows} deletePaymentRows={deletePaymentRows}
                 handlePaymentChange={handlePaymentChange}

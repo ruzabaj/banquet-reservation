@@ -3,8 +3,19 @@ import { BsPen } from "react-icons/bs";
 import EditModal from '../Modals/EditModal';
 import PaymentTableHeader from './PaymentTableHeader';
 
-
-const PaymentTable = ({ header, setRateDetailList, setRateDetailPax, setRateDetailAmt, setPaymentList, rateList, customerID, reservationDate, id, date }) => {
+const PaymentTable = ({ header,
+    setDetailList,
+    setRateDetailList,
+    setRateDetailPax,
+    setRateDetailAmt,
+    setPaymentList,
+    rateList,
+    customerID,
+    reservationDate,
+    id,
+    date,
+    reservtionID
+     }) => {
     const [editShow, setEditShow] = useState(false);
 
     const handleCloseEdit = () => setEditShow(false);
@@ -21,7 +32,7 @@ const PaymentTable = ({ header, setRateDetailList, setRateDetailPax, setRateDeta
                 <tbody>
                     {rateList.map((info, index) => (
                         <tr key={index}>
-                            <td >{info.HallName}</td>
+                            <td >{info.HallName}<BsPen onClick={handleShowEdit} /></td>
                             <td>{info.RateName}<BsPen onClick={handleShowEdit} /></td>
                             <td>{info.RateAmount}<BsPen onClick={handleShowEdit} /></td>
                             <td>{info.NoOfPax}<BsPen onClick={handleShowEdit} /></td>
@@ -32,16 +43,20 @@ const PaymentTable = ({ header, setRateDetailList, setRateDetailPax, setRateDeta
                                 show={editShow}
                                 header={header}
                                 handleCloseEdit={handleCloseEdit}
+                                setDetailList={setDetailList}
                                 setRateDetailList={setRateDetailList}
                                 setRateDetailAmt={setRateDetailAmt}
                                 setRateDetailPax={setRateDetailPax}
                                 rateName={info.RateName}
                                 rateAmt={info.RateAmount}
                                 pax={info.NoOfPax}
+                                HallName={info.HallName}
                                 rateID={info.idtblbanquetRate_details}
                                 setPaymentList={setPaymentList}
                                 customerID={customerID}
-                                reservationDate={reservationDate} />
+                                reservationDate={reservationDate} 
+                                reservtionID={reservtionID}
+                                />
                         </tr>
                     ))}
                 </tbody>

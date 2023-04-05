@@ -9,7 +9,9 @@ const PaymentHistory = ({ paymentList,
     rateDetailAmt,
     rateDetailPax,
     reservatorID,
-    setDetailList, state }) => {
+    setDetailList,
+    state,
+    token }) => {
 
     const [paymentAmt, setPaymentAmt] = useState("");
     // let selectedReservationForDate = new Date(reservationForDate).toISOString().substring(0, 10);
@@ -52,7 +54,7 @@ const PaymentHistory = ({ paymentList,
                 {
                     customerID: `${id}`,
                     banquetreservationID: `${reservatorID}`,
-                    token: "test"
+                    token: `${token}`
                 })
                 .then((res) => {
                     // console.log(res)
@@ -63,7 +65,7 @@ const PaymentHistory = ({ paymentList,
                 })
 
             axios.post(`${baseUrl}/getStarted`, {
-                token: `test`
+                token: `${token}`
             })
                 .then((response) => {
                     setDetailList(response.data)
@@ -74,16 +76,7 @@ const PaymentHistory = ({ paymentList,
                 })
         }
 
-        axios.post(`${baseUrl}/getStarted`, {
-            token: `test`
-        })
-            .then((response) => {
-                setDetailList(response.data)
-            })
-            .catch((error) => {
-                console.log(error.response.data, "error")
-                setDetailList([])
-            })
+        
     }
 
 

@@ -7,34 +7,37 @@ import RegisterBtns from '../Buttons/registerBtns';
 import ReactModal from './../Modals/index';
 import BanquetReservation from './banquetReservation';
 import { useNavigate } from 'react-router-dom';
+import SelectSearchInput from '../SelectSearch';
 
 const CustomerInfo = () => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
-    let navigate= useNavigate();
+    let navigate = useNavigate();
 
     const [showBanquet, setshowBanquet] = useState(false)
     const [customerID, setCustomerID] = useState("")
     const [isDisabled, setIsDisabled] = useState(true);
-    const [customerList, setCustomerList] = useState([]);
     const [isVerified, setIsVerified] = useState(false);
     const [verifiedCustomer, setVerifiedCustomer] = useState({});
     const [checkError, setCheckError] = useState(false)
     const [message, setMessage] = useState("")
     const [token, setToken] = useState("")
 
+    const [customerList, setCustomerList] = useState([]);
+    const [selectedCustomer, setSelectedCustomer] = useState("");
+
     // console.log("here", isVerified, verifiedCustomer.address, verifiedCustomer.country, verifiedCustomer.type)
     // console.log("=>", customerID)
     useEffect(() => {
         let tokenCheck = localStorage.getItem("tokens");
         if (!tokenCheck) {
-          navigate('/')
+            navigate('/')
         } else {
-          setToken(localStorage.getItem("tokens"))
+            setToken(localStorage.getItem("tokens"))
         }
-      }, [])
+    }, [])
 
     const [values, setValues] = useState({
-        fullName: "",
+        // fullName: "",
         phone: "",
         email: "",
         address: "",
@@ -52,24 +55,26 @@ const CustomerInfo = () => {
     }
     // console.log("see here", values)
     useEffect(() => {
-        axios.post(`${baseUrl}/customerList`, {
-            token:  `${token}`
-        })
-            .then((response) => {
-                setCustomerList(response.data)
+        if (token) {
+            axios.post(`${baseUrl}/customerNameList`, {
+                token: `${token}`
             })
-            .catch((error) => {
-                // console.log(error)
-            })
-    }, [])
+                .then((response) => {
+                    setCustomerList(response.data)
+                })
+                .catch((error) => {
+                    // console.log(error)
+                })
+        }
+    }, [token])
 
-    // console.log(customerList, "customerList")
+    console.log(customerList, "customerList")
 
     const handleVerify = () => {
         // console.log("inisde verify")
         axios.post(`${baseUrl}/customercheck`, {
             token: `${token}`,
-            Name: values.fullName,
+            Name: selectedCustomer,
             Email: values.email,
             Phone: values.phone,
         })
@@ -112,7 +117,7 @@ const CustomerInfo = () => {
     const handleCustomer = () => {
         axios.post(`${baseUrl}/customerpost`, {
             token: `${token}`,
-            Name: values.fullName,
+            Name: selectedCustomer,
             Email: values.email,
             Phone: values.phone,
             Address: values.address,
@@ -141,7 +146,7 @@ const CustomerInfo = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    
+
     return (
         <div>
             <ReactModal
@@ -149,16 +154,17 @@ const CustomerInfo = () => {
                 handleClose={handleClose}
                 message={message}
                 buttonOne={"OK"}
-                buttonTwo={"Close"} 
+                buttonTwo={"Close"}
                 handleTarget={handleClose}
-                />
+            />
             <section className='customer'>
                 <h5>Customer Information</h5>
                 <div className='row customer-info'>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                         <label>Name</label>
                         <div>
-                            <input type='text' name='name' id="fullName" value={values.fullName} placeholder='Ram Shrestha' onChange={handleInputChange} />
+                            {/* <input type='text' name='name' id="fullName" value={values.fullName} placeholder='Ram Shrestha' onChange={handleInputChange} /> */}
+                            <SelectSearchInput defaultName={selectedCustomer} List={customerList} text={"Search Name"} setSelectedItem={setSelectedCustomer} />
                         </div>
                     </div>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
@@ -226,7 +232,7 @@ const CustomerInfo = () => {
             <RegisterBtns handleCustomer={handleCustomer} handleReset={handleReset} isVerified={isVerified} />
 
             <div className={showBanquet ? 'after-registration' : 'before-registration'}>
-                <BanquetReservation customerID={customerID} token={token}/>
+                <BanquetReservation customerID={customerID} token={token} />
             </div>
         </div>
     )
