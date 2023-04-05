@@ -4,17 +4,20 @@ import "../../Assets/Styles/Form/rateInfo.scss";
 import "../../Assets/Styles/Addbtn.scss";
 import { AiOutlinePlus } from "react-icons/ai";
 
-function AddDeleteTableRows({ halls, rowsData, showTable, buttonRef, addTableRows, deleteTableRows, handleChange, resHall, timeSlot }) {
+function AddDeleteTableRows({ halls, accessTable, rowsData, showTable, buttonRef, addTableRows, deleteTableRows, handleChange, resHall, timeSlot }) {
+    // console.log(accessTable, "accessTable inside add table")
     return (
         <div className="">
             <div className='full-width'>
                 <div className="handle-add">
                     <h5>RateInfo</h5>
-                    <button 
-                    className={"add-icon"}
-                    disabled={showTable}
-                     onClick={()=>addTableRows()} ref={buttonRef}
-                    ><AiOutlinePlus /></button>
+                    {accessTable &&
+                        <button
+                            className={"add-icon"}
+                            disabled={showTable}
+                            onClick={() => addTableRows()} ref={buttonRef}
+                        ><AiOutlinePlus /></button>
+                    }
                 </div>
             </div>
             <div className="row">

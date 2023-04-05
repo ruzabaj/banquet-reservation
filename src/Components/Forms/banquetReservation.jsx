@@ -5,12 +5,12 @@ import SelectSearchInput from './../SelectSearch/index';
 import axios from 'axios';
 import DatePickerInput from '../Datepicker';
 import SubmitBtn from '../Buttons/submitBtn';
-import RateInfo from './rateInfo';
 import SpecialRequest from './specialRequest';
 import AdvancePayment from './advancePayment';
 import AddDeleteTableRows from './AddTable';
 import ReactModal from '../Modals';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+// import RateInfo from './rateInfo';
 
 const BanquetReservation = ({ customerID, token }) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -66,11 +66,55 @@ const BanquetReservation = ({ customerID, token }) => {
         });
     }
 
+    const [accessTable, setAccessTable] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const[errorModal, setErrorModal]= useState(false);
+    const handleCloseErrorModal = () => setErrorModal(false);
+    const handleShowErrorModal = () => setErrorModal(true);
+
+    useEffect(() => {
+        if ((selectedReservationDate && selectedReservationForDate && selectedOutlet && selectedHall && values.TimeSlot) !== "") {
+            console.log("not empty any of the fields")
+            setAccessTable(true)
+        }
+        else {
+            console.log("empty fields")
+            setAccessTable(false)
+        }
+    }, [selectedReservationDate, selectedReservationForDate, selectedOutlet, selectedHall, values.TimeSlot])
+
     const [rowsData, setRowsData] = useState([]);
     const [showTable, setShowTable] = useState(false);
     const buttonRef = useRef(null);
 
+    console.log(accessTable, "accessTable");
+    
     const addTableRows = () => {
+        // if(selectedReservationDate === "" && selectedReservationForDate !== "" && selectedOutlet !== "" && selectedHall !== "" && values.TimeSlot !== ""){
+        //     setErrorMessage("Please select reservation date")
+        // }
+        // else if (selectedReservationDate !== "" && selectedReservationForDate === "" && selectedOutlet !== "" && selectedHall !== "" && values.TimeSlot !== ""){
+        //     setErrorMessage("Please select reservation for date")
+        // }
+        // else if (selectedReservationDate !== "" && selectedReservationForDate !== "" && selectedOutlet === "" && selectedHall !== "" && values.TimeSlot !== ""){
+        //     setErrorMessage("Please select outlet")
+        // }
+        // else if (selectedReservationDate !== "" && selectedReservationForDate !== "" && selectedOutlet !== "" && selectedHall === "" && values.TimeSlot !== ""){
+        //     setErrorMessage("Please select Hall")
+        // }
+        // else if (selectedReservationDate !== "" && selectedReservationForDate !== "" && selectedOutlet !== "" && selectedHall === "" && values.TimeSlot !== ""){
+        //     setErrorMessage("Please select Hall")
+        // }
+        // else if (selectedReservationDate !== "" && selectedReservationForDate !== "" && selectedOutlet !== "" && selectedHall !== "" && values.TimeSlot === ""){
+        //     setErrorMessage("Please select time slot")
+        // }
+        // else if (selectedReservationDate === "" && selectedReservationForDate === "" && selectedOutlet === "" && selectedHall === "" && values.TimeSlot === ""){
+        //     setErrorMessage("Please fill the form")
+        // }
+        // else{
+        //     setErrorMessage("no empty field")
+        // }
         const rowsInput = {
             RateName: '',
             RateAmount: '',
@@ -81,6 +125,7 @@ const BanquetReservation = ({ customerID, token }) => {
         setShowTable(!showTable);
     }
     // console.log(showTable);
+    // console.log(errorMessage, "errorMessage");
 
     const deleteTableRows = (index) => {
         const rows = [...rowsData];
@@ -142,14 +187,7 @@ const BanquetReservation = ({ customerID, token }) => {
         setAdvancedPayment(event.target.value)
     }
     // let advancePaymentDate= new Date().toISOString().substring(0,10);
-    useEffect(() => {
-        if ((selectedReservationDate && selectedReservationForDate && selectedOutlet && selectedHall && values.TimeSlot) !== ""){
-            console.log("not empty any of the fields")
-        }
-        else{
-            console.log("empty fields")
-        }
-    }, [selectedReservationDate, selectedReservationForDate, selectedOutlet, selectedHall, values.TimeSlot])
+
 
     const handleBanquetReservation = async () => {
         try {
@@ -197,6 +235,7 @@ const BanquetReservation = ({ customerID, token }) => {
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
 
+   
 
     return (
         <section className='banquet-reservation'>
@@ -207,7 +246,10 @@ const BanquetReservation = ({ customerID, token }) => {
                 handleTarget={handleCloseModal}
                 handleClose={handleCloseModal}
             />
-            <h5>BanquetReservation</h5>
+            <div className='banquet-reservation-headings'>
+                <h5>Banquet Reservation</h5>
+                <small>Please fill out all the fields</small>
+            </div>
             <div className='row banquet-reservation-info'>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
                     <label> Reservation Date:</label>
@@ -281,16 +323,32 @@ const BanquetReservation = ({ customerID, token }) => {
             <AddDeleteTableRows rowsData={rowsData}
                 showTable={showTable}
                 buttonRef={buttonRef}
+                accessTable={accessTable}
                 addTableRows={addTableRows}
-                deleteTableRows={deleteTableRows} handleChange={handleChange} halls={selectedHall} timeSlot={values.TimeSlot} />
-            <SpecialRequest handleInputChange={handleInputChange} />
-            <AdvancePayment paymentData={paymentData} addPaymentRows={addPaymentRows} deletePaymentRows={deletePaymentRows}
+                deleteTableRows={deleteTableRows}
+                handleChange={handleChange}
+                halls={selectedHall}
+                timeSlot={values.TimeSlot} />
+            <SpecialRequest
+                handleInputChange={handleInputChange} />
+            <AdvancePayment
+                paymentData={paymentData}
+                addPaymentRows={addPaymentRows}
+                deletePaymentRows={deletePaymentRows}
                 handlePaymentChange={handlePaymentChange}
                 handleSelectChange={handleSelectChange}
                 showPaymentAdd={showPaymentAdd}
                 handleAdvancedPayment={handleAdvancedPayment}
             />
             <SubmitBtn event={"Save"} handle={handleBanquetReservation} />
+            {/* <ReactModal
+                    show={show}
+                    message={"Are "}
+                    buttonOne={"Ok"}
+                    buttonTwo={"Close"}
+                    handleTarget={handleClose}
+                    handleClose={handleClose}
+                /> */}
         </section>
     )
 }
