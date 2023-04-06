@@ -16,8 +16,8 @@ import Navbar from "../../Components/Navbar";
 import { useNavigate } from 'react-router-dom';
 
 const Credit = () => {
-    let navigate=useNavigate();
-    
+    let navigate = useNavigate();
+
     const [customerID, setCustomerID] = useState("");
     const [customerEmail, setCustomerEmail] = useState("");
     const [customerPhone, setCustomerPhone] = useState("");
@@ -75,16 +75,18 @@ const Credit = () => {
     }, [])
 
     useEffect(() => {
-        axios.post(`${baseUrl}/outlets`, {
-            token: `${token}`
-        })
-            .then((response) => {
-                setOutletName(response.data)
-                setIsDisabled(false)
+        if (token) {
+            axios.post(`${baseUrl}/outlets`, {
+                token: `${token}`
             })
-            .catch((error) => {
-                // console.log(error)
-            })
+                .then((response) => {
+                    setOutletName(response.data)
+                    setIsDisabled(false)
+                })
+                .catch((error) => {
+                    // console.log(error)
+                })
+        }
     }, [token])
 
     useEffect(() => {
@@ -260,8 +262,8 @@ const Credit = () => {
                 })
         }
         if (dropdownChange === "Ranged") {
-            let dateStart = new Date(dateOne).toISOString().substring(0, 11);
-            let dateEnd = new Date(dateTwo).toISOString().substring(0, 11);
+            let dateStart = new Date(dateOne).toISOString().substring(0, 10);
+            let dateEnd = new Date(dateTwo).toISOString().substring(0, 10);
 
             axios.post(`${baseUrl}/customerCreditleft`, {
                 token: `${token}`,

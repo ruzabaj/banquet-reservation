@@ -21,7 +21,7 @@ function AddDeleteTableRows({ halls, accessTable, rowsData, showTable, buttonRef
                 </div>
             </div>
             <div className="row">
-                <div className="rate-info col-lg-12 col-sm-8">
+                <div className="rate-info-table col-lg-10 col-sm-6">
                     <table className="table">
                         <thead>
                             <tr>

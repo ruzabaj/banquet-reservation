@@ -7,8 +7,8 @@ const SideBarContents = ({statistics, title}) => {
     <div className='started-border-bottom'>
       
       {statistics.length >= 1 ?
-        statistics.map((stats) => (
-          <div className='started-border'>
+        statistics.map((stats, index) => (
+          <div className='started-border' key={index}>
             <h5>{title}</h5>
             <div className='same-width'>
               <p>Hall Name: </p>

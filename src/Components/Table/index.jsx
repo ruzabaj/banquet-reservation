@@ -7,7 +7,7 @@ import ReactModal from '../Modals';
 import AccordionModal from './../Modals/AccordionModal';
 
 const AccordionTable = ({ accord, setDetailList }) => {
-  console.log(accord, "acccord")
+  // console.log(accord, "acccord")
   function selectColor(status) {
     switch (status) {
       case 'Started':

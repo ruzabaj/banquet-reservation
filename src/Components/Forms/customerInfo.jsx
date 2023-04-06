@@ -29,6 +29,7 @@ const CustomerInfo = () => {
     // verifiedCustomer.address, verifiedCustomer.country, 
     // verifiedCustomer.type)
     // console.log("=>", customerID)
+    
     useEffect(() => {
         let tokenCheck = localStorage.getItem("tokens");
         if (!tokenCheck) {
@@ -69,10 +70,8 @@ const CustomerInfo = () => {
         }
     }, [token])
 
-    // console.log(customerList, "customerList")
 
     const handleVerify = () => {
-        // console.log("inisde verify")
         axios.post(`${baseUrl}/customercheck`, {
             token: `${token}`,
             Name: values.fullName,
@@ -81,7 +80,7 @@ const CustomerInfo = () => {
             Phone: values.phone,
         })
             .then((response) => {
-                // console.log("res", response)
+                // console.log("customercheck", response)
                 setIsVerified(true)
                 setVerifiedCustomer(response.data.success[0])
                 setCustomerID(response.data.success[0].customerId)
@@ -91,7 +90,7 @@ const CustomerInfo = () => {
 
             })
             .catch((error) => {
-                // console.log("error here", error.response.data.error)
+                // console.log("customer check error", error.response.data.error)
                 setIsVerified(false)
                 setIsDisabled(false)
                 setCheckError(true)
@@ -114,7 +113,10 @@ const CustomerInfo = () => {
         //     delete verifiedCustomer[prop];
         //   }
     }
-    // console.log("verifiedCustomer", verifiedCustomer)
+    //Handle Modal open and close
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const handleCustomer = () => {
         axios.post(`${baseUrl}/customerpost`, {
@@ -131,24 +133,23 @@ const CustomerInfo = () => {
         })
             .then((response) => {
                 // console.log("res123", response.data)
-                // console.log("res123", response.data.success)
+                // console.log("customerpost res123", response.data.success)
                 setMessage("Congratulation! You have registered successfully")
                 setCustomerID(response.data.success)
                 setshowBanquet(true)
                 handleShow();
                 setCheckError(false)
-
+                
             })
             .catch((error) => {
-                // console.log("err", error.response.data)
+                // console.log("customerpost err", error.response.data)
+                handleShow() 
                 setCheckError(true)
                 setshowBanquet(true)
+                setMessage(error.response.data.error)
             })
     }
-    //Handle Modal open and close
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
 
     return (
         <div>

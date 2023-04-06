@@ -10,8 +10,8 @@ const CreditLeftTable = ({headers, titles, contents}) => {
                         <th key={index}>{header}</th>
                     ))}
                 </tr>
-                {contents.map((info) => (
-                    <tr>
+                {contents.map((info, index) => (
+                    <tr key={index}>
                         <td>{info.guest}</td>
                         <td>{info.guestEmail}</td>
                         <td>{info.TotalCredit}</td>
