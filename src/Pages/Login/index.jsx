@@ -31,7 +31,7 @@ const Login = () => {
         setIsCLicked(!isClicked)
     }
 
-    console.log("token", token);
+    // console.log("token", token);
 
     useEffect(() => {
         if (token) {
@@ -53,6 +53,7 @@ const Login = () => {
                     <p><b>Sign in</b> to make reservations and many more</p>
                 </div> */}
                 <div className='bg-image'>
+                    {/* <img src='./alice_conf.jpeg' alt='background-alice' /> */}
                     <img src='./alice_bg.jpg' alt='background-alice' />
                     <div className='right-side-contents'>
                         <h2>Welcome </h2>
@@ -67,12 +68,9 @@ const Login = () => {
             </div>
             <div className='left-side'>
                 <div className='comapny-name'>
+                    {/* <img src='./alice_conf.png' className='alice-logo' /> */}
                     <img src='./alice.jpg' className='alice-logo' />
-                    {/* <h4>Alice Reception</h4> */}
                 </div>
-                {/* <div className='left-title'>
-                    <h3>Sign In</h3>
-                </div> */}
                 <Forms
                     handleSubmit={handleSubmit}
                     onSubmit={onSubmit}

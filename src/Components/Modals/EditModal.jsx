@@ -76,7 +76,7 @@ const EditModal = ({ id,
                     setDetailList(response.data)
                 })
                 .catch((error) => {
-                    console.log(error.response.data, "error")
+                    // console.log(error.response.data, "error")
                     setDetailList([])
                 })
 

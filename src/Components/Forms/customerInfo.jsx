@@ -25,7 +25,9 @@ const CustomerInfo = () => {
     const [customerList, setCustomerList] = useState([]);
     const [selectedCustomer, setSelectedCustomer] = useState("");
 
-    // console.log("here", isVerified, verifiedCustomer.address, verifiedCustomer.country, verifiedCustomer.type)
+    // console.log("here", isVerified, 
+    // verifiedCustomer.address, verifiedCustomer.country, 
+    // verifiedCustomer.type)
     // console.log("=>", customerID)
     useEffect(() => {
         let tokenCheck = localStorage.getItem("tokens");
@@ -37,7 +39,7 @@ const CustomerInfo = () => {
     }, [])
 
     const [values, setValues] = useState({
-        // fullName: "",
+        fullName: "",
         phone: "",
         email: "",
         address: "",
@@ -53,7 +55,6 @@ const CustomerInfo = () => {
             [id]: value,
         });
     }
-    // console.log("see here", values)
     useEffect(() => {
         if (token) {
             axios.post(`${baseUrl}/customerNameList`, {
@@ -68,13 +69,14 @@ const CustomerInfo = () => {
         }
     }, [token])
 
-    console.log(customerList, "customerList")
+    // console.log(customerList, "customerList")
 
     const handleVerify = () => {
         // console.log("inisde verify")
         axios.post(`${baseUrl}/customercheck`, {
             token: `${token}`,
-            Name: selectedCustomer,
+            Name: values.fullName,
+            // Name: selectedCustomer,
             Email: values.email,
             Phone: values.phone,
         })
@@ -89,7 +91,7 @@ const CustomerInfo = () => {
 
             })
             .catch((error) => {
-                console.log("error here", error.response.data.error)
+                // console.log("error here", error.response.data.error)
                 setIsVerified(false)
                 setIsDisabled(false)
                 setCheckError(true)
@@ -117,7 +119,8 @@ const CustomerInfo = () => {
     const handleCustomer = () => {
         axios.post(`${baseUrl}/customerpost`, {
             token: `${token}`,
-            Name: selectedCustomer,
+            // Name: selectedCustomer,
+            Name: values.fullName,
             Email: values.email,
             Phone: values.phone,
             Address: values.address,
@@ -163,8 +166,9 @@ const CustomerInfo = () => {
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                         <label>Name</label>
                         <div>
-                            {/* <input type='text' name='name' id="fullName" value={values.fullName} placeholder='Ram Shrestha' onChange={handleInputChange} /> */}
-                            <SelectSearchInput defaultName={selectedCustomer} List={customerList} text={"Search Name"} setSelectedItem={setSelectedCustomer} />
+                            {/* <SelectSearchInput defaultName={selectedCustomer} List={customerList} text={"Search Name"} setSelectedItem={setSelectedCustomer} />
+                            <p>If not a user?</p> */}
+                            <input type='text' name='name' id="fullName" value={values.fullName} placeholder='Ram Shrestha' onChange={handleInputChange} />
                         </div>
                     </div>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
@@ -193,13 +197,39 @@ const CustomerInfo = () => {
                     </div>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                         <label>Type</label>
+                        {isVerified ?
+                            <div className='radio-type'>
+                                <div>
+                                    <input type="radio"
+                                        id="type"
+                                        name="type"
+                                        checked={(verifiedCustomer.type === "Individual") && "Individual"}
+                                        // checked={verifiedCustomer.type}
+                                        value={"Individual"}
+                                        disabled={isDisabled}
+                                        onChange={handleInputChange} />
+                                    <label>Individual</label>
+                                </div>
+                                <div  >
+                                    <input type="radio"
+                                        id="type"
+                                        name="type"
+                                        checked={(verifiedCustomer.type === "Company") && "Company"}
+                                        value={"Company"}
+                                        disabled={isDisabled}
+                                        onChange={handleInputChange} />
+                                    <label>Company</label>
+                                </div>
+                            </div>
+                        :
                         <div className='radio-type'>
-                            <div   >
+                            <div>
                                 <input type="radio"
                                     id="type"
                                     name="type"
-                                    checked={isVerified ? verifiedCustomer.type : "Individual"}
-                                    value={isVerified ? verifiedCustomer.type : "Individual"}
+                                    // checked={(verifiedCustomer.type === "Individual") && "Individual"}
+                                    // checked={verifiedCustomer.type}
+                                    value={"Individual"}
                                     disabled={isDisabled}
                                     onChange={handleInputChange} />
                                 <label>Individual</label>
@@ -208,13 +238,14 @@ const CustomerInfo = () => {
                                 <input type="radio"
                                     id="type"
                                     name="type"
-                                    // checked={isVerified ? verifiedCustomer.type : "Company"}
+                                    // checked={(verifiedCustomer.type === "Company") && "Company"}
                                     value={"Company"}
                                     disabled={isDisabled}
                                     onChange={handleInputChange} />
                                 <label>Company</label>
                             </div>
                         </div>
+                        }
                     </div>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                         <label>PAN no.</label>

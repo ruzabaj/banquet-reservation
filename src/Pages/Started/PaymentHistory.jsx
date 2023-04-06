@@ -71,7 +71,7 @@ const PaymentHistory = ({ paymentList,
                     setDetailList(response.data)
                 })
                 .catch((error) => {
-                    console.log(error.response.data, "error")
+                    // console.log(error.response.data, "error")
                     setDetailList([])
                 })
         }

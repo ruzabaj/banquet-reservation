@@ -7,6 +7,7 @@ import ReactModal from '../Modals';
 import AccordionModal from './../Modals/AccordionModal';
 
 const AccordionTable = ({ accord, setDetailList }) => {
+  console.log(accord, "acccord")
   function selectColor(status) {
     switch (status) {
       case 'Started':
@@ -103,11 +104,15 @@ const AccordionTable = ({ accord, setDetailList }) => {
             <td className='extend-width-pax'>{accord.NoOfPax}</td>
             <td className='extend-width-150'>{accord.Outlet_Name}</td>
             <td className='extend-width' onClick={handleEdits} >{accord.TimeSlot}
-              <span><BsPen onClick={handleEdits} /></span>
+              {(accord.reservationState === "Started") &&
+                <span><BsPen onClick={handleEdits} /></span>
+              }
             </td>
             <td className='extend-width-200'><StandardDate date={accord.reservationDate} /></td>
             <td className='extend-width-200' onClick={handleEdits} ><StandardDate date={accord.reservationForDate} />
-              <span><BsPen onClick={handleEdits} /></span>
+              {(accord.reservationState === "Started") &&
+                <span><BsPen onClick={handleEdits} /></span>
+              }
             </td>
             <td className='extend-width-150'>{accord.hall_names}</td>
             <td style={{ color: selectColor(accord.reservationState) }}>{accord.reservationState}</td>

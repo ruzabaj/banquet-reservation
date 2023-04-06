@@ -32,71 +32,73 @@ const Schedule = () => {
       setToken(localStorage.getItem("tokens"))
     }
   }, [])
-  
+
   useEffect(() => {
     var startDate = moment().format('YYYY-MM-DD')
     var sevenDaysDate = moment().add(6, 'days').format('YYYY-MM-DD')
-    axios.post(`${baseUrl}/schedule`, {
-      startDate: `${startDate}`,
-      endDate: `${sevenDaysDate}`,
-      token: `${token}`
-    })
-      .then((response) => {
-        if (response.data.lunch) {
-          var checkLunch = response.data.lunch[0]
-          if ("Hall2" in checkLunch) {
-            setLunchHallTwo(response.data.lunch[0].Hall2)
-            if (response.data.lunch[1]) {
-              setLunchHallOne(response.data.lunch[1].Hall1)
-            }
-          }
-
-          if ("Hall1" in checkLunch) {
-            setLunchHallOne(response.data.lunch[0].Hall1)
-            if (response.data.lunch[1]) {
-              setLunchHallTwo(response.data.lunch[1].Hall2)
-            }
-          }
-        }
-
-        if (response.data.dinner) {
-          let checkDInner = response.data.dinner[0]
-          if ("Hall1" in checkDInner) {
-            setDinnerHallOne(response.data.dinner[0].Hall1)
-            if (response.data.dinner[1]) {
-              setDinnerHallTwo(response.data.dinner[1].Hall2)
-            }
-          }
-          if ("Hall2" in checkDInner) {
-            // console.log("Hall2 present in 0 dinner")
-            setDinnerHallTwo(response.data.dinner[0].Hall2)
-            if (response.data.dinner[1]) {
-              setDinnerHallOne(response.data.dinner[1].Hall1)
-            }
-          }
-        }
-
-        // if (response.data.both) {
-        //   let checkBoth = response.data.both[0]
-        //   if ("Hall1" in checkBoth) {
-        //     setBothHallOne(response.data.both[0].Hall1)
-        //     if (response.data.both[1]) {
-        //       setBothHallTwo(response.data.both[1].Hall2)
-        //     }
-        //   }
-        //   if ("Hall2" in checkBoth) {
-        //     // console.log("Hall2 present in 0 dinner")
-        //     setBothHallTwo(response.data.both[0].Hall2)
-        //     if (response.data.both[1]) {
-        //       setBothHallOne(response.data.both[1].Hall1)
-        //     }
-        //   }
-        // }
-
+    if (token) {
+      axios.post(`${baseUrl}/schedule`, {
+        startDate: `${startDate}`,
+        endDate: `${sevenDaysDate}`,
+        token: `${token}`
       })
-      .catch((error) => {
-        console.log("error in useeffect", error)
-      })
+        .then((response) => {
+          if (response.data.lunch) {
+            var checkLunch = response.data.lunch[0]
+            if ("Hall2" in checkLunch) {
+              setLunchHallTwo(response.data.lunch[0].Hall2)
+              if (response.data.lunch[1]) {
+                setLunchHallOne(response.data.lunch[1].Hall1)
+              }
+            }
+
+            if ("Hall1" in checkLunch) {
+              setLunchHallOne(response.data.lunch[0].Hall1)
+              if (response.data.lunch[1]) {
+                setLunchHallTwo(response.data.lunch[1].Hall2)
+              }
+            }
+          }
+
+          if (response.data.dinner) {
+            let checkDInner = response.data.dinner[0]
+            if ("Hall1" in checkDInner) {
+              setDinnerHallOne(response.data.dinner[0].Hall1)
+              if (response.data.dinner[1]) {
+                setDinnerHallTwo(response.data.dinner[1].Hall2)
+              }
+            }
+            if ("Hall2" in checkDInner) {
+              // console.log("Hall2 present in 0 dinner")
+              setDinnerHallTwo(response.data.dinner[0].Hall2)
+              if (response.data.dinner[1]) {
+                setDinnerHallOne(response.data.dinner[1].Hall1)
+              }
+            }
+          }
+
+          // if (response.data.both) {
+          //   let checkBoth = response.data.both[0]
+          //   if ("Hall1" in checkBoth) {
+          //     setBothHallOne(response.data.both[0].Hall1)
+          //     if (response.data.both[1]) {
+          //       setBothHallTwo(response.data.both[1].Hall2)
+          //     }
+          //   }
+          //   if ("Hall2" in checkBoth) {
+          //     // console.log("Hall2 present in 0 dinner")
+          //     setBothHallTwo(response.data.both[0].Hall2)
+          //     if (response.data.both[1]) {
+          //       setBothHallOne(response.data.both[1].Hall1)
+          //     }
+          //   }
+          // }
+
+        })
+        .catch((error) => {
+          console.log("error in useeffect", error)
+        })
+    }
   }, [token])
 
 

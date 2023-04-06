@@ -19,6 +19,12 @@ const AccordionModal = ({edit, editAccordion, inputChange, handleSaveEdit, handl
                             id="TimeSlot"
                             className="edit-input"
                             onChange={inputChange} />
+                            {/* <select>
+                                <option value=""></option>
+                                <option value={"Lunch"}>Lunch</option>
+                                <option value={"Dinner"}>Dinner</option>
+                                <option value={"Both"}>Both</option>
+                            </select> */}
                     </div>
                     <div>
                         <label>Reservation For Date : </label>

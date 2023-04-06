@@ -32,24 +32,26 @@ const BanquetReservation = ({ customerID, token }) => {
     // console.log("selected hall",  selectedHall);
 
     useEffect(() => {
-        axios.post(`${baseUrl}/halls`, {
-            token: `${token}`
-        })
-            .then((response) => {
-                setHallList(response.data)
+        if (token) {
+            axios.post(`${baseUrl}/halls`, {
+                token: `${token}`
             })
-            .catch((error) => {
-                // console.log(error)
+                .then((response) => {
+                    setHallList(response.data)
+                })
+                .catch((error) => {
+                    // console.log(error)
+                })
+            axios.post(`${baseUrl}/outlets`, {
+                token: `${token}`
             })
-        axios.post(`${baseUrl}/outlets`, {
-            token: `${token}`
-        })
-            .then((response) => {
-                setOutletList(response.data)
-            })
-            .catch((error) => {
-                // console.log(error)
-            })
+                .then((response) => {
+                    setOutletList(response.data)
+                })
+                .catch((error) => {
+                    // console.log(error)
+                })
+        }
     }, [token])
 
     const [values, setValues] = useState({
@@ -69,17 +71,17 @@ const BanquetReservation = ({ customerID, token }) => {
     const [accessTable, setAccessTable] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const[errorModal, setErrorModal]= useState(false);
+    const [errorModal, setErrorModal] = useState(false);
     const handleCloseErrorModal = () => setErrorModal(false);
     const handleShowErrorModal = () => setErrorModal(true);
 
     useEffect(() => {
         if ((selectedReservationDate && selectedReservationForDate && selectedOutlet && selectedHall && values.TimeSlot) !== "") {
-            console.log("not empty any of the fields")
+            // console.log("not empty any of the fields")
             setAccessTable(true)
         }
         else {
-            console.log("empty fields")
+            // console.log("empty fields")
             setAccessTable(false)
         }
     }, [selectedReservationDate, selectedReservationForDate, selectedOutlet, selectedHall, values.TimeSlot])
@@ -88,8 +90,8 @@ const BanquetReservation = ({ customerID, token }) => {
     const [showTable, setShowTable] = useState(false);
     const buttonRef = useRef(null);
 
-    console.log(accessTable, "accessTable");
-    
+    // console.log(accessTable, "accessTable");
+
     const addTableRows = () => {
         // if(selectedReservationDate === "" && selectedReservationForDate !== "" && selectedOutlet !== "" && selectedHall !== "" && values.TimeSlot !== ""){
         //     setErrorMessage("Please select reservation date")
@@ -235,7 +237,7 @@ const BanquetReservation = ({ customerID, token }) => {
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
 
-   
+
 
     return (
         <section className='banquet-reservation'>

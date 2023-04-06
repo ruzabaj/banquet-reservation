@@ -85,11 +85,11 @@ const Credit = () => {
             .catch((error) => {
                 // console.log(error)
             })
-    }, [])
+    }, [token])
 
     useEffect(() => {
         setIsDisabled(false)
-        if (selectedOutlet) {
+        if (selectedOutlet && token) {
             axios.post(`${baseUrl}/creditCustomerList`,
                 {
                     token: `${token}`,
@@ -102,10 +102,10 @@ const Credit = () => {
                     // console.log(error)
                 })
         }
-    }, [selectedOutlet])
+    }, [selectedOutlet, token])
 
     useEffect(() => {
-        if (selectedOutlet && selectedCreditCustomer) {
+        if (selectedOutlet && selectedCreditCustomer && token) {
             axios.post(`${baseUrl}/customerCreditData`, {
                 token: `${token}`,
                 outlet: selectedOutlet,
@@ -122,7 +122,7 @@ const Credit = () => {
                     setShowCreditDetails(false)
                 })
         }
-    }, [selectedOutlet, selectedCreditCustomer])
+    }, [selectedOutlet, selectedCreditCustomer, token])
 
     const showCreditDetail = (id, email, phone, type, vat) => {
         setCustomerID(id)
@@ -131,7 +131,7 @@ const Credit = () => {
         setCustomerType(type)
         setCustomerVAT(vat)
 
-        if (selectedCreditCustomer && selectedOutlet) {
+        if (selectedCreditCustomer && selectedOutlet && token) {
             axios.post(`${baseUrl}/customerCreditDetails`, {
                 token: `${token}`,
                 outlet: selectedOutlet,
