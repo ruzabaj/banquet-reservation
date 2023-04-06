@@ -14,9 +14,9 @@ const Routing = () => {
       <Routes>
         <Route path="/started" element={<Started />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/started" element={<Started />} />
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/credit" element={<Credit />} />
+        {/* <Route path="/started" element={<Started />} /> */}
       </Routes>
     </div>
   )
