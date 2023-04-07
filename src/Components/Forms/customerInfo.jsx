@@ -42,6 +42,7 @@ const CustomerInfo = () => {
     const [values, setValues] = useState({
         fullName: "",
         phone: "",
+        altPhone: "",
         email: "",
         address: "",
         country: "",
@@ -98,6 +99,7 @@ const CustomerInfo = () => {
                 setMessage(error.response.data.error)
             })
     }
+
     const handleReset = () => {
         setVerifiedCustomer({})
         setValues({
@@ -113,6 +115,7 @@ const CustomerInfo = () => {
         //     delete verifiedCustomer[prop];
         //   }
     }
+
     //Handle Modal open and close
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -125,6 +128,7 @@ const CustomerInfo = () => {
             Name: values.fullName,
             Email: values.email,
             Phone: values.phone,
+            altPhone: values.altPhone,
             Address: values.address,
             Country: values.country,
             type: values.type,
@@ -149,7 +153,6 @@ const CustomerInfo = () => {
                 setMessage(error.response.data.error)
             })
     }
-
 
     return (
         <div>
@@ -176,6 +179,12 @@ const CustomerInfo = () => {
                         <label>Phone</label>
                         <div>
                             <input type='text' name='phone' id="phone" value={values.phone} placeholder='984113556' onChange={handleInputChange} />
+                        </div>
+                    </div>
+                    <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
+                        <label>Alt Phone</label>
+                        <div>
+                            <input type='text' name='altPhone' id="altPhone" value={values.altPhone} placeholder='9841522231' onChange={handleInputChange} />
                         </div>
                     </div>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>

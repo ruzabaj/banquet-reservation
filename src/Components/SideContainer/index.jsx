@@ -10,9 +10,11 @@ const SideContainer = ({ token }) => {
   const [lunchStatistics, setLunchStatistics] = useState([]);
   const dateToday = new Date().toISOString().substring(0, 10);
 
+  let baseUrl = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     if (token) {
-      axios.post(`https://banquet.silverlinepos.com/stats`, {
+      axios.post(`${baseUrl}/stats`, {
         token: `${token}`
       })
         .then((response) => {

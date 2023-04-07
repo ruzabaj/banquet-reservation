@@ -10,7 +10,9 @@ function CollapsibleExample() {
     <div>
       <Navbar collapseOnSelect expand="lg" className='navbar' style={{ color: "white" }}>
         <Container>
+          {/* <img src='./alice_conf.png' alt='logo' className='logo' /> */}
           <img src='./alice.jpg' alt='logo' className='logo' />
+          {/* <Navbar.Brand>Alice Conference</Navbar.Brand> */}
           <Navbar.Brand>Alice Reception</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
