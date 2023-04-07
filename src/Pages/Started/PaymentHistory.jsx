@@ -63,7 +63,8 @@ const PaymentHistory = ({ paymentList,
                 .catch((error) => {
                     // console.log(error)
                 })
-
+        }
+        setTimeout(() => {
             axios.post(`${baseUrl}/getStarted`, {
                 token: `${token}`
             })
@@ -74,14 +75,10 @@ const PaymentHistory = ({ paymentList,
                     // console.log(error.response.data, "error")
                     setDetailList([])
                 })
-        }
-
-        
+        }, 1000);
     }
 
-
     const [cancelModal, setCancelModal] = useState(false);
-
     const handleCloseModal = () => setCancelModal(false);
     const handleShowModal = () => setCancelModal(true);
 
@@ -95,7 +92,7 @@ const PaymentHistory = ({ paymentList,
                 {
                     customerID: `${id}`,
                     banquetreservationID: `${reservatorID}`,
-                    token: "test"
+                    token: `${token}`
                 })
                 .then((res) => {
                     // console.log(res)
@@ -107,7 +104,7 @@ const PaymentHistory = ({ paymentList,
         }
 
         axios.post(`${baseUrl}/getStarted`, {
-            token: `test`
+            token: `${token}`
         })
             .then((response) => {
                 setDetailList(response.data)
