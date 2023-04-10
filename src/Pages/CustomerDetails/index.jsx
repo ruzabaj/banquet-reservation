@@ -80,7 +80,10 @@ function CustomerDetails() {
     useEffect(() => {
         if (token && !(token === "")) {
             axios
-                .post(`${baseUrl}/customerNameList`, { token: `${token}` })
+                .post(`${baseUrl}/customerNameList`,
+                    {
+                        token: `${token}`
+                    })
                 .then((response) => {
                     setcustomerNameList(response.data)
                     setcustomerClicked(false)
@@ -156,7 +159,7 @@ function CustomerDetails() {
                                 return (
                                     <tr
                                         key={index}
-                                        tabIndex= "1"
+                                        tabIndex="1"
                                         onClick={() => {
                                             tableclicked(info.customerID)
                                         }}

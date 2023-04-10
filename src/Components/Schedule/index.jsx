@@ -13,8 +13,6 @@ const Schedule = () => {
   const [lunchHallTwo, setLunchHallTwo] = useState([]);
   const [dinnerHallOne, setDinnerHallOne] = useState([]);
   const [dinnerHallTwo, setDinnerHallTwo] = useState([]);
-  // const [bothHallOne, setBothHallOne] = useState([]);
-  // const [bothHallTwo, setBothHallTwo] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
   const [firstDate, setFirstDate] = useState("");
   const [arrays, setArray] = useState([])
@@ -78,24 +76,6 @@ const Schedule = () => {
               }
             }
           }
-
-          // if (response.data.both) {
-          //   let checkBoth = response.data.both[0]
-          //   if ("Hall1" in checkBoth) {
-          //     setBothHallOne(response.data.both[0].Hall1)
-          //     if (response.data.both[1]) {
-          //       setBothHallTwo(response.data.both[1].Hall2)
-          //     }
-          //   }
-          //   if ("Hall2" in checkBoth) {
-          //     // console.log("Hall2 present in 0 dinner")
-          //     setBothHallTwo(response.data.both[0].Hall2)
-          //     if (response.data.both[1]) {
-          //       setBothHallOne(response.data.both[1].Hall1)
-          //     }
-          //   }
-          // }
-
         })
         .catch((error) => {
           console.log("error in useeffect", error)
@@ -177,14 +157,11 @@ const Schedule = () => {
     return days;
   }
 
-
   var initialNepaliDateArray = [];
   const convertNepaliDates = () => {
-    getDays().forEach((dates) => {
-      // console.log(dates, "dates of show seven days")
-      let newNepaliDate = moment(new Date(dates)).format("YYYY/MM/DD");
+    getSevenDays().forEach((dates) => {
+      let newNepaliDate = moment(new Date(dates)).utc().format("YYYY/MM/DD");
       let nepaliDates = adbs.ad2bs(newNepaliDate)
-      console.log("nepaliDate", nepaliDates.ne)
       initialNepaliDateArray.push(nepaliDates.ne)
     })
     return initialNepaliDateArray
@@ -193,12 +170,9 @@ const Schedule = () => {
   var nepaliDateArray = [];
   const converttoNepaliDates = () => {
     arrays.forEach((dates) => {
-      // console.log(dates, "dates of arraYS")
       let newDates = moment(new Date(dates)).format("YYYY/MM/DD").toString();
       let nepaliDate = adbs.ad2bs(newDates)
-      // console.log("nepaliDate", nepaliDate.ne)
       nepaliDateArray.push(nepaliDate.ne)
-      // console.log(nepaliDateArray, "nepali Date Array")
     })
     return nepaliDateArray
   }
@@ -220,7 +194,6 @@ const Schedule = () => {
   const getTestDays = () => {
     arrays.forEach((datehere) => {
       let newDate = moment(new Date(datehere)).format("ddd, DD MMM YYYY").toString()
-      // console.log("=>", newDate)
       testDate.push(newDate)
     })
     return testDate
