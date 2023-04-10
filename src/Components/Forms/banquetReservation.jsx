@@ -9,14 +9,16 @@ import SpecialRequest from './specialRequest';
 import AdvancePayment from './advancePayment';
 import AddDeleteTableRows from './AddTable';
 import ReactModal from '../Modals';
-// import { useNavigate } from 'react-router-dom';
-// import RateInfo from './rateInfo';
+import { NepaliDatePicker } from "nepali-datepicker-reactjs"
+import "nepali-datepicker-reactjs/dist/index.css"
 
 const BanquetReservation = ({ customerID, token }) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
 
-    const [reservationDate, setReservationDate] = useState(new Date());
-    const [reservationForDate, setReservationForDate] = useState(new Date());
+    // const [reservationDate, setReservationDate] = useState(new Date());
+    // const [reservationForDate, setReservationForDate] = useState(new Date());
+    // let selectedReservationDate = reservationDate.toISOString().substring(0, 10);
+    // let selectedReservationForDate = reservationForDate.toISOString().substring(0, 10);
     const [hallList, setHallList] = useState([]);
     const [selectedHall, setSelectedHall] = useState("");
     const [outletList, setOutletList] = useState([]);
@@ -24,12 +26,9 @@ const BanquetReservation = ({ customerID, token }) => {
     const [showMessage, setShowMessage] = useState("");
     const [showPaymentAdd, setShowPaymentAdd] = useState(false)
     // const [resHall, setResHall] = useState([]);
-    // const [detail, setDetail] = useState([]);
 
-    let selectedReservationDate = reservationDate.toISOString().substring(0, 10);
-    let selectedReservationForDate = reservationForDate.toISOString().substring(0, 10);
-
-    // console.log("selected hall",  selectedHall);
+    const [nepaliReservationDate, setNepaliReservationDate] = useState("")
+    const [nepaliForDate, setNepaliForDate] = useState("")
 
     useEffect(() => {
         if (token) {
@@ -76,47 +75,19 @@ const BanquetReservation = ({ customerID, token }) => {
     const handleShowErrorModal = () => setErrorModal(true);
 
     useEffect(() => {
-        if ((selectedReservationDate && selectedReservationForDate && selectedOutlet && selectedHall && values.TimeSlot) !== "") {
-            // console.log("not empty any of the fields")
+        if ((nepaliReservationDate && nepaliForDate && selectedOutlet && selectedHall && values.TimeSlot) !== "") {
             setAccessTable(true)
         }
         else {
-            // console.log("empty fields")
             setAccessTable(false)
         }
-    }, [selectedReservationDate, selectedReservationForDate, selectedOutlet, selectedHall, values.TimeSlot])
+    }, [nepaliReservationDate, nepaliForDate, selectedOutlet, selectedHall, values.TimeSlot])
 
     const [rowsData, setRowsData] = useState([]);
     const [showTable, setShowTable] = useState(false);
     const buttonRef = useRef(null);
 
-    // console.log(accessTable, "accessTable");
-
     const addTableRows = () => {
-        // if(selectedReservationDate === "" && selectedReservationForDate !== "" && selectedOutlet !== "" && selectedHall !== "" && values.TimeSlot !== ""){
-        //     setErrorMessage("Please select reservation date")
-        // }
-        // else if (selectedReservationDate !== "" && selectedReservationForDate === "" && selectedOutlet !== "" && selectedHall !== "" && values.TimeSlot !== ""){
-        //     setErrorMessage("Please select reservation for date")
-        // }
-        // else if (selectedReservationDate !== "" && selectedReservationForDate !== "" && selectedOutlet === "" && selectedHall !== "" && values.TimeSlot !== ""){
-        //     setErrorMessage("Please select outlet")
-        // }
-        // else if (selectedReservationDate !== "" && selectedReservationForDate !== "" && selectedOutlet !== "" && selectedHall === "" && values.TimeSlot !== ""){
-        //     setErrorMessage("Please select Hall")
-        // }
-        // else if (selectedReservationDate !== "" && selectedReservationForDate !== "" && selectedOutlet !== "" && selectedHall === "" && values.TimeSlot !== ""){
-        //     setErrorMessage("Please select Hall")
-        // }
-        // else if (selectedReservationDate !== "" && selectedReservationForDate !== "" && selectedOutlet !== "" && selectedHall !== "" && values.TimeSlot === ""){
-        //     setErrorMessage("Please select time slot")
-        // }
-        // else if (selectedReservationDate === "" && selectedReservationForDate === "" && selectedOutlet === "" && selectedHall === "" && values.TimeSlot === ""){
-        //     setErrorMessage("Please fill the form")
-        // }
-        // else{
-        //     setErrorMessage("no empty field")
-        // }
         const rowsInput = {
             RateName: '',
             RateAmount: '',
@@ -126,8 +97,6 @@ const BanquetReservation = ({ customerID, token }) => {
         setRowsData([...rowsData, rowsInput])
         setShowTable(!showTable);
     }
-    // console.log(showTable);
-    // console.log(errorMessage, "errorMessage");
 
     const deleteTableRows = (index) => {
         const rows = [...rowsData];
@@ -195,8 +164,8 @@ const BanquetReservation = ({ customerID, token }) => {
         try {
             let response = await axios.post(`${baseUrl}/banquetregistration`, {
                 "tblbanquetReservation": {
-                    reservationDate: selectedReservationDate,
-                    reservationForDate: selectedReservationForDate,
+                    reservationDate: nepaliReservationDate,
+                    reservationForDate: nepaliForDate,
                     Outlet_Name: selectedOutlet,
                     reservationState: "Started",
                     TimeSlot: values.TimeSlot,
@@ -214,7 +183,7 @@ const BanquetReservation = ({ customerID, token }) => {
                 "tblbanquetRate_details": rowsData,
                 "tblbanquetPayment_details": [
                     {
-                        paymentDate: todayDate,
+                        paymentDate: nepaliReservationDate,
                         PaymentAmount: advancedPayment,
                         PaymentMode: selected
                     }
@@ -237,8 +206,6 @@ const BanquetReservation = ({ customerID, token }) => {
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
 
-
-
     return (
         <section className='banquet-reservation'>
             <ReactModal show={showModal}
@@ -256,13 +223,23 @@ const BanquetReservation = ({ customerID, token }) => {
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
                     <label> Reservation Date:</label>
                     <div>
-                        <DatePickerInput selectedDate={reservationDate} setSelectedDate={setReservationDate} />
+                        {/* <DatePickerInput selectedDate={reservationDate} setSelectedDate={setReservationDate} /> */}
+                         <NepaliDatePicker inputClassName="form-control"
+                        className=""
+                        value={nepaliReservationDate}
+                        onChange={(value) => setNepaliReservationDate(value)}
+                        options={{ calenderLocale: "en", valueLocale: "en" }} />
                     </div>
                 </div>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
                     <label> Reservation For Date:</label>
                     <div>
-                        <DatePickerInput selectedDate={reservationForDate} setSelectedDate={setReservationForDate} />
+                        {/* <DatePickerInput selectedDate={reservationForDate} setSelectedDate={setReservationForDate} /> */}
+                         <NepaliDatePicker inputClassName="form-control"
+                        className=""
+                        value={nepaliForDate}
+                        onChange={(value) => setNepaliForDate(value)}
+                        options={{ calenderLocale: "en", valueLocale: "en" }} />
                     </div>
                 </div>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>

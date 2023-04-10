@@ -33,7 +33,21 @@ function CollapsibleExample() {
             <div className='nav-link'>
               <Nav className='view-availability'>
                 <Link to="/schedule">
-                  <p>View Availability</p>
+                  <p>View Availability </p>
+                </Link>
+              </Nav>
+            </div>
+            <div className='nav-link'>
+              <Nav className='view-availability'>
+                <Link to="/CustomerDetails">
+                  <p>Customer Details</p>
+                </Link>
+              </Nav>
+            </div>
+            <div className='nav-link'>
+              <Nav className='view-availability'>
+                <Link to="/availability">
+                  <p>View Schedule</p>
                 </Link>
               </Nav>
             </div>

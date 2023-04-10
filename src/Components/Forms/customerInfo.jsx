@@ -7,7 +7,6 @@ import RegisterBtns from '../Buttons/registerBtns';
 import ReactModal from './../Modals/index';
 import BanquetReservation from './banquetReservation';
 import { useNavigate } from 'react-router-dom';
-import SelectSearchInput from '../SelectSearch';
 
 const CustomerInfo = () => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -29,7 +28,7 @@ const CustomerInfo = () => {
     // verifiedCustomer.address, verifiedCustomer.country, 
     // verifiedCustomer.type)
     // console.log("=>", customerID)
-    
+
     useEffect(() => {
         let tokenCheck = localStorage.getItem("tokens");
         if (!tokenCheck) {
@@ -143,16 +142,18 @@ const CustomerInfo = () => {
                 setshowBanquet(true)
                 handleShow();
                 setCheckError(false)
-                
+
             })
             .catch((error) => {
                 // console.log("customerpost err", error.response.data)
-                handleShow() 
+                handleShow()
                 setCheckError(true)
                 setshowBanquet(true)
                 setMessage(error.response.data.error)
             })
     }
+
+  
 
     return (
         <div>
@@ -182,7 +183,7 @@ const CustomerInfo = () => {
                         </div>
                     </div>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
-                        <label>Alt Phone</label>
+                        <label>Second Phone No. </label>
                         <div>
                             <input type='text' name='altPhone' id="altPhone" value={values.altPhone} placeholder='9841522231' onChange={handleInputChange} />
                         </div>
@@ -231,30 +232,30 @@ const CustomerInfo = () => {
                                     <label>Company</label>
                                 </div>
                             </div>
-                        :
-                        <div className='radio-type'>
-                            <div>
-                                <input type="radio"
-                                    id="type"
-                                    name="type"
-                                    // checked={(verifiedCustomer.type === "Individual") && "Individual"}
-                                    // checked={verifiedCustomer.type}
-                                    value={"Individual"}
-                                    disabled={isDisabled}
-                                    onChange={handleInputChange} />
-                                <label>Individual</label>
+                            :
+                            <div className='radio-type'>
+                                <div>
+                                    <input type="radio"
+                                        id="type"
+                                        name="type"
+                                        // checked={(verifiedCustomer.type === "Individual") && "Individual"}
+                                        // checked={verifiedCustomer.type}
+                                        value={"Individual"}
+                                        disabled={isDisabled}
+                                        onChange={handleInputChange} />
+                                    <label>Individual</label>
+                                </div>
+                                <div  >
+                                    <input type="radio"
+                                        id="type"
+                                        name="type"
+                                        // checked={(verifiedCustomer.type === "Company") && "Company"}
+                                        value={"Company"}
+                                        disabled={isDisabled}
+                                        onChange={handleInputChange} />
+                                    <label>Company</label>
+                                </div>
                             </div>
-                            <div  >
-                                <input type="radio"
-                                    id="type"
-                                    name="type"
-                                    // checked={(verifiedCustomer.type === "Company") && "Company"}
-                                    value={"Company"}
-                                    disabled={isDisabled}
-                                    onChange={handleInputChange} />
-                                <label>Company</label>
-                            </div>
-                        </div>
                         }
                     </div>
                     <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
@@ -263,6 +264,7 @@ const CustomerInfo = () => {
                             <input type='text' id='panNumber' placeholder='122456778' value={isVerified ? verifiedCustomer.vatno : values.panNumber} onChange={handleInputChange} disabled={isDisabled} />
                         </div>
                     </div>
+
                     {!isVerified &&
                         <div className='customer-info-input col-lg-3 col-md-4 col-sm-6'>
                             <SubmitBtn event={"Verify"} handle={handleVerify} />

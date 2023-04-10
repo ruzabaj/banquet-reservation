@@ -6,6 +6,7 @@ import Availability from './Availability';
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
 import Navbar from "../Navbar";
+var adbs = require("ad-bs-converter");
 
 const Schedule = () => {
   const [lunchHallOne, setLunchHallOne] = useState([]);
@@ -32,6 +33,7 @@ const Schedule = () => {
       setToken(localStorage.getItem("tokens"))
     }
   }, [])
+
 
   useEffect(() => {
     var startDate = moment().format('YYYY-MM-DD')
@@ -141,23 +143,6 @@ const Schedule = () => {
               }
             }
           }
-
-          // if (response.data.both) {
-          //   let checkBoth = response.data.both[0]
-          //   if ("Hall1" in checkBoth) {
-          //     setBothHallOne(response.data.both[0].Hall1)
-          //     if (response.data.both[1]) {
-          //       setBothHallTwo(response.data.both[1].Hall2)
-          //     }
-          //   }
-          //   if ("Hall2" in checkBoth) {
-          //     // console.log("Hall2 present in 0 dinner")
-          //     setBothHallTwo(response.data.both[0].Hall2)
-          //     if (response.data.both[1]) {
-          //       setBothHallOne(response.data.both[1].Hall1)
-          //     }
-          //   }
-          // }
         })
         .catch((error) => {
           console.log("error in schedule", error)
@@ -183,6 +168,41 @@ const Schedule = () => {
     return days;
   }
 
+  const getDays = () => {
+    let days = [];
+    var daysRequired = 8;
+    for (let i = 1; i < daysRequired; i++) {
+      days.push(moment().add(i, 'days').format('MMMM YYYY D'));
+    }
+    return days;
+  }
+
+
+  var initialNepaliDateArray = [];
+  const convertNepaliDates = () => {
+    getDays().forEach((dates) => {
+      // console.log(dates, "dates of show seven days")
+      let newNepaliDate = moment(new Date(dates)).format("YYYY/MM/DD");
+      let nepaliDates = adbs.ad2bs(newNepaliDate)
+      console.log("nepaliDate", nepaliDates.ne)
+      initialNepaliDateArray.push(nepaliDates.ne)
+    })
+    return initialNepaliDateArray
+  }
+
+  var nepaliDateArray = [];
+  const converttoNepaliDates = () => {
+    arrays.forEach((dates) => {
+      // console.log(dates, "dates of arraYS")
+      let newDates = moment(new Date(dates)).format("YYYY/MM/DD").toString();
+      let nepaliDate = adbs.ad2bs(newDates)
+      // console.log("nepaliDate", nepaliDate.ne)
+      nepaliDateArray.push(nepaliDate.ne)
+      // console.log(nepaliDateArray, "nepali Date Array")
+    })
+    return nepaliDateArray
+  }
+
   var compareDate = []
   const getWeekDays = () => {
     getSevenDays().forEach((datehere) => {
@@ -192,10 +212,10 @@ const Schedule = () => {
     })
     return compareDate
   }
-  getWeekDays();
+  console.log(getWeekDays())
+
 
   //important don't remove
-
   var testDate = []
   const getTestDays = () => {
     arrays.forEach((datehere) => {
@@ -221,7 +241,6 @@ const Schedule = () => {
     })
     return newDateLunch;
   }
-
 
   var newDateDinner = [{}]
   const changedDinnerHallOne = () => {
@@ -267,36 +286,6 @@ const Schedule = () => {
     })
     return newDateDinnerTwo;
   }
-
-  // var newDateBothOne = [{}]
-  // const changedBothHallOne = () => {
-  //   testDate.forEach((dateHere) => {
-  //     const replaceObj = bothHallOne.find(el => el.date.substring(0, 16) === dateHere)
-  //     var index = testDate.indexOf(replaceObj)
-  //     const deletedArray = newDateBothOne.splice(index, 0, replaceObj);
-  //     for (var i in newDateBothOne) {
-  //       if (newDateBothOne[i] === undefined) {
-  //         newDateBothOne[i] = {};
-  //       }
-  //     }
-  //   })
-  //   return newDateBothOne;
-  // }
-
-  // var newDateBothTwo = [{}]
-  // const changedBothHallTwo = () => {
-  //   testDate.forEach((dateHere) => {
-  //     const replaceObjs = bothHallTwo.find(el => el.date.substring(0, 16) === dateHere)
-  //     var index = testDate.indexOf(replaceObjs)
-  //     const deletedArray = newDateBothTwo.splice(index, 0, replaceObjs);
-  //     for (var i in newDateBothTwo) {
-  //       if (newDateBothTwo[i] === undefined) {
-  //         newDateBothTwo[i] = {};
-  //       }
-  //     }
-  //   })
-  //   return newDateBothTwo;
-  // }
 
   const handlePastDays = (startingDate) => {
     setInitialLoad(false)
@@ -407,11 +396,13 @@ const Schedule = () => {
         </div>
       </div>
 
+
       {initialLoad ?
         <div className='table-lunch'>
           <p className='lunch'>lunch</p>
           <div className='table-responsive-lunch'>
             <Availability
+              nepaliHeader={convertNepaliDates()}
               headers={initialLoad ? showSevenDays() : arrays}
               dinnerFirst={handleLunchHallOne()} dinnerSecond={handleLunchHallTwo()}
             />
@@ -421,7 +412,9 @@ const Schedule = () => {
         <div className='table-lunch'>
           <p className='lunch'>lunch </p>
           <div className='table-responsive-lunch'>
-            <Availability headers={initialLoad ? showSevenDays() : arrays}
+            <Availability
+              nepaliHeader={converttoNepaliDates()}
+              headers={initialLoad ? showSevenDays() : arrays}
               dinnerFirst={changedLunchHallOne()} dinnerSecond={changedLunchHallTwo()} />
           </div>
         </div>
@@ -432,6 +425,7 @@ const Schedule = () => {
           <p className="dinner">dinner</p>
           <div className='table-responsive-lunch'>
             <Availability
+              nepaliHeader={convertNepaliDates()}
               headers={initialLoad ? showSevenDays() : arrays}
               dinnerFirst={handleDinnerHallOne()}
               dinnerSecond={handleDinnerHallTwo()} />
@@ -442,34 +436,13 @@ const Schedule = () => {
           <p className="dinner">dinner</p>
           <div className='table-responsive-lunch'>
             <Availability
+              nepaliHeader={converttoNepaliDates()}
               headers={initialLoad ? showSevenDays() : arrays}
               dinnerFirst={changedDinnerHallOne()}
               dinnerSecond={changedDinnerHallTwo()} />
           </div>
         </div>
       }
-
-      {/* {initialLoad ?
-        <div className='table-dinner'>
-          <p className="dinner">both</p>
-          <div className='table-responsive-lunch'>
-            <Availability
-              headers={initialLoad ? showSevenDays() : arrays}
-              dinnerFirst={changedBothHallOne()}
-              dinnerSecond={changedBothHallTwo()} />
-          </div>
-        </div>
-        :
-        <div className='table-dinner'>
-          <p className="dinner">both</p>
-          <div className='table-responsive-lunch'>
-            <Availability
-              headers={initialLoad ? showSevenDays() : arrays}
-              dinnerFirst={changedBothHallOne()}
-              dinnerSecond={changedBothHallTwo()} />
-          </div>
-        </div>
-      } */}
     </div>
   )
 }

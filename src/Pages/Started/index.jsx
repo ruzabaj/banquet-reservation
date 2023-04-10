@@ -102,6 +102,7 @@ const Started = () => {
         .then((response) => {
           // console.log(response.data, "filter api reservation date")
           setDetailList(response.data)
+          setErrorMessage("")
         })
         .catch((error) => {
           // console.log(error.response.data.error)
