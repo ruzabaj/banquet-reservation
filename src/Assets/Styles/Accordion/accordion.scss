@@ -208,3 +208,14 @@
         }
     }
 }
+
+.editable-fields{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .edit-billing{
+        label{
+            width: 40%;
+        }
+    }
+}

@@ -164,8 +164,10 @@ const BanquetReservation = ({ customerID, token }) => {
         try {
             let response = await axios.post(`${baseUrl}/banquetregistration`, {
                 "tblbanquetReservation": {
-                    reservationDate: nepaliReservationDate,
-                    reservationForDate: nepaliForDate,
+                    // reservationDate: nepaliReservationDate,
+                    // reservationForDate: nepaliForDate,
+                    reservationMiti: nepaliReservationDate,
+                    reservationMitiFor: nepaliForDate,
                     Outlet_Name: selectedOutlet,
                     reservationState: "Started",
                     TimeSlot: values.TimeSlot,
@@ -224,22 +226,22 @@ const BanquetReservation = ({ customerID, token }) => {
                     <label> Reservation Date:</label>
                     <div>
                         {/* <DatePickerInput selectedDate={reservationDate} setSelectedDate={setReservationDate} /> */}
-                         <NepaliDatePicker inputClassName="form-control"
-                        className=""
-                        value={nepaliReservationDate}
-                        onChange={(value) => setNepaliReservationDate(value)}
-                        options={{ calenderLocale: "en", valueLocale: "en" }} />
+                        <NepaliDatePicker inputClassName="form-control"
+                            className=""
+                            value={nepaliReservationDate}
+                            onChange={(value) => setNepaliReservationDate(value)}
+                            options={{ calenderLocale: "en", valueLocale: "en" }} />
                     </div>
                 </div>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>
                     <label> Reservation For Date:</label>
                     <div>
                         {/* <DatePickerInput selectedDate={reservationForDate} setSelectedDate={setReservationForDate} /> */}
-                         <NepaliDatePicker inputClassName="form-control"
-                        className=""
-                        value={nepaliForDate}
-                        onChange={(value) => setNepaliForDate(value)}
-                        options={{ calenderLocale: "en", valueLocale: "en" }} />
+                        <NepaliDatePicker inputClassName="form-control"
+                            className=""
+                            value={nepaliForDate}
+                            onChange={(value) => setNepaliForDate(value)}
+                            options={{ calenderLocale: "en", valueLocale: "en" }} />
                     </div>
                 </div>
                 <div className='reservation-info col-lg-4 col-md-4 col-sm-6'>

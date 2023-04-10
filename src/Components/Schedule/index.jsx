@@ -83,7 +83,6 @@ const Schedule = () => {
     }
   }, [token])
 
-
   useEffect(() => {
     if (firstDate && lastDate && token) {
       var start = moment(firstDate).format('YYYY-MM-DD')
@@ -157,9 +156,11 @@ const Schedule = () => {
     return days;
   }
 
+  console.log(getDays(), "get days")
+  
   var initialNepaliDateArray = [];
   const convertNepaliDates = () => {
-    getSevenDays().forEach((dates) => {
+    getDays().forEach((dates) => {
       let newNepaliDate = moment(new Date(dates)).utc().format("YYYY/MM/DD");
       let nepaliDates = adbs.ad2bs(newNepaliDate)
       initialNepaliDateArray.push(nepaliDates.ne)
@@ -377,7 +378,8 @@ const Schedule = () => {
             <Availability
               nepaliHeader={convertNepaliDates()}
               headers={initialLoad ? showSevenDays() : arrays}
-              dinnerFirst={handleLunchHallOne()} dinnerSecond={handleLunchHallTwo()}
+              dinnerFirst={handleLunchHallOne()} 
+              dinnerSecond={handleLunchHallTwo()}
             />
           </div>
         </div>
@@ -388,7 +390,8 @@ const Schedule = () => {
             <Availability
               nepaliHeader={converttoNepaliDates()}
               headers={initialLoad ? showSevenDays() : arrays}
-              dinnerFirst={changedLunchHallOne()} dinnerSecond={changedLunchHallTwo()} />
+              dinnerFirst={changedLunchHallOne()} 
+              dinnerSecond={changedLunchHallTwo()} />
           </div>
         </div>
       }

@@ -48,23 +48,28 @@
     border: 0;
     height: 40px;
 }
-.btn-updates{
+
+.btn-updates {
     border-radius: 10px;
     border: 0;
     @include color-theme($bg-availability, $secondary-color);
 }
-.btn-update-info{
+
+.btn-update-info {
     border: 0;
     @include color-theme($bg-availability, $secondary-color);
 }
-.btn-close-update{
+
+.btn-close-update {
     border: 0;
     @include color-theme($bg-sidebar, $secondary-color);
 }
-.modal-body{
+
+.modal-body {
     margin: 10px 25px !important;
 }
-.customer-edit-fileds{
+
+.customer-edit-fileds {
     display: flex;
     flex-direction: column;
     gap: 10px;

@@ -4,7 +4,11 @@ import axios from 'axios';
 import AccordionTable from '../Table';
 import PaymentTable from '../Table/PaymentTable';
 import PaymentHistory from './../../Pages/Started/PaymentHistory';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import "../../Assets/Styles/Accordion/accordion.scss";
+import { BsPen } from "react-icons/bs";
+import ReactModal from '../Modals';
 
 const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -45,6 +49,56 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
             })
     }
 
+    const [showEditValues, setShowEditValues] = useState({
+        email: "",
+        phone: "",
+        address: "",
+        vatno: "",
+        name: "",
+    })
+
+    const [errorMessage, setErrorMessage] = useState("");
+    const [show, setShow] = useState(false);
+
+    const handleCloseEditParty = () => setShow(false);
+    const handleShowEditParty = () => setShow(true);
+
+    const [showMessage, setShowMessage] = useState(false);
+
+    const handleCloseShowMessage = () => setShowMessage(false);
+    const handleOpenShowMessage = () => setShowMessage(true);
+
+    const handleEditBilling = (banquetID) => {
+        console.log(banquetID)
+        handleShowEditParty()
+    }
+    const inputEditChanges = (event) => {
+        const { id, value } = event.target;
+        setShowEditValues({ ...showEditValues, [id]: value })
+    }
+
+    const handleUpdateEditParty = (banquetID) => {
+        axios.post(`${baseUrl}/billingParty`, {
+            banquetReservationID: `${banquetID}`,
+            token: `${token}`,
+            email: showEditValues.email,
+            phone: showEditValues.phone,
+            address: showEditValues.address,
+            vatno: showEditValues.vatno,
+            name: showEditValues.name,
+        })
+            .then((response) => {
+                console.log(response.data)
+                // setErrorMessage(response.data)
+                handleOpenShowMessage()
+            })
+            .catch((error) => {
+                console.log(error.response.data.error)
+                handleCloseEditParty()
+                setErrorMessage(error.response.data.error)
+                handleOpenShowMessage()
+            })
+    }
     return (
         <Accordion defaultActiveKey="0" flush className='style-accordion'>
             <div className='accordion-table-header'>
@@ -87,6 +141,7 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                                 reservationDate={accord.reservationDate}
                                 reservtionID={accord.idtblbanquetReservation}
                             />
+                            <button onClick={() => handleEditBilling()}>Edit Billing</button>
                         </div>
                         <div className='payment-history'>
                             <label>Payment History</label>
@@ -105,6 +160,57 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                             />
                         </div>
                     </Accordion.Body>
+                    <Modal
+                        show={show}
+                        onHide={handleCloseEditParty}
+                        backdrop="static"
+                        keyboard={false}
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>Edit <span><BsPen /></span> </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className='editable-fields'>
+                                <div className='edit-billing'>
+                                    <label>Email :</label>
+                                    <input type='text' id='email' value={showEditValues.email} onChange={inputEditChanges} />
+                                </div>
+                                <div className='edit-billing'>
+                                    <label>Name : </label>
+                                    <input type='text' id='name' value={showEditValues.name} onChange={inputEditChanges} />
+                                    <span>Required *</span>
+                                </div>
+                                <div className='edit-billing'>
+                                    <label>Phone : </label>
+                                    <input type='text' id='phone' value={showEditValues.phone} onChange={inputEditChanges} />
+                                </div>
+                                <div className='edit-billing'>
+                                    <label>Address : </label>
+                                    <input type='text' id='address' value={showEditValues.address} onChange={inputEditChanges} />
+                                </div>
+                                <div className='edit-billing'>
+                                    <label>Vat no : </label>
+                                    <input type='text' id='vatno' value={showEditValues.vatno} onChange={inputEditChanges} required />
+                                    <span>Required *</span>
+                                </div>
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleCloseEditParty}>
+                                Close
+                            </Button>
+                            <Button variant="primary" onClick={() => handleUpdateEditParty(accord.idtblbanquetReservation)}>Update</Button>
+                        </Modal.Footer>
+                    </Modal>
+
+                    <ReactModal
+                        show={showMessage}
+                        message={errorMessage}
+                        buttonOne={"Ok"}
+                        buttonTwo={"Close"}
+                        handleTarget={handleCloseShowMessage}
+                        handleClose={handleCloseShowMessage}
+                    />
                 </Accordion.Item>
             ))}
         </Accordion>

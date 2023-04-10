@@ -137,50 +137,52 @@ function CustomerDetails() {
                     options={customerNameList}
                     disabled={false} />
             </div>
+            <hr class="mt-2 mb-3" />
             <div className="customerDetailsTable">
-                {showCustomerDetailsTable && <div className='table-responsive text-nowrap'>
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>S.N</th>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Address</th>
-                                <th>Alternate Phone</th>
-                                <th>Email</th>
-                                <th>Type</th>
-                                <th>Country</th>
-                                <th>Vat no</th>
-                                <th>Note</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {getcustomerBynameList.map((info, index) => {
-                                return (
-                                    <tr
-                                        key={index}
-                                        tabIndex="1"
-                                        onClick={() => {
-                                            tableclicked(info.customerID)
-                                        }}
-                                        className='cilcikable-tr'>
-                                        <th scope="row">{index + 1}</th>
-                                        <td>{info.Name}</td>
-                                        <td>{info.Phone}</td>
-                                        <td>{info.Address}</td>
-                                        <td>{info.altPhone || ""}</td>
-                                        <td>{info.Email}</td>
-                                        <td>{info.type}</td>
-                                        <td>{info.country || ""}</td>
-                                        <td>{info.vat}</td>
-                                        <td>{info.customerNote}</td>
-                                    </tr>
-                                )
-                            })
-                            }
-                        </tbody>
-                    </table>
-                </div>}
+                {showCustomerDetailsTable &&
+                    <div className='table-responsive text-nowrap'>
+                        <table className="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>S.N</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Alternate Phone</th>
+                                    <th>Email</th>
+                                    <th>Type</th>
+                                    <th>Country</th>
+                                    <th>Vat no</th>
+                                    <th>Note</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {getcustomerBynameList.map((info, index) => {
+                                    return (
+                                        <tr
+                                            key={index}
+                                            tabIndex="1"
+                                            onClick={() => {
+                                                tableclicked(info.customerID)
+                                            }}
+                                            className='cilcikable-tr'>
+                                            <th scope="row">{index + 1}</th>
+                                            <td>{info.Name}</td>
+                                            <td>{info.Phone}</td>
+                                            <td>{info.Address}</td>
+                                            <td>{info.altPhone || ""}</td>
+                                            <td>{info.Email}</td>
+                                            <td>{info.type}</td>
+                                            <td>{info.country || ""}</td>
+                                            <td>{info.vat}</td>
+                                            <td>{info.customerNote}</td>
+                                        </tr>
+                                    )
+                                })
+                                }
+                            </tbody>
+                        </table>
+                    </div>}
 
                 {currentCustomerDetailsID && customerClicked &&
                     <div className="customer-details-buttons">
