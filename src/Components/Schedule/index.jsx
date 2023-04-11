@@ -156,7 +156,7 @@ const Schedule = () => {
     return days;
   }
 
-  console.log(getDays(), "get days")
+  // console.log(getDays(), "get days")
   
   var initialNepaliDateArray = [];
   const convertNepaliDates = () => {
@@ -176,6 +176,26 @@ const Schedule = () => {
       nepaliDateArray.push(nepaliDate.ne)
     })
     return nepaliDateArray
+  }
+
+  var initialNepaliDateLunch = [];
+  const convertNepaliDatesLunch = () => {
+    getDays().forEach((dates) => {
+      let newNepaliDate = moment(new Date(dates)).utc().format("YYYY/MM/DD");
+      let nepaliDates = adbs.ad2bs(newNepaliDate)
+      initialNepaliDateLunch.push(nepaliDates.ne)
+    })
+    return initialNepaliDateLunch
+  }
+
+  var nepaliDateArrayLunch = [];
+  const converttoNepaliDateLunch = () => {
+    arrays.forEach((dates) => {
+      let newDates = moment(new Date(dates)).format("YYYY/MM/DD").toString();
+      let nepaliDate = adbs.ad2bs(newDates)
+      nepaliDateArrayLunch.push(nepaliDate.ne)
+    })
+    return nepaliDateArrayLunch
   }
 
   var compareDate = []
@@ -370,13 +390,13 @@ const Schedule = () => {
         </div>
       </div>
 
-
       {initialLoad ?
         <div className='table-lunch'>
           <p className='lunch'>lunch</p>
           <div className='table-responsive-lunch'>
             <Availability
-              nepaliHeader={convertNepaliDates()}
+              nepaliHeader={convertNepaliDatesLunch()}
+              // nepaliHeader={convertNepaliDates()}
               headers={initialLoad ? showSevenDays() : arrays}
               dinnerFirst={handleLunchHallOne()} 
               dinnerSecond={handleLunchHallTwo()}
@@ -388,7 +408,8 @@ const Schedule = () => {
           <p className='lunch'>lunch </p>
           <div className='table-responsive-lunch'>
             <Availability
-              nepaliHeader={converttoNepaliDates()}
+              // nepaliHeader={converttoNepaliDates()}
+              nepaliHeader={converttoNepaliDateLunch()}
               headers={initialLoad ? showSevenDays() : arrays}
               dinnerFirst={changedLunchHallOne()} 
               dinnerSecond={changedLunchHallTwo()} />

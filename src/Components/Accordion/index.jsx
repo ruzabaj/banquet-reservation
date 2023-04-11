@@ -18,6 +18,8 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
     const [rateDetailAmt, setRateDetailAmt] = useState("");
     const [rateDetailPax, setRateDetailPax] = useState("");
     const [paymentList, setPaymentList] = useState([]);
+    const [billingDetail, setBillingDetail] = useState({});
+    const [ID, setID] = useState("");
 
     const handlePaymentHistory = (reservatorID) => {
         axios.post(`${baseUrl}/rateDetails`,
@@ -68,18 +70,32 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
     const handleCloseShowMessage = () => setShowMessage(false);
     const handleOpenShowMessage = () => setShowMessage(true);
 
-    const handleEditBilling = (banquetID) => {
-        console.log(banquetID)
+    const handleEditBilling = (banquetID, detail) => {
+        // console.log(banquetID, "banquet ID")
+        // console.log(detail, "billing Detail")
+        setID(banquetID)
+        setBillingDetail(detail)
+        // console.log(detail?.idtblbilling, "checking")
         handleShowEditParty()
     }
+
+    useEffect(() => {
+      if(billingDetail?.idtblbilling){
+         console.log("yes")
+      }else{
+        console.log("no")
+      }
+    }, [billingDetail])
+    
     const inputEditChanges = (event) => {
         const { id, value } = event.target;
         setShowEditValues({ ...showEditValues, [id]: value })
     }
 
-    const handleUpdateEditParty = (banquetID) => {
+    const handleUpdateEditParty = () => {
+        console.log(ID)
         axios.post(`${baseUrl}/billingParty`, {
-            banquetReservationID: `${banquetID}`,
+            banquetReservationID: `${ID}`,
             token: `${token}`,
             email: showEditValues.email,
             phone: showEditValues.phone,
@@ -99,6 +115,7 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                 handleOpenShowMessage()
             })
     }
+
     return (
         <Accordion defaultActiveKey="0" flush className='style-accordion'>
             <div className='accordion-table-header'>
@@ -119,7 +136,9 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                 </table>
             </div>
             {detailList.map((accord, index) => (
+
                 <Accordion.Item eventKey={index} key={index} onClick={() => handlePaymentHistory(accord.idtblbanquetReservation)}>
+                    {/* {console.log(detailList[index].billingAddressDetails)} */}
                     <Accordion.Header>
                         <AccordionTable
                             accord={accord}
@@ -128,6 +147,7 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                     <Accordion.Body className='accordion-body'>
                         <div className='payment-table'>
                             <label>Rate Details</label>
+                            {/* {console.log(accord.billingAddressDetails, "check", index)} */}
                             <PaymentTable header={headerRateDetail}
                                 rateList={rateDetailList}
                                 id={accord.customerID}
@@ -141,7 +161,7 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                                 reservationDate={accord.reservationDate}
                                 reservtionID={accord.idtblbanquetReservation}
                             />
-                            <button onClick={() => handleEditBilling()}>Edit Billing</button>
+                            <button onClick={() => handleEditBilling(accord.idtblbanquetReservation,detailList[index].billingAddressDetails)}>Edit Billing</button>
                         </div>
                         <div className='payment-history'>
                             <label>Payment History</label>
@@ -173,24 +193,24 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                             <div className='editable-fields'>
                                 <div className='edit-billing'>
                                     <label>Email :</label>
-                                    <input type='text' id='email' value={showEditValues.email} onChange={inputEditChanges} />
+                                    <input type='text' id='email' value={billingDetail?.idtblbilling ? billingDetail.Email : showEditValues.email} onChange={inputEditChanges} />
                                 </div>
                                 <div className='edit-billing'>
                                     <label>Name : </label>
-                                    <input type='text' id='name' value={showEditValues.name} onChange={inputEditChanges} />
+                                    <input type='text' id='name' value={(billingDetail?.idtblbilling) ? billingDetail.Name : showEditValues.name} onChange={inputEditChanges} />
                                     <span>Required *</span>
                                 </div>
                                 <div className='edit-billing'>
                                     <label>Phone : </label>
-                                    <input type='text' id='phone' value={showEditValues.phone} onChange={inputEditChanges} />
+                                    <input type='text' id='phone' value={(billingDetail?.idtblbilling) ? billingDetail.Phone : showEditValues.phone} onChange={inputEditChanges} />
                                 </div>
                                 <div className='edit-billing'>
                                     <label>Address : </label>
-                                    <input type='text' id='address' value={showEditValues.address} onChange={inputEditChanges} />
+                                    <input type='text' id='address' value={(billingDetail?.idtblbilling) ? billingDetail.Address : showEditValues.address} onChange={inputEditChanges} />
                                 </div>
                                 <div className='edit-billing'>
                                     <label>Vat no : </label>
-                                    <input type='text' id='vatno' value={showEditValues.vatno} onChange={inputEditChanges} required />
+                                    <input type='text' id='vatno' value={(billingDetail?.idtblbilling) ? billingDetail.PanNo : showEditValues.vatno} onChange={inputEditChanges} required />
                                     <span>Required *</span>
                                 </div>
                             </div>
@@ -199,7 +219,7 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                             <Button variant="secondary" onClick={handleCloseEditParty}>
                                 Close
                             </Button>
-                            <Button variant="primary" onClick={() => handleUpdateEditParty(accord.idtblbanquetReservation)}>Update</Button>
+                            <Button variant="primary" onClick={() => handleUpdateEditParty()}>Update</Button>
                         </Modal.Footer>
                     </Modal>
 

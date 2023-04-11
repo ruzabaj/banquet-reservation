@@ -153,8 +153,6 @@ const CustomerInfo = () => {
             })
     }
 
-  
-
     return (
         <div>
             <ReactModal

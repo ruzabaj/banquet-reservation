@@ -37,7 +37,7 @@ const Started = () => {
         token: `${token}`
       })
         .then((response) => {
-          // console.log(response.data)
+          // console.log("get started",response.data)
           setDetailList(response.data)
         })
         .catch((error) => {

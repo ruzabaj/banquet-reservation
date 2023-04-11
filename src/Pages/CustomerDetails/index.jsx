@@ -193,7 +193,8 @@ function CustomerDetails() {
 
                 {customerUpdate &&
                     <div className='modal-customer-edit'>
-                        <CustomerEditmodal closeAllbuttons={closeAllbuttons}
+                        <CustomerEditmodal
+                            closeAllbuttons={closeAllbuttons}
                             reloadCustomerData={getCustomerDetails}
                             reloadTable={tableclicked}
                             customerData={currentCustomerDetailsID}
