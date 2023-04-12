@@ -6,9 +6,10 @@ import PaymentTable from '../Table/PaymentTable';
 import PaymentHistory from './../../Pages/Started/PaymentHistory';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import "../../Assets/Styles/Accordion/accordion.scss";
 import { BsPen } from "react-icons/bs";
 import ReactModal from '../Modals';
+import "../../Assets/Styles/Accordion/accordion.scss";
+import EditBilling from '../Modals/EditBilling';
 
 const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -58,14 +59,6 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
             })
     }
 
-    // const [showEditValues, setShowEditValues] = useState({
-    //     email: "",
-    //     phone: "",
-    //     address: "",
-    //     vatno: "",
-    //     name: "",
-    // })
-
     const [errorMessage, setErrorMessage] = useState("");
     const [show, setShow] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
@@ -82,7 +75,6 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
     const [vatno, setVatno] = useState("")
 
     const handleEditBilling = (banquetID, detail) => {
-        // console.log(detail, "show individual detail")
         setID(banquetID)
         setBillingDetail(detail)
         handleShowEditParty()
@@ -98,7 +90,6 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
 
     useEffect(() => {
         if (billingDetail) {
-            // console.log(billingDetail, "inside useeffect shows billingDetail")
             setAddress(billingDetail.Address);
             setEmail(billingDetail.Email);
             setName(billingDetail.Name);
@@ -107,34 +98,23 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
         }
     }, [billingDetail])
 
-    // const inputEditChanges = (event) => {
-    //     const { id, value } = event.target;
-    //     setShowEditValues({ ...showEditValues, [id]: value })
-    // }
-
     const changeName = (e) => {
-        // console.log(e.target.value, "name here")
         setName(e.target.value);
     };
     const changeEmail = (e) => {
-        // console.log(e.target.value, "email here")
         setEmail(e.target.value);
     };
     const changePhone = (e) => {
-        // console.log(e.target.value, "phone here")
         setPhone(e.target.value);
     };
     const changeAddress = (e) => {
-        // console.log(e.target.value, "address here")
         setAddress(e.target.value);
     };
     const changeVatno = (e) => {
-        // console.log(e.target.value, "vat no here")
         setVatno(e.target.value);
     }
 
     const handleUpdateEditParty = () => {
-        // console.log(ID)
         axios.post(`${baseUrl}/billingParty`, {
             banquetReservationID: `${ID}`,
             token: `${token}`,
@@ -145,13 +125,11 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
             name: name,
         })
             .then((response) => {
-                // console.log(response.data)
                 handleCloseEditParty()
                 setErrorMessage(response.data.success)
                 handleOpenShowMessage()
             })
             .catch((error) => {
-                // console.log(error.response.data.error)
                 handleCloseEditParty()
                 setErrorMessage(error.response.data.error)
                 handleOpenShowMessage()
@@ -168,7 +146,6 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
     }
 
     const handleRemove = (id) => {
-        // console.log("clicked remove", id)
         axios.post(`${baseUrl}/deletebillingParty`, {
             banquetReservationID: `${id}`,
             token: `${token}`
@@ -337,7 +314,7 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                             <Button variant="primary" onClick={() => handleUpdateEditParty()}>Update</Button>
                         </Modal.Footer>
                     </Modal>
-
+                                {/* <EditBilling/> */}
                     <ReactModal
                         show={showMessage}
                         message={errorMessage}
@@ -353,4 +330,3 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
 }
 
 export default AccordionDetail
-

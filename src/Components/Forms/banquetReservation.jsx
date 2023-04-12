@@ -84,13 +84,13 @@ const BanquetReservation = ({ customerID, token }) => {
     const handleShowErrorModal = () => setErrorModal(true);
 
     useEffect(() => {
-        if ((nepaliReservationDate && nepaliForDate && selectedOutlet && selectedHall && values.TimeSlot) !== "") {
+        if ((nepaliForDate && selectedOutlet && selectedHall && values.TimeSlot) !== "") {
             setAccessTable(true)
         }
         else {
             setAccessTable(false)
         }
-    }, [nepaliReservationDate, nepaliForDate, selectedOutlet, selectedHall, values.TimeSlot])
+    }, [nepaliForDate, selectedOutlet, selectedHall, values.TimeSlot])
 
     const [rowsData, setRowsData] = useState([]);
     const [showTable, setShowTable] = useState(false);
