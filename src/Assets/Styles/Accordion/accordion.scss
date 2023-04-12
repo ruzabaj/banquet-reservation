@@ -54,6 +54,38 @@
     }
 }
 
+.rate-table{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .btn-edit-billing-info{
+        width: 30%;
+        border: 0;
+        border-radius: 5px;
+        background-color: $theme-contrast;
+        color: $secondary-color;
+    }
+}
+
+.billing-info{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    table{
+        border: 1px solid $primary-color;
+        tr,th,td{
+            border: 1px solid $primary-color;
+        }
+    }
+    .btn-remove-billing-info{
+        width: 30%;
+        border: 0;
+        border-radius: 5px;
+        background-color: $theme-contrast;
+        color: $secondary-color;
+    }
+}
 .payment-history {
     flex: 2;
     margin: 10px;

@@ -8,6 +8,8 @@ import Register from './../Pages/Register/index';
 import AvailableCalendar from '../Pages/Availability';
 // import Login from '../Pages/Login';
 import CustomerDetails from "../Pages/CustomerDetails/index";
+import Nepalidate from "../Pages/NepaliDate/Nepalidate";
+
 
 const Routing = () => {
   return (
@@ -18,7 +20,7 @@ const Routing = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/CustomerDetails" element={<CustomerDetails/>} />
-        <Route path="/availability" element={<AvailableCalendar />} />
+        <Route path="/availability" element={<Nepalidate />} />
         <Route path="/credit" element={<Credit />} />
       </Routes>
     </div>

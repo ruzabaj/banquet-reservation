@@ -28,7 +28,6 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                 token: `${token}`
             })
             .then((response) => {
-                // console.log(response.data, "rate")
                 setRateDetailList(response.data)
                 setRateDetailAmt(response.data[0].RateAmount)
                 setRateDetailPax(response.data[0].NoOfPax)
@@ -43,79 +42,153 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                 token: `${token}`
             })
             .then((res) => {
-                // console.log(res.data, "payment")
                 setPaymentList(res.data)
             })
             .catch((error) => {
                 // console.log(error)
             })
+        axios.post(`${baseUrl}/getStarted`, {
+            token: `${token}`
+        })
+            .then((response) => {
+                setDetailList(response.data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
-    const [showEditValues, setShowEditValues] = useState({
-        email: "",
-        phone: "",
-        address: "",
-        vatno: "",
-        name: "",
-    })
+    // const [showEditValues, setShowEditValues] = useState({
+    //     email: "",
+    //     phone: "",
+    //     address: "",
+    //     vatno: "",
+    //     name: "",
+    // })
 
     const [errorMessage, setErrorMessage] = useState("");
     const [show, setShow] = useState(false);
+    const [showMessage, setShowMessage] = useState(false);
 
     const handleCloseEditParty = () => setShow(false);
     const handleShowEditParty = () => setShow(true);
 
-    const [showMessage, setShowMessage] = useState(false);
-
     const handleCloseShowMessage = () => setShowMessage(false);
     const handleOpenShowMessage = () => setShowMessage(true);
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [address, setAddress] = useState("")
+    const [vatno, setVatno] = useState("")
 
     const handleEditBilling = (banquetID, detail) => {
-        // console.log(banquetID, "banquet ID")
-        // console.log(detail, "billing Detail")
+        // console.log(detail, "show individual detail")
         setID(banquetID)
         setBillingDetail(detail)
-        // console.log(detail?.idtblbilling, "checking")
         handleShowEditParty()
     }
 
     useEffect(() => {
-      if(billingDetail?.idtblbilling){
-         console.log("yes")
-      }else{
-        console.log("no")
-      }
+        if (billingDetail?.idtblbilling) {
+            console.log("yes")
+        } else {
+            console.log("no")
+        }
     }, [billingDetail])
-    
-    const inputEditChanges = (event) => {
-        const { id, value } = event.target;
-        setShowEditValues({ ...showEditValues, [id]: value })
+
+    useEffect(() => {
+        if (billingDetail) {
+            // console.log(billingDetail, "inside useeffect shows billingDetail")
+            setAddress(billingDetail.Address);
+            setEmail(billingDetail.Email);
+            setName(billingDetail.Name);
+            setPhone(billingDetail.Phone);
+            setVatno(billingDetail.PanNo);
+        }
+    }, [billingDetail])
+
+    // const inputEditChanges = (event) => {
+    //     const { id, value } = event.target;
+    //     setShowEditValues({ ...showEditValues, [id]: value })
+    // }
+
+    const changeName = (e) => {
+        // console.log(e.target.value, "name here")
+        setName(e.target.value);
+    };
+    const changeEmail = (e) => {
+        // console.log(e.target.value, "email here")
+        setEmail(e.target.value);
+    };
+    const changePhone = (e) => {
+        // console.log(e.target.value, "phone here")
+        setPhone(e.target.value);
+    };
+    const changeAddress = (e) => {
+        // console.log(e.target.value, "address here")
+        setAddress(e.target.value);
+    };
+    const changeVatno = (e) => {
+        // console.log(e.target.value, "vat no here")
+        setVatno(e.target.value);
     }
 
     const handleUpdateEditParty = () => {
-        console.log(ID)
+        // console.log(ID)
         axios.post(`${baseUrl}/billingParty`, {
             banquetReservationID: `${ID}`,
             token: `${token}`,
-            email: showEditValues.email,
-            phone: showEditValues.phone,
-            address: showEditValues.address,
-            vatno: showEditValues.vatno,
-            name: showEditValues.name,
+            email: email,
+            phone: phone,
+            address: address,
+            vatno: vatno,
+            name: name,
         })
             .then((response) => {
-                console.log(response.data)
-                // setErrorMessage(response.data)
+                // console.log(response.data)
+                handleCloseEditParty()
+                setErrorMessage(response.data.success)
                 handleOpenShowMessage()
             })
             .catch((error) => {
-                console.log(error.response.data.error)
+                // console.log(error.response.data.error)
                 handleCloseEditParty()
                 setErrorMessage(error.response.data.error)
                 handleOpenShowMessage()
             })
+        axios.post(`${baseUrl}/getStarted`, {
+            token: `${token}`
+        })
+            .then((response) => {
+                setDetailList(response.data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
+    const handleRemove = (id) => {
+        // console.log("clicked remove", id)
+        axios.post(`${baseUrl}/deletebillingParty`, {
+            banquetReservationID: `${id}`,
+            token: `${token}`
+        })
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        axios.post(`${baseUrl}/getStarted`, {
+            token: `${token}`
+        })
+            .then((response) => {
+                setDetailList(response.data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
     return (
         <Accordion defaultActiveKey="0" flush className='style-accordion'>
             <div className='accordion-table-header'>
@@ -136,9 +209,7 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                 </table>
             </div>
             {detailList.map((accord, index) => (
-
                 <Accordion.Item eventKey={index} key={index} onClick={() => handlePaymentHistory(accord.idtblbanquetReservation)}>
-                    {/* {console.log(detailList[index].billingAddressDetails)} */}
                     <Accordion.Header>
                         <AccordionTable
                             accord={accord}
@@ -146,22 +217,51 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                     </Accordion.Header>
                     <Accordion.Body className='accordion-body'>
                         <div className='payment-table'>
-                            <label>Rate Details</label>
-                            {/* {console.log(accord.billingAddressDetails, "check", index)} */}
-                            <PaymentTable header={headerRateDetail}
-                                rateList={rateDetailList}
-                                id={accord.customerID}
-                                date={accord.reservationDate}
-                                setDetailList={setDetailList}
-                                setRateDetailList={setRateDetailList}
-                                setRateDetailAmt={setRateDetailAmt}
-                                setRateDetailPax={setRateDetailPax}
-                                setPaymentList={setPaymentList}
-                                customerID={accord.customerID}
-                                reservationDate={accord.reservationDate}
-                                reservtionID={accord.idtblbanquetReservation}
-                            />
-                            <button onClick={() => handleEditBilling(accord.idtblbanquetReservation,detailList[index].billingAddressDetails)}>Edit Billing</button>
+                            <div className='rate-table'>
+                                <label>Rate Details</label>
+                                <PaymentTable header={headerRateDetail}
+                                    rateList={rateDetailList}
+                                    id={accord.customerID}
+                                    date={accord.reservationDate}
+                                    setDetailList={setDetailList}
+                                    setRateDetailList={setRateDetailList}
+                                    setRateDetailAmt={setRateDetailAmt}
+                                    setRateDetailPax={setRateDetailPax}
+                                    setPaymentList={setPaymentList}
+                                    customerID={accord.customerID}
+                                    reservationDate={accord.reservationDate}
+                                    reservtionID={accord.idtblbanquetReservation}
+                                />
+                                <button onClick={() => handleEditBilling(accord.idtblbanquetReservation, accord.billingAddressDetails)} className='btn-edit-billing-info'>
+                                    Edit Billing Info
+                                </button>
+                            </div>
+                            {(accord.billingAddressDetails.idtblbilling) &&
+                                <div className='billing-info'>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Address</th>
+                                                <th>VAT No</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{accord.billingAddressDetails.Name}</td>
+                                                <td>{accord.billingAddressDetails.Email}</td>
+                                                <td>{accord.billingAddressDetails.Phone}</td>
+                                                <td>{accord.billingAddressDetails.Address}</td>
+                                                <td>{accord.billingAddressDetails.PanNo}</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <button className='btn-remove-billing-info' onClick={() => handleRemove(accord.idtblbanquetReservation)}>Remove</button>
+                                </div>
+                            }
                         </div>
                         <div className='payment-history'>
                             <label>Payment History</label>
@@ -192,25 +292,40 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                         <Modal.Body>
                             <div className='editable-fields'>
                                 <div className='edit-billing'>
-                                    <label>Email :</label>
-                                    <input type='text' id='email' value={billingDetail?.idtblbilling ? billingDetail.Email : showEditValues.email} onChange={inputEditChanges} />
-                                </div>
-                                <div className='edit-billing'>
                                     <label>Name : </label>
-                                    <input type='text' id='name' value={(billingDetail?.idtblbilling) ? billingDetail.Name : showEditValues.name} onChange={inputEditChanges} />
+                                    <input type='text'
+                                        id='name'
+                                        value={name}
+                                        onChange={changeName} />
                                     <span>Required *</span>
                                 </div>
                                 <div className='edit-billing'>
+                                    <label>Email :</label>
+                                    <input type='text'
+                                        id='email'
+                                        value={email}
+                                        onChange={changeEmail} />
+                                </div>
+                                <div className='edit-billing'>
                                     <label>Phone : </label>
-                                    <input type='text' id='phone' value={(billingDetail?.idtblbilling) ? billingDetail.Phone : showEditValues.phone} onChange={inputEditChanges} />
+                                    <input type='text'
+                                        id='phone'
+                                        value={phone}
+                                        onChange={changePhone} />
                                 </div>
                                 <div className='edit-billing'>
                                     <label>Address : </label>
-                                    <input type='text' id='address' value={(billingDetail?.idtblbilling) ? billingDetail.Address : showEditValues.address} onChange={inputEditChanges} />
+                                    <input type='text'
+                                        id='address'
+                                        value={address}
+                                        onChange={changeAddress} />
                                 </div>
                                 <div className='edit-billing'>
                                     <label>Vat no : </label>
-                                    <input type='text' id='vatno' value={(billingDetail?.idtblbilling) ? billingDetail.PanNo : showEditValues.vatno} onChange={inputEditChanges} required />
+                                    <input type='text'
+                                        id='vatno'
+                                        value={vatno}
+                                        onChange={changeVatno} required />
                                     <span>Required *</span>
                                 </div>
                             </div>

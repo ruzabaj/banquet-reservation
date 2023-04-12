@@ -11,6 +11,8 @@ import AddDeleteTableRows from './AddTable';
 import ReactModal from '../Modals';
 import { NepaliDatePicker } from "nepali-datepicker-reactjs"
 import "nepali-datepicker-reactjs/dist/index.css"
+import moment from 'moment';
+var adbs = require("ad-bs-converter");
 
 const BanquetReservation = ({ customerID, token }) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -27,8 +29,15 @@ const BanquetReservation = ({ customerID, token }) => {
     const [showPaymentAdd, setShowPaymentAdd] = useState(false)
     // const [resHall, setResHall] = useState([]);
 
+    let todaysDate= moment(new Date()).utc().format("YYYY/MM/DD");
+    let nepaliDates = adbs.ad2bs(todaysDate).en
+    let todaysNepaliDate= nepaliDates.year +"-"+nepaliDates.month+"-"+nepaliDates.day
+    // console.log("convert todays date into nepali", todaysNepaliDate)
+
     const [nepaliReservationDate, setNepaliReservationDate] = useState("")
+    // console.log(nepaliReservationDate, "nepaliReservationDate")
     const [nepaliForDate, setNepaliForDate] = useState("")
+
 
     useEffect(() => {
         if (token) {
@@ -166,7 +175,7 @@ const BanquetReservation = ({ customerID, token }) => {
                 "tblbanquetReservation": {
                     // reservationDate: nepaliReservationDate,
                     // reservationForDate: nepaliForDate,
-                    reservationMiti: nepaliReservationDate,
+                    reservationMiti: todaysNepaliDate,
                     reservationMitiFor: nepaliForDate,
                     Outlet_Name: selectedOutlet,
                     reservationState: "Started",
