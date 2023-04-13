@@ -7,8 +7,7 @@ import axios from 'axios';
 import StandardDate from '../../../Components/StandardDate/index';
 
 function SpecialRequests({ customerID }) {
-    const [token,
-        setToken] = useState("");
+    const [token, setToken] = useState("");
     let navigate = useNavigate();
     let baseUrl = process.env.REACT_APP_BASE_URL;
     useEffect(() => {
@@ -19,10 +18,10 @@ function SpecialRequests({ customerID }) {
             setToken(localStorage.getItem("tokens"));
         }
     }, []);
-    const [customerSpecialRequestsList,
-        setcustomerSpecialRequestsList] = useState([]);
-    const [showSpecialRequestTable,
-        setshowSpecialRequestTable] = useState(false)
+
+    const [customerSpecialRequestsList, setcustomerSpecialRequestsList] = useState([]);
+    const [showSpecialRequestTable, setshowSpecialRequestTable] = useState(false);
+
     useEffect(() => {
         if (token && !(token === "")) {
             axios
@@ -32,14 +31,15 @@ function SpecialRequests({ customerID }) {
                 })
                 .then((response) => {
                     setcustomerSpecialRequestsList(response.data);
-                    console.log(response.data);
+                    // console.log(response.data);
                     setshowSpecialRequestTable(true);
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                 })
         };
     }, [token]);
+
     return (
         <div className='specialReuqestcontainer'>
             <hr class="mt-2 mb-3" />
@@ -63,13 +63,11 @@ function SpecialRequests({ customerID }) {
                                 <tr key={index}>
                                     <th scope="row">{index + 1}</th>
                                     <td>{info.SpecialRequest || ""}</td>
-                                    <td>{info
-                                        ?.reservationDate
+                                    <td>{info?.reservationDate
                                         ? 
                                         <StandardDate date={info.reservationDate} />
                                         : ""}</td>
-                                    <td>{info
-                                        ?.reservationForDate
+                                    <td>{info?.reservationForDate
                                         ? <StandardDate date={info.reservationForDate} />
                                         : ""}</td>
                                     <td>{info.reservationState || ""}</td>
@@ -83,10 +81,8 @@ function SpecialRequests({ customerID }) {
 
                     </tbody>
                 </table>
-
             </div>
             }
-
         </div>
     )
 }

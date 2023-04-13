@@ -22,6 +22,8 @@ const Started = () => {
 
   let navigate = useNavigate();
 
+  console.log(state, "state")
+  
   useEffect(() => {
     let tokenCheck = localStorage.getItem("tokens");
     if (!tokenCheck) {
@@ -41,7 +43,7 @@ const Started = () => {
           setDetailList(response.data)
         })
         .catch((error) => {
-          console.log(error)
+          // console.log(error)
         })
     }
   }, [token])

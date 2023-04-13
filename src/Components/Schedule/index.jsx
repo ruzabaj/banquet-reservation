@@ -78,7 +78,7 @@ const Schedule = () => {
           }
         })
         .catch((error) => {
-          console.log("error in useeffect", error)
+          // console.log("error in useeffect", error)
         })
     }
   }, [token])
@@ -124,7 +124,7 @@ const Schedule = () => {
           }
         })
         .catch((error) => {
-          console.log("error in schedule", error)
+          // console.log("error in schedule", error)
         })
     }
   }, [firstDate, lastDate, token])

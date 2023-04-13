@@ -89,7 +89,7 @@ const AccordionTable = ({ accord, setDetailList }) => {
           setDetailList(response.data)
         })
         .catch((error) => {
-          console.log(error)
+          // console.log(error)
         })
     }, 1000);
   }

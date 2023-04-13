@@ -18,26 +18,17 @@ function CustomerEditmodal({ closeAllbuttons, reloadCustomerData, reloadTable, c
 
     const [customerNote,
         setcustomerNote] = useState("");
-    const [token,
-        setToken] = useState("");
-    const [address,
-        setAddress] = useState("");
-    const [Email,
-        setEmail] = useState("");
-    const [Name,
-        setName] = useState("");
-    const [Phone,
-        setPhone] = useState("");
-    const [altPhone,
-        setaltPhone] = useState("");
-    const [show,
-        setshow] = useState(false);
-    const [vatno,
-        setvatno] = useState("");
-    const [customerType,
-        setcustomerType] = useState("");
-    const [country,
-        setcountry] = useState("");
+    const [token, setToken] = useState("");
+    const [address, setAddress] = useState("");
+    const [Email, setEmail] = useState("");
+    const [Name, setName] = useState("");
+    const [Phone, setPhone] = useState("");
+    const [altPhone, setaltPhone] = useState("");
+    const [show, setshow] = useState(false);
+    const [vatno, setvatno] = useState("");
+    const [customerType, setcustomerType] = useState("");
+    const [country, setcountry] = useState("");
+
     useEffect(() => {
         let tokenCheck = localStorage.getItem("tokens");
         if (!tokenCheck) {
@@ -46,29 +37,22 @@ function CustomerEditmodal({ closeAllbuttons, reloadCustomerData, reloadTable, c
             setToken(localStorage.getItem("tokens"))
         }
     }, [])
+
     useEffect(() => {
         if (customerData) {
             setshow(true);
-            setAddress(customerData
-                ?.Address || "");
-            setEmail(customerData
-                ?.Email || "");
-            setName(customerData
-                ?.Name || "");
-            setPhone(customerData
-                ?.Phone || "");
-            setaltPhone(customerData
-                ?.altPhone || "");
-            setvatno(customerData
-                ?.vat || "");
-            setcustomerType(customerData
-                ?.type || "");
-            setcountry(customerData
-                ?.country || "");
-            setcustomerNote(customerData
-                ?.customerNote || "");
+            setAddress(customerData?.Address || "");
+            setEmail(customerData?.Email || "");
+            setName(customerData?.Name || "");
+            setPhone(customerData?.Phone || "");
+            setaltPhone(customerData?.altPhone || "");
+            setvatno(customerData?.vat || "");
+            setcustomerType(customerData?.type || "");
+            setcountry(customerData?.country || "");
+            setcustomerNote(customerData?.customerNote || "");
         }
-    }, []);
+    }, [])
+
     const changeName = (e) => {
         setshowupdateButton(false);
         setName(e.target.value);
@@ -121,8 +105,9 @@ function CustomerEditmodal({ closeAllbuttons, reloadCustomerData, reloadTable, c
     }
     const [showupdateButton,
         setshowupdateButton] = useState(false);
+
     const updateUserData = async () => {
-        console.log(customerNote)
+        // console.log(customerNote)
         axios
             .post(`${baseUrl}/customerDetailsUpdate`, {
                 cardno: "",
@@ -143,9 +128,8 @@ function CustomerEditmodal({ closeAllbuttons, reloadCustomerData, reloadTable, c
                 closeAllbuttons();
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
-
     }
 
     const changeShow = () => {
@@ -243,7 +227,7 @@ function CustomerEditmodal({ closeAllbuttons, reloadCustomerData, reloadTable, c
                     <Button onClick={
                         updateUserData
                     }
-                    className='btn-update-info'> Update </Button>}
+                        className='btn-update-info'> Update </Button>}
                 <Button
                     type="button"
                     className="btn-close-update"

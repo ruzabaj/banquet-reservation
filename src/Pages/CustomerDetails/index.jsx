@@ -52,7 +52,7 @@ function CustomerDetails() {
                 setcustomerClicked(false)
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
     }
 
@@ -72,7 +72,7 @@ function CustomerDetails() {
                     setcustomerClicked(false)
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                 })
         }
     }, [selectedCustomerName])
@@ -89,7 +89,7 @@ function CustomerDetails() {
                     setcustomerClicked(false)
                 })
                 .catch((error) => {
-                    console.log(error)
+                    // console.log(error)
                 })
         }
     }, [token])

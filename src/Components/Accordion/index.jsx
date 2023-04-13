@@ -9,7 +9,7 @@ import Modal from 'react-bootstrap/Modal';
 import { BsPen } from "react-icons/bs";
 import ReactModal from '../Modals';
 import "../../Assets/Styles/Accordion/accordion.scss";
-import EditBilling from '../Modals/EditBilling';
+// import EditBilling from '../Modals/EditBilling';
 
 const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
     let baseUrl = process.env.REACT_APP_BASE_URL;
@@ -21,6 +21,8 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
     const [paymentList, setPaymentList] = useState([]);
     const [billingDetail, setBillingDetail] = useState({});
     const [ID, setID] = useState("");
+
+    // console.log(state, "state inside accordion")
 
     const handlePaymentHistory = (reservatorID) => {
         axios.post(`${baseUrl}/rateDetails`,
@@ -48,15 +50,20 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
             .catch((error) => {
                 // console.log(error)
             })
-        axios.post(`${baseUrl}/getStarted`, {
-            token: `${token}`
-        })
-            .then((response) => {
-                setDetailList(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+            axios.post(`${baseUrl}/banquetreport`, {
+                token: `${token}`,
+                customerName: "",
+                state: `${state}`,
+                reservationDatestart: "",
+                reservationDateEnd: "",
+                reservationForDatestart: "",
+                reservationForDateEnd: ""
+              })
+                .then((response) => {
+                  setDetailList(response.data)
+                })
+                .catch((error) => {
+                })
     }
 
     const [errorMessage, setErrorMessage] = useState("");
@@ -79,14 +86,6 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
         setBillingDetail(detail)
         handleShowEditParty()
     }
-
-    useEffect(() => {
-        if (billingDetail?.idtblbilling) {
-            console.log("yes")
-        } else {
-            console.log("no")
-        }
-    }, [billingDetail])
 
     useEffect(() => {
         if (billingDetail) {
@@ -118,11 +117,11 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
         axios.post(`${baseUrl}/billingParty`, {
             banquetReservationID: `${ID}`,
             token: `${token}`,
-            email: email,
-            phone: phone,
-            address: address,
-            vatno: vatno,
-            name: name,
+            email: email || "", 
+            phone: phone  || "",
+            address: address  || "",
+            vatno: vatno  || "",
+            name: name  || "",
         })
             .then((response) => {
                 handleCloseEditParty()
@@ -134,15 +133,14 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
                 setErrorMessage(error.response.data.error)
                 handleOpenShowMessage()
             })
-        axios.post(`${baseUrl}/getStarted`, {
-            token: `${token}`
-        })
-            .then((response) => {
-                setDetailList(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+        // axios.post(`${baseUrl}/getStarted`, {
+        //     token: `${token}`
+        // })
+        //     .then((response) => {
+        //         setDetailList(response.data)
+        //     })
+        //     .catch((error) => {
+        //     })
     }
 
     const handleRemove = (id) => {
@@ -151,19 +149,10 @@ const AccordionDetail = ({ detailList, setDetailList, state, token }) => {
             token: `${token}`
         })
             .then((response) => {
-                console.log(response)
+                // console.log(response)
             })
             .catch((error) => {
-                console.log(error)
-            })
-        axios.post(`${baseUrl}/getStarted`, {
-            token: `${token}`
-        })
-            .then((response) => {
-                setDetailList(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
+                // console.log(error)
             })
     }
     return (
